@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply antialiased bg-zinc-950 text-white;
+    @apply antialiased bg-zinc-600 text-black;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
 
