@@ -11,9 +11,9 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-zinc-600 text-white">
       {/* Header */}
-      <header className="border-b border-zinc-600 bg-black sticky top-0 z-10">
+      <header className="border-b border-zinc-600 bg-zinc-600 sticky top-0 z-10">
         <div className="max-w-screen-2xl mx-auto px-6 sm:px-8 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <span className="text-zinc-500 text-xs font-bold tracking-[0.25em] uppercase">Detail</span>
