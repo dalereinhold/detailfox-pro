@@ -1,6 +1,7 @@
-import { BarChart3, Car, RefreshCw, TrendingUp, Clock } from 'lucide-react';
+import { useState } from 'react';
+import { BarChart3, Car, RefreshCw, TrendingUp, Clock, Database } from 'lucide-react';
 import { useStats } from '../lib/useStats';
-import { VehicleType } from '../lib/supabase';
+import { supabase, VehicleType, VehicleCondition, VehicleStatus } from '../lib/supabase';
 
 interface StatsDashboardProps {
   refreshTrigger: number;
@@ -25,9 +26,24 @@ const TYPE_CONFIG: Record<VehicleType, { valueClass: string; barClass: string; b
 };
 
 const TYPES: VehicleType[] = ['New', 'Used', 'Demo'];
+const CONDITIONS: VehicleCondition[] = ['Excellent', 'Good', 'Fair', 'Poor'];
+const STATUSES: VehicleStatus[] = ['In Progress', 'On Break', 'Completed'];
+
+const NOTES_POOL = [
+  'Full exterior wash and wax requested.',
+  'Interior vacuum and leather conditioning.',
+  'Remove pet hair from trunk.',
+  'Engine bay detailing.',
+  'Paint correction on hood scratch.',
+  'Windshield water repellent treatment.',
+  'Odor eliminator treatment.',
+  null,
+  null,
+];
 
 export default function StatsDashboard({ refreshTrigger }: StatsDashboardProps) {
   const { stats, loading, error, refetch } = useStats(refreshTrigger);
+  const [seeding, setSeeding] = useState(false);
 
   const maxAvg = stats
     ? Math.max(...TYPES.map((t) => stats.byType[t].avgSeconds), 1)
@@ -36,6 +52,58 @@ export default function StatsDashboard({ refreshTrigger }: StatsDashboardProps) 
   const lastUpdatedLabel = stats
     ? new Date(stats.lastUpdated).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     : null;
+
+  async function handleSeedData() {
+    if (!confirm('Are you sure you want to add 20 randomized vehicles to the database?')) return;
+    setSeeding(true);
+
+    const generatedVehicles = [];
+    const now = new Date();
+
+    for (let i = 0; i < 20; i++) {
+      const type = TYPES[Math.floor(Math.random() * TYPES.length)];
+      const condition = CONDITIONS[Math.floor(Math.random() * CONDITIONS.length)];
+      
+      // 70% Completed, 15% In Progress, 15% On Break
+      const randStatus = Math.random();
+      const status: VehicleStatus = randStatus < 0.7 ? 'Completed' : randStatus < 0.85 ? 'In Progress' : 'On Break';
+      
+      const netWorkSeconds = Math.floor(Math.random() * (5400 - 900 + 1)) + 900; // 15 mins to 1.5 hours
+      const notes = NOTES_POOL[Math.floor(Math.random() * NOTES_POOL.length)];
+      
+      // Random license plate (e.g., TX-8392 or ABC-1234)
+      const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      const randomLetters = Array.from({ length: 3 }, () => letters[Math.floor(Math.random() * letters.length)]).join('');
+      const randomNumbers = Math.floor(1000 + Math.random() * 9000);
+      const licensePlate = `${randomLetters}-${randomNumbers}`;
+
+      // Random created_at within the last 24 hours
+      const hoursAgo = Math.random() * 24;
+      const createdAt = new Date(now.getTime() - hoursAgo * 60 * 60 * 1000).toISOString();
+
+      generatedVehicles.push({
+        license_plate: licensePlate,
+        type,
+        condition,
+        status,
+        notes,
+        net_work_seconds: status === 'Completed' ? netWorkSeconds : Math.floor(netWorkSeconds / 2),
+        started_at: status === 'In Progress' ? new Date(now.getTime() - 10 * 60 * 1000).toISOString() : null,
+        break_started_at: status === 'On Break' ? new Date(now.getTime() - 5 * 60 * 1000).toISOString() : null,
+        created_at: createdAt,
+        updated_at: createdAt,
+      });
+    }
+
+    const { error: seedError } = await supabase.from('vehicles').insert(generatedVehicles);
+
+    if (seedError) {
+      alert(`Failed to seed data: ${seedError.message}`);
+    } else {
+      refetch();
+    }
+    setSeeding(false);
+  }
 
   return (
     <aside className="border border-zinc-200 bg-white overflow-hidden">
@@ -124,6 +192,18 @@ export default function StatsDashboard({ refreshTrigger }: StatsDashboardProps) 
               );
             })}
           </div>
+        </div>
+
+        {/* Seed Data Button */}
+        <div className="border-t border-zinc-100 pt-4">
+          <button
+            onClick={handleSeedData}
+            disabled={seeding}
+            className="w-full flex items-center justify-center gap-2 border border-dashed border-zinc-300 hover:border-black text-zinc-500 hover:text-black text-xs font-bold uppercase tracking-widest py-3 transition-colors"
+          >
+            <Database className="w-3.5 h-3.5" />
+            {seeding ? 'Seeding...' : 'Seed 20 Demo Cars'}
+          </button>
         </div>
 
         {/* Last updated */}
