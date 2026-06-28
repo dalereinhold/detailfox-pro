@@ -62,9 +62,9 @@ export default function Dashboard({ refreshTrigger }: DashboardProps) {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
         <div>
-          <h2 className="text-sm font-bold uppercase tracking-widest text-black">Active Queue</h2>
+          <h2 className="text-sm font-bold uppercase tracking-widest text-black">All Records</h2>
           <p className="text-zinc-400 text-xs mt-1">
-            {vehicles.length} vehicle{vehicles.length !== 1 ? 's' : ''} in queue
+            {vehicles.length} vehicle{vehicles.length !== 1 ? 's' : ''} in records
           </p>
         </div>
         <button
