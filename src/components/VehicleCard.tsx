@@ -144,7 +144,7 @@ export default function VehicleCard({ vehicle, onUpdated }: VehicleCardProps) {
   }
 
   async function handleDelete() {
-    if (!confirm(`Remove ${vehicle.license_plate} from the queue?`)) return;
+    if (!confirm(`Remove ${vehicle.license_plate} from records?`)) return;
     setDeleting(true);
     await supabase.from('vehicles').delete().eq('id', vehicle.id);
     onUpdated();
