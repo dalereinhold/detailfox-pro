@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Plus } from 'lucide-react';
-import { supabase, VehicleType, VehicleCondition } from '../lib/supabase';
+import { supabase, VehicleType, VehicleCondition, VehicleServiceType } from '../lib/supabase';
 
 interface IntakeFormProps {
   onVehicleAdded: () => void;
@@ -8,11 +8,13 @@ interface IntakeFormProps {
 
 const VEHICLE_TYPES: VehicleType[] = ['New', 'Used', 'Demo'];
 const CONDITIONS: VehicleCondition[] = ['Excellent', 'Good', 'Fair', 'Poor'];
+const SERVICE_TYPES: VehicleServiceType[] = ['Full Detail', 'Ceramic Coating', 'Quick Detail', 'Delivery Prep'];
 
 export default function IntakeForm({ onVehicleAdded }: IntakeFormProps) {
   const [licensePlate, setLicensePlate] = useState('');
   const [type, setType] = useState<VehicleType>('New');
-  const [condition, setCondition] = useState<VehicleCondition>('Good');
+  const [condition, setCondition] = useState<VehicleCondition>('Excellent');
+  const [serviceType, setServiceType] = useState<VehicleServiceType>('Full Detail');
   const [notes, setNotes] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -30,6 +32,22 @@ export default function IntakeForm({ onVehicleAdded }: IntakeFormProps) {
     }
     
     setLicensePlate(formatted);
+  }
+
+  function handleTypeChange(newType: VehicleType) {
+    setType(newType);
+    
+    // Auto-default condition and service type based on vehicle type
+    if (newType === 'New') {
+      setCondition('Excellent');
+      setServiceType('Full Detail');
+    } else if (newType === 'Used') {
+      setCondition('Fair');
+      setServiceType('Full Detail');
+    } else if (newType === 'Demo') {
+      setCondition('Good');
+      setServiceType('Quick Detail');
+    }
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -55,6 +73,7 @@ export default function IntakeForm({ onVehicleAdded }: IntakeFormProps) {
       license_plate: trimmed,
       type,
       condition,
+      service_type: serviceType,
       notes: notes.trim() || null,
       status: 'In Progress',
     });
@@ -64,7 +83,8 @@ export default function IntakeForm({ onVehicleAdded }: IntakeFormProps) {
 
     setLicensePlate('');
     setType('New');
-    setCondition('Good');
+    setCondition('Excellent');
+    setServiceType('Full Detail');
     setNotes('');
     onVehicleAdded();
   }
@@ -80,7 +100,7 @@ export default function IntakeForm({ onVehicleAdded }: IntakeFormProps) {
       </div>
 
       <form onSubmit={handleSubmit} noValidate className="p-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
           <div>
             <label className={labelClass} htmlFor="licensePlate">License Plate</label>
             <input
@@ -101,7 +121,7 @@ export default function IntakeForm({ onVehicleAdded }: IntakeFormProps) {
               id="type"
               className={`${inputClass} cursor-pointer`}
               value={type}
-              onChange={(e) => setType(e.target.value as VehicleType)}
+              onChange={(e) => handleTypeChange(e.target.value as VehicleType)}
             >
               {VEHICLE_TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
             </select>
@@ -116,6 +136,18 @@ export default function IntakeForm({ onVehicleAdded }: IntakeFormProps) {
               onChange={(e) => setCondition(e.target.value as VehicleCondition)}
             >
               {CONDITIONS.map((c) => <option key={c} value={c}>{c}</option>)}
+            </select>
+          </div>
+
+          <div>
+            <label className={labelClass} htmlFor="serviceType">Service Type</label>
+            <select
+              id="serviceType"
+              className={`${inputClass} cursor-pointer`}
+              value={serviceType}
+              onChange={(e) => setServiceType(e.target.value as VehicleServiceType)}
+            >
+              {SERVICE_TYPES.map((s) => <option key={s} value={s}>{s}</option>)}
             </select>
           </div>
         </div>

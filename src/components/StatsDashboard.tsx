@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { BarChart3, Car, RefreshCw, TrendingUp, Clock, Database } from 'lucide-react';
 import { useStats } from '../lib/useStats';
-import { supabase, VehicleType, VehicleCondition, VehicleStatus } from '../lib/supabase';
+import { supabase, VehicleType, VehicleCondition, VehicleStatus, VehicleServiceType } from '../lib/supabase';
 
 interface StatsDashboardProps {
   refreshTrigger: number;
@@ -26,7 +26,6 @@ const TYPE_CONFIG: Record<VehicleType, { valueClass: string; barClass: string; b
 };
 
 const TYPES: VehicleType[] = ['New', 'Used', 'Demo'];
-const CONDITIONS: VehicleCondition[] = ['Excellent', 'Good', 'Fair', 'Poor'];
 
 const NOTES_POOL = [
   'Full exterior wash and wax requested.',
@@ -61,8 +60,22 @@ export default function StatsDashboard({ refreshTrigger }: StatsDashboardProps) 
 
     for (let i = 0; i < 20; i++) {
       const type = TYPES[Math.floor(Math.random() * TYPES.length)];
-      const condition = CONDITIONS[Math.floor(Math.random() * CONDITIONS.length)];
       
+      // Set condition and service type based on vehicle type rules
+      let condition: VehicleCondition = 'Good';
+      let serviceType: VehicleServiceType = 'Full Detail';
+      
+      if (type === 'New') {
+        condition = 'Excellent';
+        serviceType = 'Full Detail';
+      } else if (type === 'Used') {
+        condition = 'Fair';
+        serviceType = 'Full Detail';
+      } else if (type === 'Demo') {
+        condition = 'Good';
+        serviceType = 'Quick Detail';
+      }
+
       // 70% Completed, 15% In Progress, 15% On Break
       const randStatus = Math.random();
       const status: VehicleStatus = randStatus < 0.7 ? 'Completed' : randStatus < 0.85 ? 'In Progress' : 'On Break';
@@ -92,6 +105,7 @@ export default function StatsDashboard({ refreshTrigger }: StatsDashboardProps) 
         license_plate: licensePlate,
         type,
         condition,
+        service_type: serviceType,
         status,
         notes,
         net_work_seconds: status === 'Completed' ? netWorkSeconds : Math.floor(netWorkSeconds / 2),

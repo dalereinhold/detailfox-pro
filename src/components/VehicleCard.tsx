@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { CheckCircle2, Trash2, Play, Pause, RotateCcw, Timer, Pencil, Check, X } from 'lucide-react';
+import { CheckCircle2, Trash2, Play, Pause, RotateCcw, Timer, Pencil, Check, X, Sparkles } from 'lucide-react';
 import { supabase, Vehicle, VehicleStatus, formatDuration } from '../lib/supabase';
 
 interface VehicleCardProps {
@@ -18,6 +18,13 @@ const TYPE_COLORS: Record<string, string> = {
   New: 'text-emerald-700 bg-emerald-50 border-emerald-200',
   Used: 'text-zinc-600 bg-zinc-100 border-zinc-300',
   Demo: 'text-sky-700 bg-sky-50 border-sky-200',
+};
+
+const SERVICE_COLORS: Record<string, string> = {
+  'Full Detail': 'text-purple-700 bg-purple-50 border-purple-200',
+  'Ceramic Coating': 'text-indigo-700 bg-indigo-50 border-indigo-200',
+  'Quick Detail': 'text-pink-700 bg-pink-50 border-pink-200',
+  'Delivery Prep': 'text-teal-700 bg-teal-50 border-teal-200',
 };
 
 function formatCheckinTime(isoString: string): string {
@@ -186,6 +193,12 @@ export default function VehicleCard({ vehicle, onUpdated }: VehicleCardProps) {
           <span className={`text-xs font-bold px-2 py-0.5 border uppercase tracking-wider ${CONDITION_COLORS[vehicle.condition]}`}>
             {vehicle.condition}
           </span>
+          {vehicle.service_type && (
+            <span className={`text-xs font-bold px-2 py-0.5 border uppercase tracking-wider flex items-center gap-1 ${SERVICE_COLORS[vehicle.service_type] || 'text-zinc-600 bg-zinc-50 border-zinc-200'}`}>
+              <Sparkles className="w-3 h-3" />
+              {vehicle.service_type}
+            </span>
+          )}
         </div>
 
         {/* Notes */}
