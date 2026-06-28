@@ -40,7 +40,7 @@ export default function StatsDashboard({ refreshTrigger }: StatsDashboardProps) 
   return (
     <aside className="border border-zinc-200 bg-white overflow-hidden">
       {/* Header */}
-      <div className="flex items-center justify-between gap-2 px-5 py-4 border-b border-zinc-200">
+      <div className="flex items-center justify-between gap-2 px-5 py-4 border-b border-zinc-200 bg-zinc-50">
         <div className="flex items-center gap-2.5">
           <BarChart3 className="w-4 h-4 text-zinc-400" />
           <h2 className="text-sm font-bold uppercase tracking-widest text-black">Statistics</h2>
@@ -48,7 +48,7 @@ export default function StatsDashboard({ refreshTrigger }: StatsDashboardProps) 
         <button
           onClick={refetch}
           disabled={loading}
-          className="text-zinc-400 hover:text-black transition-colors p-1.5 hover:bg-zinc-50"
+          className="text-zinc-400 hover:text-black transition-colors p-1.5 hover:bg-zinc-100"
           aria-label="Refresh stats"
         >
           <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />

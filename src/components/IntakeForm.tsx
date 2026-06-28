@@ -50,7 +50,7 @@ export default function IntakeForm({ onVehicleAdded }: IntakeFormProps) {
 
   return (
     <section className="border border-zinc-200 bg-white">
-      <div className="border-b border-zinc-200 px-6 py-4 flex items-center justify-between">
+      <div className="border-b border-zinc-200 bg-zinc-50 px-6 py-4 flex items-center justify-between">
         <h2 className="text-sm font-bold uppercase tracking-widest text-black">Vehicle Intake</h2>
       </div>
 
