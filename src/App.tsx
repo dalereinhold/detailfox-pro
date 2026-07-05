@@ -3,8 +3,9 @@ import IntakeForm from './components/IntakeForm';
 import Dashboard from './components/Dashboard';
 import StatsDashboard from './components/StatsDashboard';
 import Landing from './pages/Landing';
+import DetailFlow from './detailflow/DetailFlow';
 
-type View = 'landing' | 'detailpace';
+type View = 'landing' | 'detailpace' | 'detailflow';
 
 export default function App() {
   const [refreshTrigger, setRefreshTrigger] = useState(0);
@@ -46,9 +47,12 @@ export default function App() {
               DetailPace
             </button>
             <button
-              disabled
-              className="px-3 py-1.5 text-xs font-semibold tracking-[0.15em] uppercase rounded text-zinc-600 cursor-not-allowed"
-              title="In development"
+              onClick={() => setView('detailflow')}
+              className={`px-3 py-1.5 text-xs font-semibold tracking-[0.15em] uppercase rounded transition-colors ${
+                view === 'detailflow'
+                  ? 'text-white bg-zinc-800'
+                  : 'text-zinc-400 hover:text-white'
+              }`}
             >
               DetailFlow
             </button>
@@ -57,9 +61,11 @@ export default function App() {
       </header>
 
       {/* Body */}
-      {view === 'landing' ? (
-        <Landing onOpenDetailPace={() => setView('detailpace')} />
-      ) : (
+      {view === 'landing' && <Landing onOpenDetailPace={() => setView('detailpace')} onOpenDetailFlow={() => setView('detailflow')} />}
+
+      {view === 'detailflow' && <DetailFlow />}
+
+      {view === 'detailpace' && (
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-8 py-8 flex flex-col xl:flex-row gap-8 items-start">
           {/* Sidebar */}
           <div className="w-full xl:w-64 xl:flex-shrink-0 xl:sticky xl:top-[57px]">

@@ -2,9 +2,10 @@ import { ArrowRight, Clock, Sparkles, Zap } from 'lucide-react';
 
 interface LandingProps {
   onOpenDetailPace: () => void;
+  onOpenDetailFlow: () => void;
 }
 
-export default function Landing({ onOpenDetailPace }: LandingProps) {
+export default function Landing({ onOpenDetailPace, onOpenDetailFlow }: LandingProps) {
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-900">
       {/* Hero */}
@@ -87,28 +88,30 @@ export default function Landing({ onOpenDetailPace }: LandingProps) {
             </button>
           </div>
 
-          {/* DetailFlow — coming soon */}
-          <div className="relative flex flex-col bg-white border border-dashed border-zinc-300 rounded-2xl p-7 grayscale opacity-75">
+          {/* DetailFlow — active */}
+          <div className="group relative flex flex-col bg-white border border-zinc-200 rounded-2xl p-7 shadow-sm hover:shadow-md hover:border-zinc-300 transition-all">
             <div className="flex items-center gap-3 mb-5">
-              <div className="flex items-center justify-center w-11 h-11 rounded-xl bg-zinc-200 text-zinc-500">
+              <div className="flex items-center justify-center w-11 h-11 rounded-xl bg-zinc-900 text-white">
                 <Zap className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-zinc-500">DetailFlow</h3>
-                <span className="text-xs font-semibold tracking-wider uppercase text-zinc-400">
-                  In development
+                <h3 className="text-lg font-bold">DetailFlow</h3>
+                <span className="text-xs font-semibold tracking-wider uppercase text-emerald-600">
+                  Available now
                 </span>
               </div>
             </div>
-            <p className="text-zinc-500 leading-relaxed flex-1">
-              Workflow and pipeline management for multi-bay shops. Route
-              vehicles, assign tasks, and keep every bay moving.
+            <p className="text-zinc-600 leading-relaxed flex-1">
+              Guided, timed routine workflows. Pick a service, run a
+              step-by-step checklist with a high-precision timer, and review
+              your performance at the end.
             </p>
             <button
-              disabled
-              className="mt-6 inline-flex items-center justify-center gap-2 bg-zinc-200 text-zinc-400 font-semibold px-5 py-3 rounded-lg cursor-not-allowed w-full sm:w-auto"
+              onClick={onOpenDetailFlow}
+              className="mt-6 inline-flex items-center justify-center gap-2 bg-zinc-900 text-white font-semibold px-5 py-3 rounded-lg hover:bg-zinc-800 transition-colors w-full sm:w-auto"
             >
-              Coming soon
+              Open app
+              <ArrowRight className="w-4 h-4" />
             </button>
           </div>
         </div>
