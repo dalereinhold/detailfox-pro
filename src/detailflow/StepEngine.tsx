@@ -172,7 +172,7 @@ export default function StepEngine() {
         {steps.map((step, i) => (
           <div
             key={step.id}
-            className={`flex items-center gap-4 px-4 py-3 border rounded-lg bg-white transition-colors ${
+            className={`flex items-center gap-4 px-4 py-3 border rounded-none bg-white transition-colors ${
               i === cursor ? 'border-zinc-300' : 'border-zinc-200'
             }`}
           >
@@ -196,7 +196,7 @@ export default function StepEngine() {
 
       {/* Finish session */}
       {allDone && (
-        <div className="mt-8 flex flex-col items-center gap-4 py-10 border-2 border-dashed border-zinc-300 rounded-2xl">
+        <div className="mt-8 flex flex-col items-center gap-4 py-10 border-2 border-dashed border-zinc-300 rounded-none">
           <Flag className="w-8 h-8 text-emerald-600" />
           <p className="text-lg font-bold text-zinc-900">All steps complete</p>
           <Button size="lg" onClick={goToSummary}>

@@ -35,7 +35,7 @@ export default function Landing({ onOpenDetailPace, onOpenDetailFlow }: LandingP
           <div className="mt-10 flex flex-wrap items-center gap-4">
             <button
               onClick={onOpenDetailPace}
-              className="inline-flex items-center gap-2 bg-white text-zinc-900 font-semibold px-6 py-3 rounded-lg hover:bg-zinc-100 transition-colors"
+              className="inline-flex items-center gap-2 bg-white text-zinc-900 font-semibold px-6 py-3 rounded-none hover:bg-zinc-100 transition-colors"
             >
               Launch DetailPace
               <ArrowRight className="w-4 h-4" />
@@ -63,9 +63,9 @@ export default function Landing({ onOpenDetailPace, onOpenDetailFlow }: LandingP
 
         <div className="grid gap-6 sm:grid-cols-2 max-w-4xl">
           {/* DetailPace — active */}
-          <div className="group relative flex flex-col bg-white border border-zinc-200 rounded-2xl p-7 shadow-sm hover:shadow-md hover:border-zinc-300 transition-all">
+          <div className="group relative flex flex-col bg-white border border-zinc-200 rounded-none p-7 shadow-sm hover:shadow-md hover:border-zinc-300 transition-all">
             <div className="flex items-center gap-3 mb-5">
-              <div className="flex items-center justify-center w-11 h-11 rounded-xl bg-zinc-900 text-white">
+              <div className="flex items-center justify-center w-11 h-11 rounded-none bg-zinc-900 text-white">
                 <Clock className="w-5 h-5" />
               </div>
               <div>
@@ -81,7 +81,7 @@ export default function Landing({ onOpenDetailPace, onOpenDetailFlow }: LandingP
             </p>
             <button
               onClick={onOpenDetailPace}
-              className="mt-6 inline-flex items-center justify-center gap-2 bg-zinc-900 text-white font-semibold px-5 py-3 rounded-lg hover:bg-zinc-800 transition-colors w-full sm:w-auto"
+              className="mt-6 inline-flex items-center justify-center gap-2 bg-zinc-900 text-white font-semibold px-5 py-3 rounded-none hover:bg-zinc-800 transition-colors w-full sm:w-auto"
             >
               Open app
               <ArrowRight className="w-4 h-4" />
@@ -89,9 +89,9 @@ export default function Landing({ onOpenDetailPace, onOpenDetailFlow }: LandingP
           </div>
 
           {/* DetailFlow — active */}
-          <div className="group relative flex flex-col bg-white border border-zinc-200 rounded-2xl p-7 shadow-sm hover:shadow-md hover:border-zinc-300 transition-all">
+          <div className="group relative flex flex-col bg-white border border-zinc-200 rounded-none p-7 shadow-sm hover:shadow-md hover:border-zinc-300 transition-all">
             <div className="flex items-center gap-3 mb-5">
-              <div className="flex items-center justify-center w-11 h-11 rounded-xl bg-zinc-900 text-white">
+              <div className="flex items-center justify-center w-11 h-11 rounded-none bg-zinc-900 text-white">
                 <Zap className="w-5 h-5" />
               </div>
               <div>
@@ -108,7 +108,7 @@ export default function Landing({ onOpenDetailPace, onOpenDetailFlow }: LandingP
             </p>
             <button
               onClick={onOpenDetailFlow}
-              className="mt-6 inline-flex items-center justify-center gap-2 bg-zinc-900 text-white font-semibold px-5 py-3 rounded-lg hover:bg-zinc-800 transition-colors w-full sm:w-auto"
+              className="mt-6 inline-flex items-center justify-center gap-2 bg-zinc-900 text-white font-semibold px-5 py-3 rounded-none hover:bg-zinc-800 transition-colors w-full sm:w-auto"
             >
               Open app
               <ArrowRight className="w-4 h-4" />

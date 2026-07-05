@@ -32,7 +32,7 @@ export default function RoutineSelection() {
             >
               <CardBody className="flex flex-col flex-1">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-zinc-900 text-white">
+                  <div className="flex items-center justify-center w-10 h-10 rounded-none bg-zinc-900 text-white">
                     <Clock className="w-4 h-4" />
                   </div>
                   <div>
