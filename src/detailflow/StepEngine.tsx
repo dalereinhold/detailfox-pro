@@ -233,7 +233,7 @@ export default function StepEngine() {
                     onClick={() => resumeStep(cursor)}
                     className="flex-1 flex items-center justify-center gap-2 bg-black hover:bg-zinc-800 text-white font-bold text-sm uppercase tracking-widest py-3 transition-colors"
                   >
-                    <Play className="w-4 h-4 fill-white" />
+                    <RotateCcw className="w-4 h-4" />
                     Resume
                   </button>
                 )}
