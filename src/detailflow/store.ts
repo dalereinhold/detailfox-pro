@@ -24,7 +24,7 @@ export interface SessionStep {
   startedAt: number | null;
 }
 
-export type SessionPhase = 'select' | 'active' | 'summary';
+export type SessionPhase = 'select' | 'active';
 
 interface DetailFlowState {
   phase: SessionPhase;
@@ -39,7 +39,6 @@ interface DetailFlowState {
   finishStep: (index: number) => void;
   skipStep: (index: number) => void;
   tick: (index: number, deltaMs: number) => void;
-  goToSummary: () => void;
   reset: () => void;
 }
 
@@ -169,8 +168,6 @@ export const useDetailFlowStore = create<DetailFlowState>((set) => ({
         i === index && s.startedAt !== null ? { ...s, elapsedMs: s.elapsedMs + deltaMs } : s,
       ),
     })),
-
-  goToSummary: () => set({ phase: 'summary' }),
 
   reset: () => set({ phase: 'select', activeRoutineId: null, steps: [], cursor: 0 }),
 }));

@@ -28,7 +28,7 @@ const STATUS_BORDER: Record<SessionStep['status'], string> = {
 };
 
 export default function StepEngine() {
-  const { steps, cursor, pauseStep, resumeStep, startStep, finishStep, skipStep, goToSummary, reset } =
+  const { steps, cursor, pauseStep, resumeStep, startStep, finishStep, skipStep, reset } =
     useDetailFlowStore();
   const activeIndex = steps.findIndex((s) => s.status === 'active');
   const [liveMs, setLiveMs] = useState(0);
@@ -225,17 +225,11 @@ export default function StepEngine() {
         ))}
       </div>
 
-      {/* Finish session */}
+      {/* Completion indicator */}
       {allDone && (
-        <div className="mt-8 flex flex-col items-center gap-4 py-10 border-2 border-dashed border-zinc-300">
-          <Flag className="w-8 h-8 text-emerald-600" />
-          <p className="text-lg font-bold text-zinc-900">All steps complete</p>
-          <button
-            onClick={goToSummary}
-            className="flex items-center justify-center gap-2 bg-black hover:bg-zinc-800 text-white font-bold text-sm uppercase tracking-widest py-3 px-6 transition-colors"
-          >
-            View performance summary
-          </button>
+        <div className="mt-8 flex items-center gap-2 bg-emerald-50 border border-emerald-200 px-4 py-3">
+          <Flag className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+          <p className="text-emerald-700 font-bold text-sm uppercase tracking-wide">All steps complete</p>
         </div>
       )}
     </div>
