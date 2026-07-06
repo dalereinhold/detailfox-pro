@@ -9,15 +9,22 @@ import {
   Clock,
   Timer,
 } from 'lucide-react';
-import { Button, Card, CardHeader, CardBody, ProgressBar } from '@/components/ui';
+import { ProgressBar } from '@/components/ui';
 import { useDetailFlowStore, SessionStep } from '@/detailflow/store';
 import { formatTimer, formatDuration } from '@/detailflow/format';
 
 const STATUS_BADGE: Record<SessionStep['status'], string> = {
-  pending: 'bg-zinc-100 border-zinc-300 text-zinc-500',
-  active: 'bg-amber-50 border-amber-200 text-amber-700',
-  completed: 'bg-emerald-50 border-emerald-200 text-emerald-700',
-  skipped: 'bg-zinc-50 border-zinc-200 text-zinc-400 line-through',
+  pending: 'text-zinc-500 bg-zinc-100 border-zinc-300',
+  active: 'text-amber-700 bg-amber-50 border-amber-200',
+  completed: 'text-emerald-700 bg-emerald-50 border-emerald-200',
+  skipped: 'text-zinc-400 bg-zinc-50 border-zinc-200 line-through',
+};
+
+const STATUS_BORDER: Record<SessionStep['status'], string> = {
+  pending: 'border-l-zinc-300',
+  active: 'border-l-amber-400',
+  completed: 'border-l-emerald-500',
+  skipped: 'border-l-zinc-200',
 };
 
 export default function StepEngine() {
@@ -28,7 +35,6 @@ export default function StepEngine() {
   const rafRef = useRef<number | null>(null);
   const lastTickRef = useRef<number | null>(null);
 
-  // High-precision timer loop for the active step.
   useEffect(() => {
     if (activeIndex === -1) {
       setLiveMs(0);
@@ -61,18 +67,19 @@ export default function StepEngine() {
     <div className="max-w-screen-2xl mx-auto px-6 sm:px-8 py-10">
       {/* Top bar */}
       <div className="flex items-center justify-between mb-6">
-        <div>
-          <span className="text-xs font-bold tracking-[0.3em] uppercase text-amber-600">
+        <div className="flex items-center gap-2">
+          <Timer className="w-4 h-4 text-amber-500" />
+          <span className="text-xs font-bold uppercase tracking-widest text-zinc-900">
             Active session
           </span>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 mt-1">
-            Step-by-step
-          </h1>
         </div>
-        <Button variant="ghost" size="sm" onClick={reset}>
+        <button
+          onClick={reset}
+          className="flex items-center gap-1.5 text-zinc-400 hover:text-zinc-900 text-xs font-bold uppercase tracking-widest transition-colors"
+        >
           <RotateCcw className="w-3.5 h-3.5" />
-          End session
-        </Button>
+          End
+        </button>
       </div>
 
       {/* Progress overview */}
@@ -88,120 +95,147 @@ export default function StepEngine() {
         <ProgressBar value={completedCount} max={steps.length} barClassName="bg-emerald-500" />
       </div>
 
-      {/* Active step card */}
+      {/* Active step card — VehicleCard structure */}
       {current && !allDone && (
-        <Card className="mb-6 border-zinc-300 shadow-sm">
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <Timer className="w-4 h-4 text-amber-500" />
-              <span className="text-sm font-bold uppercase tracking-widest text-zinc-900">
-                Current step
+        <div className="relative bg-white border border-zinc-200 border-l-4 border-l-amber-400 overflow-hidden mb-6">
+          <div className="p-5">
+            {/* Header */}
+            <div className="flex items-start justify-between gap-3 mb-4">
+              <div>
+                <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest mb-1">
+                  Current step
+                </p>
+                <h3 className="text-3xl font-black text-black tracking-tight leading-none">
+                  {current.label}
+                </h3>
+              </div>
+              <span className="text-xs font-bold px-2 py-0.5 border uppercase tracking-wider text-amber-700 bg-amber-50 border-amber-200">
+                {current.status === 'active' ? 'Running' : 'Paused'}
               </span>
             </div>
-            <span className="text-xs font-semibold tracking-wider uppercase text-amber-600">
-              {current.status === 'active' ? 'Running' : 'Paused'}
-            </span>
-          </CardHeader>
-          <CardBody>
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-              <div>
-                <p className="text-lg font-bold text-zinc-900">{current.label}</p>
-                <p className="text-xs font-semibold uppercase tracking-widest text-zinc-400 mt-1">
-                  Estimated {formatDuration(current.estimateSeconds * 1000)}
-                </p>
-              </div>
-              <div className="text-right">
-                <p className="text-4xl font-black tabular-nums text-zinc-900">
-                  {formatTimer(currentElapsed)}
-                </p>
-                <p className="text-xs font-semibold uppercase tracking-widest text-zinc-400 mt-1">
-                  Elapsed
-                </p>
-              </div>
+
+            {/* Tags */}
+            <div className="flex flex-wrap gap-1.5 mb-4">
+              <span className="text-xs font-bold px-2 py-0.5 border uppercase tracking-wider text-zinc-600 bg-zinc-100 border-zinc-300">
+                Est. {formatDuration(current.estimateSeconds * 1000)}
+              </span>
+              <span className="text-xs font-bold px-2 py-0.5 border uppercase tracking-wider text-zinc-600 bg-zinc-100 border-zinc-300">
+                {Math.round((currentElapsed / (current.estimateSeconds * 1000)) * 100)}% of estimate
+              </span>
             </div>
 
-            <div className="mt-4">
+            {/* Timer block */}
+            <div className="flex items-center gap-3 border px-4 py-3 mb-4 bg-amber-50 border-amber-200">
+              <Timer className="w-4 h-4 flex-shrink-0 text-amber-500" />
+              <div className="flex-1 min-w-0">
+                <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest leading-none mb-0.5">
+                  Elapsed
+                </p>
+                <p className="text-xl font-black tabular-nums leading-none text-amber-600">
+                  {formatTimer(currentElapsed)}
+                </p>
+              </div>
+              {current.status === 'active' && (
+                <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse flex-shrink-0" />
+              )}
+            </div>
+
+            <div className="mb-4">
               <ProgressBar
                 value={currentElapsed}
                 max={current.estimateSeconds * 1000}
                 barClassName={
-                  currentElapsed > current.estimateSeconds * 1000
-                    ? 'bg-red-500'
-                    : 'bg-amber-500'
+                  currentElapsed > current.estimateSeconds * 1000 ? 'bg-red-500' : 'bg-amber-500'
                 }
               />
-              <p className="text-xs text-zinc-400 mt-1.5 tabular-nums">
-                {Math.round((currentElapsed / (current.estimateSeconds * 1000)) * 100)}% of estimate
-              </p>
             </div>
 
-            <div className="flex flex-wrap gap-2 mt-5">
-              {current.status === 'pending' && (
-                <Button onClick={() => startStep(cursor)}>
-                  <Play className="w-4 h-4" />
+            {/* Actions — flat black buttons like VehicleCard */}
+            <div className="flex flex-wrap gap-2">
+              {current.status === 'pending' && current.elapsedMs === 0 && (
+                <button
+                  onClick={() => startStep(cursor)}
+                  className="flex-1 flex items-center justify-center gap-2 bg-black hover:bg-zinc-800 text-white font-bold text-sm uppercase tracking-widest py-3 transition-colors"
+                >
+                  <Play className="w-4 h-4 fill-white" />
                   Start
-                </Button>
+                </button>
               )}
               {current.status === 'active' && (
-                <Button variant="secondary" onClick={() => pauseStep(cursor)}>
+                <button
+                  onClick={() => pauseStep(cursor)}
+                  className="flex-1 flex items-center justify-center gap-2 bg-amber-400 hover:bg-amber-300 text-black font-bold text-sm uppercase tracking-widest py-3 transition-colors"
+                >
                   <Pause className="w-4 h-4" />
                   Pause
-                </Button>
+                </button>
               )}
               {current.status === 'pending' && current.elapsedMs > 0 && (
-                <Button variant="secondary" onClick={() => resumeStep(cursor)}>
-                  <Play className="w-4 h-4" />
+                <button
+                  onClick={() => resumeStep(cursor)}
+                  className="flex-1 flex items-center justify-center gap-2 bg-black hover:bg-zinc-800 text-white font-bold text-sm uppercase tracking-widest py-3 transition-colors"
+                >
+                  <Play className="w-4 h-4 fill-white" />
                   Resume
-                </Button>
+                </button>
               )}
-              <Button onClick={() => finishStep(cursor)}>
+              <button
+                onClick={() => finishStep(cursor)}
+                className="flex-1 flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm uppercase tracking-widest py-3 transition-colors"
+              >
                 <Check className="w-4 h-4" />
-                Finish
-              </Button>
-              <Button variant="danger" onClick={() => skipStep(cursor)}>
+                Done
+              </button>
+              <button
+                onClick={() => skipStep(cursor)}
+                className="flex items-center justify-center gap-2 border border-zinc-300 hover:border-black text-zinc-500 hover:text-black font-bold text-sm uppercase tracking-widest py-3 px-4 transition-colors"
+              >
                 <SkipForward className="w-4 h-4" />
                 Skip
-              </Button>
+              </button>
             </div>
-          </CardBody>
-        </Card>
+          </div>
+        </div>
       )}
 
-      {/* Step list */}
+      {/* Step list — VehicleCard-style rows */}
       <div className="space-y-2">
-        {steps.map((step, i) => (
+        {steps.map((step) => (
           <div
             key={step.id}
-            className={`flex items-center gap-4 px-4 py-3 border rounded-none bg-white transition-colors ${
-              i === cursor ? 'border-zinc-300' : 'border-zinc-200'
-            }`}
+            className={`relative bg-white border border-zinc-200 border-l-4 ${STATUS_BORDER[step.status]} overflow-hidden transition-colors`}
           >
-            <span
-              className={`text-xs font-bold px-2 py-0.5 border uppercase tracking-wider ${STATUS_BADGE[step.status]}`}
-            >
-              {step.status}
-            </span>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-zinc-900 truncate">{step.label}</p>
-              <p className="text-xs text-zinc-400 tabular-nums">
-                {formatDuration(step.elapsedMs)} / {formatDuration(step.estimateSeconds * 1000)}
-              </p>
+            <div className="p-5 flex items-center gap-4">
+              <span
+                className={`text-xs font-bold px-2 py-0.5 border uppercase tracking-wider ${STATUS_BADGE[step.status]}`}
+              >
+                {step.status}
+              </span>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-bold text-black truncate">{step.label}</p>
+                <p className="text-xs text-zinc-400 tabular-nums mt-0.5">
+                  {formatDuration(step.elapsedMs)} / {formatDuration(step.estimateSeconds * 1000)}
+                </p>
+              </div>
+              {step.status === 'active' && (
+                <Clock className="w-4 h-4 text-amber-500 animate-pulse flex-shrink-0" />
+              )}
             </div>
-            {step.status === 'active' && (
-              <Clock className="w-4 h-4 text-amber-500 animate-pulse" />
-            )}
           </div>
         ))}
       </div>
 
       {/* Finish session */}
       {allDone && (
-        <div className="mt-8 flex flex-col items-center gap-4 py-10 border-2 border-dashed border-zinc-300 rounded-none">
+        <div className="mt-8 flex flex-col items-center gap-4 py-10 border-2 border-dashed border-zinc-300">
           <Flag className="w-8 h-8 text-emerald-600" />
           <p className="text-lg font-bold text-zinc-900">All steps complete</p>
-          <Button size="lg" onClick={goToSummary}>
+          <button
+            onClick={goToSummary}
+            className="flex items-center justify-center gap-2 bg-black hover:bg-zinc-800 text-white font-bold text-sm uppercase tracking-widest py-3 px-6 transition-colors"
+          >
             View performance summary
-          </Button>
+          </button>
         </div>
       )}
     </div>

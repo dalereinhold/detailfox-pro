@@ -1,4 +1,4 @@
-import { ArrowRight, Clock, Sparkles, Zap } from 'lucide-react';
+import { ArrowRight, Clock, Zap } from 'lucide-react';
 
 interface LandingProps {
   onOpenDetailPace: () => void;
@@ -7,112 +7,108 @@ interface LandingProps {
 
 export default function Landing({ onOpenDetailPace, onOpenDetailFlow }: LandingProps) {
   return (
-    <div className="min-h-screen bg-zinc-50 text-zinc-900">
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-zinc-900 text-white">
-        <div
-          className="absolute inset-0 opacity-[0.07] pointer-events-none"
-          style={{
-            backgroundImage:
-              'radial-gradient(circle at 20% 20%, #fff 0, transparent 40%), radial-gradient(circle at 80% 60%, #fff 0, transparent 35%)',
-          }}
-        />
-        <div className="relative max-w-screen-2xl mx-auto px-6 sm:px-8 py-20 sm:py-28">
-          <div className="flex items-center gap-2 mb-6">
-            <Sparkles className="w-5 h-5 text-amber-400" />
-            <span className="text-xs font-bold tracking-[0.3em] uppercase text-amber-400">
-              DetailFox Suite
-            </span>
-          </div>
-          <h1 className="text-4xl sm:text-6xl font-bold tracking-tight max-w-3xl leading-[1.05]">
-            One ecosystem for every detail of your detailing business.
-          </h1>
-          <p className="mt-6 text-lg sm:text-xl text-zinc-300 max-w-2xl leading-relaxed">
-            DetailFox brings together focused tools that work the way detailers
-            actually work. Track time on the bay, manage workflows, and grow —
-            all from one place.
-          </p>
-          <div className="mt-10 flex flex-wrap items-center gap-4">
-            <button
-              onClick={onOpenDetailPace}
-              className="inline-flex items-center gap-2 bg-white text-zinc-900 font-semibold px-6 py-3 rounded-none hover:bg-zinc-100 transition-colors"
-            >
-              Launch DetailPace
-              <ArrowRight className="w-4 h-4" />
-            </button>
-            <span className="text-sm text-zinc-400">
-              More apps coming to the suite
-            </span>
-          </div>
-        </div>
+    <div className="max-w-screen-2xl mx-auto px-6 sm:px-8 py-10 sm:py-14">
+      {/* Hero — flat, blends into body */}
+      <section className="mb-12">
+        <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-zinc-900 max-w-3xl leading-[1.1]">
+          Welcome to DetailFox
+        </h1>
+        <p className="mt-3 text-base sm:text-lg text-zinc-500 max-w-2xl leading-relaxed">
+          A collection of lightweight, precision tools for the hobby detailer.
+        </p>
       </section>
 
-      {/* App grid */}
-      <section className="max-w-screen-2xl mx-auto px-6 sm:px-8 py-16 sm:py-20">
-        <div className="flex items-end justify-between mb-10">
-          <div>
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
-              The DetailFox apps
-            </h2>
-            <p className="mt-2 text-zinc-500">
-              Pick a tool to get started. Each one is built for a specific part
-              of your workflow.
-            </p>
-          </div>
+      {/* My tools */}
+      <section>
+        <div className="flex items-center gap-2 mb-5">
+          <h2 className="text-sm font-bold uppercase tracking-widest text-zinc-900">
+            My tools
+          </h2>
+          <div className="flex-1 h-px bg-zinc-200" />
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 max-w-4xl">
-          {/* DetailPace — active */}
-          <div className="group relative flex flex-col bg-white border border-zinc-200 rounded-none p-7 shadow-sm hover:shadow-md hover:border-zinc-300 transition-all">
-            <div className="flex items-center gap-3 mb-5">
-              <div className="flex items-center justify-center w-11 h-11 rounded-none bg-zinc-900 text-white">
-                <Clock className="w-5 h-5" />
+        <div className="grid gap-4 sm:grid-cols-2 max-w-4xl">
+          {/* DetailPace */}
+          <div className="relative bg-white border border-zinc-200 border-l-4 border-l-emerald-500 overflow-hidden transition-colors hover:border-zinc-300">
+            <div className="p-5">
+              <div className="flex items-start justify-between gap-3 mb-4">
+                <div>
+                  <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest mb-1">
+                    Tool
+                  </p>
+                  <h3 className="text-3xl font-black text-black tracking-tight leading-none">
+                    DetailPace
+                  </h3>
+                </div>
+                <div className="flex items-center justify-center w-9 h-9 bg-zinc-900 text-white">
+                  <Clock className="w-4 h-4" />
+                </div>
               </div>
-              <div>
-                <h3 className="text-lg font-bold">DetailPace</h3>
-                <span className="text-xs font-semibold tracking-wider uppercase text-emerald-600">
-                  Available now
+
+              <div className="flex flex-wrap gap-1.5 mb-4">
+                <span className="text-xs font-bold px-2 py-0.5 border uppercase tracking-wider text-emerald-700 bg-emerald-50 border-emerald-200">
+                  Available
+                </span>
+                <span className="text-xs font-bold px-2 py-0.5 border uppercase tracking-wider text-zinc-600 bg-zinc-100 border-zinc-300">
+                  Time tracking
                 </span>
               </div>
+
+              <p className="text-zinc-500 text-sm mb-5">
+                Time-tracking and intake for the detailing bay. Log vehicles,
+                run live timers, and watch your stats update in real time.
+              </p>
+
+              <button
+                onClick={onOpenDetailPace}
+                className="w-full flex items-center justify-center gap-2 bg-black hover:bg-zinc-800 text-white font-bold text-sm uppercase tracking-widest py-3 transition-colors"
+              >
+                Open app
+                <ArrowRight className="w-4 h-4" />
+              </button>
             </div>
-            <p className="text-zinc-600 leading-relaxed flex-1">
-              Time-tracking and intake for the detailing bay. Log vehicles,
-              run live timers, and watch your stats update in real time.
-            </p>
-            <button
-              onClick={onOpenDetailPace}
-              className="mt-6 inline-flex items-center justify-center gap-2 bg-zinc-900 text-white font-semibold px-5 py-3 rounded-none hover:bg-zinc-800 transition-colors w-full sm:w-auto"
-            >
-              Open app
-              <ArrowRight className="w-4 h-4" />
-            </button>
           </div>
 
-          {/* DetailFlow — active */}
-          <div className="group relative flex flex-col bg-white border border-zinc-200 rounded-none p-7 shadow-sm hover:shadow-md hover:border-zinc-300 transition-all">
-            <div className="flex items-center gap-3 mb-5">
-              <div className="flex items-center justify-center w-11 h-11 rounded-none bg-zinc-900 text-white">
-                <Zap className="w-5 h-5" />
+          {/* DetailFlow */}
+          <div className="relative bg-white border border-zinc-200 border-l-4 border-l-sky-500 overflow-hidden transition-colors hover:border-zinc-300">
+            <div className="p-5">
+              <div className="flex items-start justify-between gap-3 mb-4">
+                <div>
+                  <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest mb-1">
+                    Tool
+                  </p>
+                  <h3 className="text-3xl font-black text-black tracking-tight leading-none">
+                    DetailFlow
+                  </h3>
+                </div>
+                <div className="flex items-center justify-center w-9 h-9 bg-zinc-900 text-white">
+                  <Zap className="w-4 h-4" />
+                </div>
               </div>
-              <div>
-                <h3 className="text-lg font-bold">DetailFlow</h3>
-                <span className="text-xs font-semibold tracking-wider uppercase text-emerald-600">
-                  Available now
+
+              <div className="flex flex-wrap gap-1.5 mb-4">
+                <span className="text-xs font-bold px-2 py-0.5 border uppercase tracking-wider text-emerald-700 bg-emerald-50 border-emerald-200">
+                  Available
+                </span>
+                <span className="text-xs font-bold px-2 py-0.5 border uppercase tracking-wider text-zinc-600 bg-zinc-100 border-zinc-300">
+                  Workflows
                 </span>
               </div>
+
+              <p className="text-zinc-500 text-sm mb-5">
+                Guided, timed routine workflows. Pick a service, run a
+                step-by-step checklist with a high-precision timer, and review
+                your performance at the end.
+              </p>
+
+              <button
+                onClick={onOpenDetailFlow}
+                className="w-full flex items-center justify-center gap-2 bg-black hover:bg-zinc-800 text-white font-bold text-sm uppercase tracking-widest py-3 transition-colors"
+              >
+                Open app
+                <ArrowRight className="w-4 h-4" />
+              </button>
             </div>
-            <p className="text-zinc-600 leading-relaxed flex-1">
-              Guided, timed routine workflows. Pick a service, run a
-              step-by-step checklist with a high-precision timer, and review
-              your performance at the end.
-            </p>
-            <button
-              onClick={onOpenDetailFlow}
-              className="mt-6 inline-flex items-center justify-center gap-2 bg-zinc-900 text-white font-semibold px-5 py-3 rounded-none hover:bg-zinc-800 transition-colors w-full sm:w-auto"
-            >
-              Open app
-              <ArrowRight className="w-4 h-4" />
-            </button>
           </div>
         </div>
       </section>
