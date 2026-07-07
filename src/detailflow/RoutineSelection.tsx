@@ -13,8 +13,8 @@ export default function RoutineSelection() {
   const selectRoutine = useDetailFlowStore((s) => s.selectRoutine);
 
   return (
-    <div className="max-w-screen-2xl mx-auto px-6 sm:px-8 py-10">
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <section>
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
         {ROUTINES.map((r) => {
           const totalEstimate = r.steps.reduce((sum, s) => sum + s.estimateSeconds, 0) * 1000;
           return (
@@ -64,6 +64,6 @@ export default function RoutineSelection() {
           );
         })}
       </div>
-    </div>
+    </section>
   );
 }
