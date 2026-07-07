@@ -14,7 +14,7 @@ export default function DetailFlow() {
       </div>
 
       {/* Main */}
-      <div className="flex-1 min-w-0">
+      <div className="flex-1 w-full min-w-0">
         {phase === 'active' ? <StepEngine /> : <RoutineSelection />}
       </div>
     </div>
