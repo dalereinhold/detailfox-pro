@@ -1,11 +1,13 @@
 import { BarChart3, Check, SkipForward, Clock, TrendingUp, Gauge } from 'lucide-react';
 import { ProgressBar } from '@/components/ui';
 import { useDetailFlowStore, ROUTINES } from '@/detailflow/store';
+import { getServiceType } from '@/lib/serviceTypes';
 import { formatDuration } from '@/detailflow/format';
 
 export default function PerformancePanel() {
   const { steps, activeRoutineId } = useDetailFlowStore();
   const routine = ROUTINES.find((r) => r.id === activeRoutineId);
+  const service = routine ? getServiceType(routine.id) : undefined;
 
   const completed = steps.filter((s) => s.status === 'completed');
   const skipped = steps.filter((s) => s.status === 'skipped');
@@ -23,8 +25,8 @@ export default function PerformancePanel() {
           <BarChart3 className="w-4 h-4 text-zinc-400" />
           <h2 className="text-sm font-bold uppercase tracking-widest text-black">Performance</h2>
         </div>
-        {routine && (
-          <span className="text-xs font-bold uppercase tracking-wider text-zinc-500">
+        {routine && service && (
+          <span className={`text-xs font-bold px-2 py-0.5 border uppercase tracking-wider ${service.tag}`}>
             {routine.name}
           </span>
         )}

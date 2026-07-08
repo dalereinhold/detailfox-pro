@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Plus } from 'lucide-react';
 import { supabase, VehicleType, VehicleCondition, VehicleServiceType } from '../lib/supabase';
+import { SERVICE_TYPES } from '../lib/serviceTypes';
 
 interface IntakeFormProps {
   onVehicleAdded: () => void;
@@ -8,7 +9,6 @@ interface IntakeFormProps {
 
 const VEHICLE_TYPES: VehicleType[] = ['New', 'Used', 'Demo'];
 const CONDITIONS: VehicleCondition[] = ['Excellent', 'Good', 'Fair', 'Poor'];
-const SERVICE_TYPES: VehicleServiceType[] = ['Full Detail', 'Ceramic Coating', 'Quick Detail', 'Delivery Prep'];
 
 export default function IntakeForm({ onVehicleAdded }: IntakeFormProps) {
   const [licensePlate, setLicensePlate] = useState('');
@@ -147,7 +147,7 @@ export default function IntakeForm({ onVehicleAdded }: IntakeFormProps) {
               value={serviceType}
               onChange={(e) => setServiceType(e.target.value as VehicleServiceType)}
             >
-              {SERVICE_TYPES.map((s) => <option key={s} value={s}>{s}</option>)}
+              {SERVICE_TYPES.map((s) => <option key={s.id} value={s.name}>{s.name}</option>)}
             </select>
           </div>
         </div>

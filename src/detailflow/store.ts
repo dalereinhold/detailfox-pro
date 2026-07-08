@@ -1,12 +1,7 @@
 import { create } from 'zustand';
+import { SERVICE_TYPES, RoutineStep } from '@/lib/serviceTypes';
 
 export type StepStatus = 'pending' | 'active' | 'completed' | 'skipped';
-
-export interface RoutineStep {
-  id: string;
-  label: string;
-  estimateSeconds: number;
-}
 
 export interface Routine {
   id: string;
@@ -42,55 +37,12 @@ interface DetailFlowState {
   reset: () => void;
 }
 
-export const ROUTINES: Routine[] = [
-  {
-    id: 'full-wash',
-    name: 'Full Wash',
-    description: 'Exterior wash, decontaminate, and dry',
-    steps: [
-      { id: 'fw1', label: 'Pre-rinse', estimateSeconds: 180 },
-      { id: 'fw2', label: 'Snow foam contact wash', estimateSeconds: 420 },
-      { id: 'fw3', label: 'Wheel & tire cleaning', estimateSeconds: 600 },
-      { id: 'fw4', label: 'Decontamination (clay)', estimateSeconds: 900 },
-      { id: 'fw5', label: 'Final rinse & dry', estimateSeconds: 360 },
-    ],
-  },
-  {
-    id: 'interior-detail',
-    name: 'Interior Detail',
-    description: 'Vacuum, surfaces, and leather care',
-    steps: [
-      { id: 'id1', label: 'Vacuum carpets & seats', estimateSeconds: 900 },
-      { id: 'id2', label: 'Dashboard & console wipe-down', estimateSeconds: 600 },
-      { id: 'id3', label: 'Leather conditioning', estimateSeconds: 720 },
-      { id: 'id4', label: 'Glass cleaning', estimateSeconds: 360 },
-      { id: 'id5', label: 'Final inspection', estimateSeconds: 240 },
-    ],
-  },
-  {
-    id: 'ceramic-coating',
-    name: 'Ceramic Coating',
-    description: 'Paint prep and coating application',
-    steps: [
-      { id: 'cc1', label: 'Paint correction', estimateSeconds: 3600 },
-      { id: 'cc2', label: 'Panel wipe down', estimateSeconds: 900 },
-      { id: 'cc3', label: 'Coating application (layer 1)', estimateSeconds: 1800 },
-      { id: 'cc4', label: 'Flash time', estimateSeconds: 600 },
-      { id: 'cc5', label: 'Coating application (layer 2)', estimateSeconds: 1800 },
-      { id: 'cc6', label: 'Cure period', estimateSeconds: 1200 },
-    ],
-  },
-  {
-    id: 'quick-detail',
-    name: 'Quick Detail',
-    description: 'Express refresh for show-floor delivery',
-    steps: [
-      { id: 'qd1', label: 'Exterior waterless wash', estimateSeconds: 480 },
-      { id: 'qd2', label: 'Tire shine', estimateSeconds: 180 },
-      { id: 'qd3', label: 'Interior wipe & vacuum', estimateSeconds: 420 },
-    ],
-  },
-];
+export const ROUTINES: Routine[] = SERVICE_TYPES.map((s) => ({
+  id: s.id,
+  name: s.name,
+  description: s.description,
+  steps: s.steps,
+}));
 
 function buildSteps(routine: Routine): SessionStep[] {
   return routine.steps.map((s) => ({

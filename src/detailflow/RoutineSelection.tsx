@@ -1,13 +1,7 @@
-import { Clock, ArrowRight } from 'lucide-react';
+import { Clock, ArrowRight, Sparkles } from 'lucide-react';
 import { ROUTINES, useDetailFlowStore } from '@/detailflow/store';
+import { getServiceType } from '@/lib/serviceTypes';
 import { formatDuration } from '@/detailflow/format';
-
-const ROUTINE_ACCENT: Record<string, string> = {
-  'full-wash': 'border-l-sky-500',
-  'interior-detail': 'border-l-emerald-500',
-  'ceramic-coating': 'border-l-indigo-500',
-  'quick-detail': 'border-l-amber-400',
-};
 
 export default function RoutineSelection() {
   const selectRoutine = useDetailFlowStore((s) => s.selectRoutine);
@@ -17,10 +11,11 @@ export default function RoutineSelection() {
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
         {ROUTINES.map((r) => {
           const totalEstimate = r.steps.reduce((sum, s) => sum + s.estimateSeconds, 0) * 1000;
+          const service = getServiceType(r.id);
           return (
             <div
               key={r.id}
-              className={`relative bg-white border border-zinc-200 border-l-4 ${ROUTINE_ACCENT[r.id] ?? 'border-l-zinc-300'} overflow-hidden transition-colors hover:border-zinc-300`}
+              className={`relative bg-white border border-zinc-200 border-l-4 ${service?.accent ?? 'border-l-zinc-300'} overflow-hidden transition-colors hover:border-zinc-300`}
             >
               <div className="p-5">
                 {/* Header */}
@@ -40,6 +35,12 @@ export default function RoutineSelection() {
 
                 {/* Tags */}
                 <div className="flex flex-wrap gap-1.5 mb-4">
+                  {service && (
+                    <span className={`text-xs font-bold px-2 py-0.5 border uppercase tracking-wider flex items-center gap-1 ${service.tag}`}>
+                      <Sparkles className="w-3 h-3" />
+                      {service.name}
+                    </span>
+                  )}
                   <span className="text-xs font-bold px-2 py-0.5 border uppercase tracking-wider text-zinc-600 bg-zinc-100 border-zinc-300">
                     {r.steps.length} steps
                   </span>
