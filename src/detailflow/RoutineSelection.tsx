@@ -29,7 +29,7 @@ export default function RoutineSelection() {
                     </h3>
                   </div>
                   <div className="flex items-center justify-center w-9 h-9 bg-zinc-900 text-white">
-                    <CLock className="w-4 h-4" />
+                    <Clock className="w-4 h-4" />
                   </div>
                 </div>
 
