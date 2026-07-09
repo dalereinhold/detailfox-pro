@@ -29,7 +29,7 @@ export default function Landing({ onOpenDetailPace, onOpenDetailFlow }: LandingP
 
         <div className="grid gap-4 sm:grid-cols-2 max-w-4xl">
           {/* DetailPace */}
-          <div className="relative bg-white border border-zinc-200 border-l-4 border-l-emerald-500 overflow-hidden transition-colors hover:border-zinc-300">
+          <div className="relative bg-white border border-zinc-200 border-l-4 border-l-orange-500 overflow-hidden transition-colors hover:border-zinc-300">
             <div className="p-5">
               <div className="flex items-start justify-between gap-3 mb-4">
                 <div>
@@ -70,7 +70,7 @@ export default function Landing({ onOpenDetailPace, onOpenDetailFlow }: LandingP
           </div>
 
           {/* DetailFlow */}
-          <div className="relative bg-white border border-zinc-200 border-l-4 border-l-sky-500 overflow-hidden transition-colors hover:border-zinc-300">
+          <div className="relative bg-white border border-zinc-200 border-l-4 border-l-orange-500 overflow-hidden transition-colors hover:border-zinc-300">
             <div className="p-5">
               <div className="flex items-start justify-between gap-3 mb-4">
                 <div>
