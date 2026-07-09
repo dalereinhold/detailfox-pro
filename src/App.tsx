@@ -9,9 +9,9 @@ import DetailFlow from './detailflow/DetailFlow';
 type View = 'landing' | 'detailpace' | 'detailflow';
 
 const NAV_ITEMS: { id: View; label: string }[] = [
-  { id: 'landing', label: 'Fox' },
-  { id: 'detailpace', label: 'Pace' },
-  { id: 'detailflow', label: 'Flow' },
+  { id: 'landing', label: 'Fox Pro' },
+  { id: 'detailpace', label: 'Pace Pro' },
+  { id: 'detailflow', label: 'Flow Pro' },
 ];
 
 export default function App() {
