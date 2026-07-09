@@ -11,7 +11,7 @@ export default function Landing({ onOpenDetailPace, onOpenDetailFlow }: LandingP
       {/* Hero — flat, blends into body */}
       <section className="mb-12">
         <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-zinc-900 max-w-3xl leading-[1.1]">
-          Welcome to DetailFox
+          Welcome to DetailFox Pro
         </h1>
         <p className="mt-3 text-base sm:text-lg text-zinc-500 max-w-2xl leading-relaxed">
           A collection of lightweight, precision tools for the hobby detailer.
@@ -37,7 +37,7 @@ export default function Landing({ onOpenDetailPace, onOpenDetailFlow }: LandingP
                     Tool
                   </p>
                   <h3 className="text-3xl font-black text-black tracking-tight leading-none">
-                    DetailPace
+                    DetailPace Pro
                   </h3>
                 </div>
                 <div className="flex items-center justify-center w-9 h-9 bg-zinc-900 text-white">
@@ -78,7 +78,7 @@ export default function Landing({ onOpenDetailPace, onOpenDetailFlow }: LandingP
                     Tool
                   </p>
                   <h3 className="text-3xl font-black text-black tracking-tight leading-none">
-                    DetailFlow
+                    DetailFlow Pro
                   </h3>
                 </div>
                 <div className="flex items-center justify-center w-9 h-9 bg-zinc-900 text-white">
