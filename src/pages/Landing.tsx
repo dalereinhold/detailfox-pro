@@ -1,4 +1,4 @@
-import { ArrowRight, Clock, CheckSquare } from 'lucide-react';
+import { ArrowRight, Clock, ListTodo } from 'lucide-react';
 
 interface LandingProps {
   onOpenDetailPace: () => void;
@@ -82,7 +82,7 @@ export default function Landing({ onOpenDetailPace, onOpenDetailFlow }: LandingP
                   </h3>
                 </div>
                 <div className="flex items-center justify-center w-9 h-9 bg-zinc-900 text-white">
-                  <CheckSquare className="w-4 h-4" />
+                  <ListTodo className="w-4 h-4" />
                 </div>
               </div>
 
