@@ -1,4 +1,4 @@
-# DetailFox
+# DetailFox Pro
 
 [![Open in Bolt](https://bolt.new/static/open-in-bolt.svg)](https://bolt.new/~/github-voes1cv8)
 
@@ -6,7 +6,7 @@ A collection of lightweight, precision tools for the hobby detailer. DetailFox c
 
 ## Tools
 
-### Pace (DetailPace)
+### Pace Pro (DetailPace Pro)
 
 Time-tracking and intake for the detailing bay. Log vehicles, run live timers, and watch your stats update in real time.
 
@@ -16,7 +16,7 @@ Time-tracking and intake for the detailing bay. Log vehicles, run live timers, a
 - **Statistics sidebar** — Total processed count and average completion time broken down by vehicle type, with localStorage caching for instant loads
 - **Demo data seeding** — Generate 20 randomized vehicle records with a single click for testing
 
-### Flow (DetailFlow)
+### Flow Pro (DetailFlow Pro)
 
 Guided, timed routine workflows. Pick a service, run a step-by-step checklist with a high-precision timer, and review your performance.
 
