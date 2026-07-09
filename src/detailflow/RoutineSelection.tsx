@@ -1,4 +1,4 @@
-import { Clock, ArrowRight, Sparkles } from 'lucide-react';
+import { Clock, ArrowRight, Sparkles, CheckSquare } from 'lucide-react';
 import { ROUTINES, useDetailFlowStore } from '@/detailflow/store';
 import { getServiceType } from '@/lib/serviceTypes';
 import { formatDuration } from '@/detailflow/format';
@@ -29,7 +29,7 @@ export default function RoutineSelection() {
                     </h3>
                   </div>
                   <div className="flex items-center justify-center w-9 h-9 bg-zinc-900 text-white">
-                    <Clock className="w-4 h-4" />
+                    <CheckSquare className="w-4 h-4" />
                   </div>
                 </div>
 
