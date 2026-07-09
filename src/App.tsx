@@ -37,7 +37,7 @@ export default function App() {
             onClick={() => navigate('landing')}
             className="text-zinc-900 text-sm font-bold tracking-[0.2em] uppercase"
           >
-            DetailFox
+            DetailFox Pro
           </button>
 
           {/* Desktop nav */}
