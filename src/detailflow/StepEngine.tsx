@@ -19,11 +19,11 @@ import { formatTimer, formatDuration } from '@/detailflow/format';
 type StepState = 'pending' | 'active' | 'paused' | 'completed' | 'skipped';
 
 const STATUS_BADGE: Record<StepState, string> = {
-  pending: 'text-zinc-500 bg-zinc-100 border-zinc-300',
-  active: 'text-sky-700 bg-sky-50 border-sky-200',
-  paused: 'text-amber-700 bg-amber-50 border-amber-200',
-  completed: 'text-emerald-700 bg-emerald-50 border-emerald-200',
-  skipped: 'text-zinc-400 bg-zinc-50 border-zinc-200 line-through',
+  pending: 'text-zinc-500 bg-zinc-100 border-zinc-300 dark:text-zinc-400 dark:bg-zinc-800 dark:border-zinc-600',
+  active: 'text-sky-700 bg-sky-50 border-sky-200 dark:text-sky-300 dark:bg-sky-950 dark:border-sky-800',
+  paused: 'text-amber-700 bg-amber-50 border-amber-200 dark:text-amber-300 dark:bg-amber-950 dark:border-amber-800',
+  completed: 'text-emerald-700 bg-emerald-50 border-emerald-200 dark:text-emerald-300 dark:bg-emerald-950 dark:border-emerald-800',
+  skipped: 'text-zinc-400 bg-zinc-50 border-zinc-200 line-through dark:text-zinc-500 dark:bg-zinc-800 dark:border-zinc-700',
 };
 
 const STATUS_BORDER: Record<StepState, string> = {
@@ -99,7 +99,7 @@ export default function StepEngine() {
       {/* Header — matches "All Records" */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
         <div>
-          <h2 className="text-sm font-bold uppercase tracking-widest text-black">Active Session</h2>
+          <h2 className="text-sm font-bold uppercase tracking-widest text-zinc-900 dark:text-zinc-50">Active Session</h2>
           <p className="text-zinc-400 text-xs mt-1">
             {steps.length} step{steps.length !== 1 ? 's' : ''} in routine
           </p>
@@ -107,7 +107,7 @@ export default function StepEngine() {
         <div className="flex items-center gap-2">
           <button
             onClick={reset}
-            className="flex items-center gap-2 text-red-500 hover:text-red-700 text-xs font-semibold uppercase tracking-widest border border-zinc-200 hover:border-red-300 px-4 py-2.5 transition-colors bg-white"
+            className="flex items-center gap-2 text-red-500 hover:text-red-700 text-xs font-semibold uppercase tracking-widest border border-zinc-200 hover:border-red-300 px-4 py-2.5 transition-colors bg-white dark:bg-zinc-900 dark:border-zinc-700 dark:hover:border-red-800"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             End Session
@@ -116,8 +116,8 @@ export default function StepEngine() {
       </div>
 
       {/* Summary stats — gap-px grid like Dashboard */}
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-px bg-zinc-200 border border-zinc-200 mb-6">
-        <StatPill label="Total" count={counts.Total} valueClass="text-black" icon={<Timer className="w-3 h-3 text-zinc-400" />} />
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-px bg-zinc-200 border border-zinc-200 mb-6 dark:bg-zinc-700 dark:border-zinc-700">
+        <StatPill label="Total" count={counts.Total} valueClass="text-zinc-900 dark:text-zinc-50" icon={<Timer className="w-3 h-3 text-zinc-400" />} />
         <StatPill label="Pending" count={counts.Pending} valueClass="text-zinc-500" icon={<Hourglass className="w-3 h-3 text-zinc-400" />} />
         <StatPill label="In Progress" count={counts['In Progress']} valueClass="text-sky-600" icon={<Clock className="w-3 h-3 text-zinc-400" />} />
         <StatPill label="On Break" count={counts['On Break']} valueClass="text-amber-500" icon={<Coffee className="w-3 h-3 text-zinc-400" />} />
@@ -130,7 +130,7 @@ export default function StepEngine() {
           <span className="text-xs font-semibold uppercase tracking-widest text-zinc-400">
             Progress
           </span>
-          <span className="text-xs font-bold tabular-nums text-zinc-600">
+          <span className="text-xs font-bold tabular-nums text-zinc-600 dark:text-zinc-400">
             {completedCount} / {steps.length} done
           </span>
         </div>
@@ -141,7 +141,7 @@ export default function StepEngine() {
       {current && !allDone && (() => {
         const state = stepState(current);
         return (
-          <div className={`relative bg-white border border-zinc-200 border-l-4 ${STATUS_BORDER[state]} overflow-hidden mb-6`}>
+          <div className={`relative bg-white border border-zinc-200 border-l-4 ${STATUS_BORDER[state]} overflow-hidden mb-6 dark:bg-zinc-900 dark:border-zinc-700`}>
             <div className="p-5">
               {/* Header */}
               <div className="flex items-start justify-between gap-3 mb-4">
@@ -149,7 +149,7 @@ export default function StepEngine() {
                   <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest mb-1">
                     Current step
                   </p>
-                  <h3 className="text-3xl font-black text-black tracking-tight leading-none">
+                  <h3 className="text-3xl font-black text-zinc-900 dark:text-zinc-50 tracking-tight leading-none">
                     {current.label}
                   </h3>
                 </div>
@@ -160,19 +160,19 @@ export default function StepEngine() {
 
               {/* Tags */}
               <div className="flex flex-wrap gap-1.5 mb-4">
-                <span className="text-xs font-bold px-2 py-0.5 border uppercase tracking-wider text-zinc-600 bg-zinc-100 border-zinc-300">
+                <span className="text-xs font-bold px-2 py-0.5 border uppercase tracking-wider text-zinc-600 bg-zinc-100 border-zinc-300 dark:text-zinc-300 dark:bg-zinc-800 dark:border-zinc-600">
                   Est. {formatDuration(current.estimateSeconds * 1000)}
                 </span>
-                <span className="text-xs font-bold px-2 py-0.5 border uppercase tracking-wider text-zinc-600 bg-zinc-100 border-zinc-300">
+                <span className="text-xs font-bold px-2 py-0.5 border uppercase tracking-wider text-zinc-600 bg-zinc-100 border-zinc-300 dark:text-zinc-300 dark:bg-zinc-800 dark:border-zinc-600">
                   {Math.round((currentElapsed / (current.estimateSeconds * 1000)) * 100)}% of estimate
                 </span>
               </div>
 
               {/* Timer block — color matches state */}
               <div className={`flex items-center gap-3 border px-4 py-3 mb-4 ${
-                state === 'active' ? 'bg-sky-50 border-sky-200' :
-                state === 'paused' ? 'bg-amber-50 border-amber-200' :
-                'bg-zinc-50 border-zinc-200'
+                state === 'active' ? 'bg-sky-50 border-sky-200 dark:bg-sky-950 dark:border-sky-800' :
+                state === 'paused' ? 'bg-amber-50 border-amber-200 dark:bg-amber-950 dark:border-amber-800' :
+                'bg-zinc-50 border-zinc-200 dark:bg-zinc-800 dark:border-zinc-700'
               }`}>
                 <Timer className={`w-4 h-4 flex-shrink-0 ${
                   state === 'active' ? 'text-sky-500' :
@@ -213,7 +213,7 @@ export default function StepEngine() {
                 {state === 'pending' && current.elapsedMs === 0 && (
                   <button
                     onClick={() => startStep(cursor)}
-                    className="flex-1 flex items-center justify-center gap-2 bg-black hover:bg-zinc-800 text-white font-bold text-sm uppercase tracking-widest py-3 transition-colors"
+                    className="flex-1 flex items-center justify-center gap-2 bg-black hover:bg-zinc-800 text-white font-bold text-sm uppercase tracking-widest py-3 transition-colors dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
                   >
                     <Play className="w-4 h-4 fill-white" />
                     Start
@@ -222,7 +222,7 @@ export default function StepEngine() {
                 {state === 'active' && (
                   <button
                     onClick={() => pauseStep(cursor)}
-                    className="flex-1 flex items-center justify-center gap-2 bg-amber-400 hover:bg-amber-300 text-black font-bold text-sm uppercase tracking-widest py-3 transition-colors"
+                    className="flex-1 flex items-center justify-center gap-2 bg-amber-400 hover:bg-amber-300 text-zinc-900 dark:text-zinc-50 font-bold text-sm uppercase tracking-widest py-3 transition-colors"
                   >
                     <Pause className="w-4 h-4" />
                     Break
@@ -231,7 +231,7 @@ export default function StepEngine() {
                 {state === 'paused' && (
                   <button
                     onClick={() => resumeStep(cursor)}
-                    className="flex-1 flex items-center justify-center gap-2 bg-black hover:bg-zinc-800 text-white font-bold text-sm uppercase tracking-widest py-3 transition-colors"
+                    className="flex-1 flex items-center justify-center gap-2 bg-black hover:bg-zinc-800 text-white font-bold text-sm uppercase tracking-widest py-3 transition-colors dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
                   >
                     <RotateCcw className="w-4 h-4" />
                     Resume
@@ -246,7 +246,7 @@ export default function StepEngine() {
                 </button>
                 <button
                   onClick={() => skipStep(cursor)}
-                  className="flex items-center justify-center gap-2 border border-zinc-300 hover:border-black text-zinc-500 hover:text-black font-bold text-sm uppercase tracking-widest py-3 px-4 transition-colors"
+                  className="flex items-center justify-center gap-2 border border-zinc-300 hover:border-zinc-900 text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-50 font-bold text-sm uppercase tracking-widest py-3 px-4 transition-colors"
                 >
                   <SkipForward className="w-4 h-4" />
                   Skip
@@ -264,14 +264,14 @@ export default function StepEngine() {
           return (
             <div
               key={step.id}
-              className={`relative bg-white border border-zinc-200 border-l-4 ${STATUS_BORDER[state]} overflow-hidden transition-colors`}
+              className={`relative bg-white border border-zinc-200 border-l-4 ${STATUS_BORDER[state]} overflow-hidden transition-colors dark:bg-zinc-900 dark:border-zinc-700`}
             >
               <div className="p-5 flex items-center gap-4">
                 <span className={`text-xs font-bold px-2 py-0.5 border uppercase tracking-wider ${STATUS_BADGE[state]}`}>
                   {STATUS_LABEL[state]}
                 </span>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-bold text-black truncate">{step.label}</p>
+                  <p className="text-sm font-bold text-zinc-900 dark:text-zinc-50 truncate">{step.label}</p>
                   <p className="text-xs text-zinc-400 tabular-nums mt-0.5">
                     {formatDuration(step.elapsedMs)} / {formatDuration(step.estimateSeconds * 1000)}
                   </p>
@@ -287,9 +287,9 @@ export default function StepEngine() {
 
       {/* Completion indicator */}
       {allDone && (
-        <div className="mt-8 flex items-center gap-2 bg-emerald-50 border border-emerald-200 px-4 py-3">
+        <div className="mt-8 flex items-center gap-2 bg-emerald-50 border border-emerald-200 px-4 py-3 dark:bg-emerald-950 dark:border-emerald-800">
           <Flag className="w-4 h-4 text-emerald-600 flex-shrink-0" />
-          <p className="text-emerald-700 font-bold text-sm uppercase tracking-wide">All steps complete</p>
+          <p className="text-emerald-700 font-bold text-sm uppercase tracking-wide dark:text-emerald-300">All steps complete</p>
         </div>
       )}
     </section>
@@ -298,7 +298,7 @@ export default function StepEngine() {
 
 function StatPill({ label, count, valueClass, icon }: { label: string; count: number; valueClass: string; icon: React.ReactNode }) {
   return (
-    <div className="bg-white px-4 py-3">
+    <div className="bg-white px-4 py-3 dark:bg-zinc-900">
       <div className="flex items-center gap-1.5 mb-0.5">
         {icon}
         <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest">{label}</p>

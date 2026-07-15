@@ -15,7 +15,7 @@ export default function RoutineSelection() {
           return (
             <div
               key={r.id}
-              className={`relative bg-white border border-zinc-200 border-l-4 ${service?.accent ?? 'border-l-zinc-300'} overflow-hidden transition-colors hover:border-zinc-300`}
+              className={`relative bg-white border border-zinc-200 border-l-4 ${service?.accent ?? 'border-l-zinc-300'} overflow-hidden transition-colors hover:border-zinc-300 dark:bg-zinc-900 dark:border-zinc-700 dark:hover:border-zinc-600`}
             >
               <div className="p-5">
                 {/* Header */}
@@ -24,7 +24,7 @@ export default function RoutineSelection() {
                     <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest mb-1">
                       Routine
                     </p>
-                    <h3 className="text-3xl font-black text-black tracking-tight leading-none">
+                    <h3 className="text-3xl font-black text-zinc-900 dark:text-zinc-50 tracking-tight leading-none">
                       {r.name}
                     </h3>
                   </div>

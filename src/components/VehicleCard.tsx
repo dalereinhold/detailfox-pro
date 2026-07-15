@@ -9,16 +9,16 @@ interface VehicleCardProps {
 }
 
 const CONDITION_COLORS: Record<string, string> = {
-  Excellent: 'text-emerald-600 bg-emerald-50 border-emerald-200',
-  Good: 'text-sky-600 bg-sky-50 border-sky-200',
-  Fair: 'text-amber-600 bg-amber-50 border-amber-200',
-  Poor: 'text-red-600 bg-red-50 border-red-200',
+  Excellent: 'text-emerald-600 bg-emerald-50 border-emerald-200 dark:text-emerald-300 dark:bg-emerald-950 dark:border-emerald-800',
+  Good: 'text-sky-600 bg-sky-50 border-sky-200 dark:text-sky-300 dark:bg-sky-950 dark:border-sky-800',
+  Fair: 'text-amber-600 bg-amber-50 border-amber-200 dark:text-amber-300 dark:bg-amber-950 dark:border-amber-800',
+  Poor: 'text-red-600 bg-red-50 border-red-200 dark:text-red-300 dark:bg-red-950 dark:border-red-800',
 };
 
 const TYPE_COLORS: Record<string, string> = {
-  New: 'text-emerald-700 bg-emerald-50 border-emerald-200',
-  Used: 'text-zinc-600 bg-zinc-100 border-zinc-300',
-  Demo: 'text-sky-700 bg-sky-50 border-sky-200',
+  New: 'text-emerald-700 bg-emerald-50 border-emerald-200 dark:text-emerald-300 dark:bg-emerald-950 dark:border-emerald-800',
+  Used: 'text-zinc-600 bg-zinc-100 border-zinc-300 dark:text-zinc-300 dark:bg-zinc-800 dark:border-zinc-600',
+  Demo: 'text-sky-700 bg-sky-50 border-sky-200 dark:text-sky-300 dark:bg-sky-950 dark:border-sky-800',
 };
 
 
@@ -147,12 +147,12 @@ export default function VehicleCard({ vehicle, onUpdated }: VehicleCardProps) {
   }
 
   const timerBg = isCompleted
-    ? 'bg-emerald-50 border-emerald-200'
+    ? 'bg-emerald-50 border-emerald-200 dark:bg-emerald-950 dark:border-emerald-800'
     : isOnBreak
-    ? 'bg-amber-50 border-amber-200'
+    ? 'bg-amber-50 border-amber-200 dark:bg-amber-950 dark:border-amber-800'
     : isRunning
-    ? 'bg-sky-50 border-sky-200'
-    : 'bg-zinc-50 border-zinc-200';
+    ? 'bg-sky-50 border-sky-200 dark:bg-sky-950 dark:border-sky-800'
+    : 'bg-zinc-50 border-zinc-200 dark:bg-zinc-800 dark:border-zinc-700';
 
   const timerColor = isCompleted
     ? 'text-emerald-600'
@@ -166,14 +166,14 @@ export default function VehicleCard({ vehicle, onUpdated }: VehicleCardProps) {
 
   return (
     <div
-      className={`relative bg-white border border-zinc-200 border-l-4 overflow-hidden transition-opacity duration-200 ${statusLeftBorder(vehicle.status, isNotStarted)} ${deleting ? 'opacity-40 pointer-events-none' : ''}`}
+      className={`relative bg-white border border-zinc-200 border-l-4 overflow-hidden transition-opacity duration-200 dark:bg-zinc-900 dark:border-zinc-700 ${statusLeftBorder(vehicle.status, isNotStarted)} ${deleting ? 'opacity-40 pointer-events-none' : ''}`}
     >
       <div className="p-5">
         {/* Header */}
         <div className="flex items-start justify-between gap-3 mb-4">
           <div>
             <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest mb-1">License Plate</p>
-            <h3 className="text-3xl font-black text-black tracking-widest leading-none">{vehicle.license_plate}</h3>
+            <h3 className="text-3xl font-black text-zinc-900 dark:text-zinc-50 tracking-widest leading-none">{vehicle.license_plate}</h3>
           </div>
           <button
             onClick={handleDelete}
@@ -193,7 +193,7 @@ export default function VehicleCard({ vehicle, onUpdated }: VehicleCardProps) {
             {vehicle.condition}
           </span>
           {vehicle.service_type && (
-            <span className={`text-xs font-bold px-2 py-0.5 border uppercase tracking-wider flex items-center gap-1 ${SERVICE_TYPE_COLORS[vehicle.service_type] || 'text-zinc-600 bg-zinc-50 border-zinc-200'}`}>
+            <span className={`text-xs font-bold px-2 py-0.5 border uppercase tracking-wider flex items-center gap-1 ${SERVICE_TYPE_COLORS[vehicle.service_type] || 'text-zinc-600 bg-zinc-50 border-zinc-200 dark:text-zinc-300 dark:bg-zinc-800 dark:border-zinc-600'}`}>
               <Sparkles className="w-3 h-3" />
               {vehicle.service_type}
             </span>
@@ -210,21 +210,21 @@ export default function VehicleCard({ vehicle, onUpdated }: VehicleCardProps) {
                 onChange={(e) => setNotesValue(e.target.value)}
                 onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSaveNotes(); } if (e.key === 'Escape') handleCancelNotes(); }}
                 rows={2}
-                className="w-full bg-white border border-black text-black text-sm px-3 py-2 resize-none focus:outline-none placeholder-zinc-400"
+                className="w-full bg-white border border-zinc-300 text-zinc-900 text-sm px-3 py-2 resize-none focus:outline-none placeholder-zinc-400 dark:bg-zinc-800 dark:border-zinc-500 dark:text-zinc-50 dark:placeholder-zinc-500"
                 placeholder="Add a note..."
               />
               <div className="flex gap-1 mt-1">
                 <button
                   onClick={handleSaveNotes}
                   disabled={savingNotes}
-                  className="flex items-center gap-1.5 bg-black hover:bg-zinc-800 disabled:opacity-40 text-white text-xs font-bold uppercase tracking-widest px-3 py-1.5 transition-colors"
+                  className="flex items-center gap-1.5 bg-black hover:bg-zinc-800 disabled:opacity-40 text-white text-xs font-bold uppercase tracking-widest px-3 py-1.5 transition-colors dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
                 >
                   <Check className="w-3 h-3" />
                   Save
                 </button>
                 <button
                   onClick={handleCancelNotes}
-                  className="flex items-center gap-1.5 border border-zinc-300 hover:border-black text-zinc-500 hover:text-black text-xs font-bold uppercase tracking-widest px-3 py-1.5 transition-colors"
+                  className="flex items-center gap-1.5 border border-zinc-300 hover:border-zinc-900 text-zinc-500 hover:text-zinc-900 text-xs font-bold uppercase tracking-widest px-3 py-1.5 transition-colors dark:border-zinc-600 dark:hover:border-zinc-400 dark:text-zinc-400 dark:hover:text-zinc-50"
                 >
                   <X className="w-3 h-3" />
                   Cancel
@@ -238,12 +238,12 @@ export default function VehicleCard({ vehicle, onUpdated }: VehicleCardProps) {
               aria-label="Edit notes"
             >
               {vehicle.notes ? (
-                <div className="flex items-start gap-2 bg-zinc-50 border border-zinc-100 hover:border-zinc-300 px-3 py-2 transition-colors">
+                <div className="flex items-start gap-2 bg-zinc-50 border border-zinc-100 hover:border-zinc-300 px-3 py-2 transition-colors dark:bg-zinc-800 dark:border-zinc-700 dark:hover:border-zinc-600">
                   <p className="text-zinc-500 text-sm flex-1 line-clamp-2">{vehicle.notes}</p>
                   <Pencil className="w-3 h-3 text-zinc-300 group-hover:text-zinc-500 flex-shrink-0 mt-0.5 transition-colors" />
                 </div>
               ) : (
-                <div className="flex items-center gap-2 border border-dashed border-zinc-200 hover:border-zinc-400 px-3 py-2 transition-colors">
+                <div className="flex items-center gap-2 border border-dashed border-zinc-200 hover:border-zinc-400 px-3 py-2 transition-colors dark:border-zinc-700 dark:hover:border-zinc-500">
                   <Pencil className="w-3 h-3 text-zinc-300 group-hover:text-zinc-400 transition-colors" />
                   <span className="text-zinc-300 group-hover:text-zinc-400 text-xs uppercase tracking-widest font-semibold transition-colors">Add note</span>
                 </div>
@@ -276,7 +276,7 @@ export default function VehicleCard({ vehicle, onUpdated }: VehicleCardProps) {
               <button
                 onClick={handleStart}
                 disabled={busy}
-                className="flex-1 flex items-center justify-center gap-2 bg-black hover:bg-zinc-800 disabled:opacity-40 text-white font-bold text-sm uppercase tracking-widest py-3 transition-colors"
+                className="flex-1 flex items-center justify-center gap-2 bg-black hover:bg-zinc-800 disabled:opacity-40 text-white font-bold text-sm uppercase tracking-widest py-3 transition-colors dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
               >
                 <Play className="w-4 h-4 fill-white" />
                 Start
@@ -287,7 +287,7 @@ export default function VehicleCard({ vehicle, onUpdated }: VehicleCardProps) {
                 <button
                   onClick={handleBreak}
                   disabled={busy}
-                  className="flex-1 flex items-center justify-center gap-2 bg-amber-400 hover:bg-amber-300 disabled:opacity-40 text-black font-bold text-sm uppercase tracking-widest py-3 transition-colors"
+                  className="flex-1 flex items-center justify-center gap-2 bg-amber-400 hover:bg-amber-300 disabled:opacity-40 text-zinc-900 dark:text-zinc-50 font-bold text-sm uppercase tracking-widest py-3 transition-colors"
                 >
                   <Pause className="w-4 h-4" />
                   Break
@@ -307,7 +307,7 @@ export default function VehicleCard({ vehicle, onUpdated }: VehicleCardProps) {
                 <button
                   onClick={handleResume}
                   disabled={busy}
-                  className="flex-1 flex items-center justify-center gap-2 bg-black hover:bg-zinc-800 disabled:opacity-40 text-white font-bold text-sm uppercase tracking-widest py-3 transition-colors"
+                  className="flex-1 flex items-center justify-center gap-2 bg-black hover:bg-zinc-800 disabled:opacity-40 text-white font-bold text-sm uppercase tracking-widest py-3 transition-colors dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
                 >
                   <RotateCcw className="w-4 h-4" />
                   Resume
@@ -327,9 +327,9 @@ export default function VehicleCard({ vehicle, onUpdated }: VehicleCardProps) {
 
         {/* Completed */}
         {isCompleted && (
-          <div className="flex items-center gap-2 bg-emerald-50 border border-emerald-200 px-4 py-3">
-            <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
-            <p className="text-emerald-700 font-bold text-sm uppercase tracking-wide">Job Complete</p>
+          <div className="flex items-center gap-2 bg-emerald-50 border border-emerald-200 px-4 py-3 dark:bg-emerald-950 dark:border-emerald-800">
+            <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 dark:text-emerald-400" />
+            <p className="text-emerald-700 font-bold text-sm uppercase tracking-wide dark:text-emerald-300">Job Complete</p>
           </div>
         )}
       </div>

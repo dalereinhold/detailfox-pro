@@ -86,7 +86,7 @@ export default function Dashboard({ refreshTrigger, onVehiclesUpdated }: Dashboa
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
         <div>
-          <h2 className="text-sm font-bold uppercase tracking-widest text-black">All Records</h2>
+          <h2 className="text-sm font-bold uppercase tracking-widest text-zinc-900 dark:text-zinc-50">All Records</h2>
           <p className="text-zinc-400 text-xs mt-1">
             {vehicles.length} vehicle{vehicles.length !== 1 ? 's' : ''} in records
           </p>
@@ -95,14 +95,14 @@ export default function Dashboard({ refreshTrigger, onVehiclesUpdated }: Dashboa
           <button
             onClick={handleClearAll}
             disabled={vehicles.length === 0 || loading}
-            className="flex items-center gap-2 text-red-500 hover:text-red-700 disabled:opacity-40 disabled:hover:text-red-500 text-xs font-semibold uppercase tracking-widest border border-zinc-200 hover:border-red-300 px-4 py-2.5 transition-colors bg-white"
+            className="flex items-center gap-2 text-red-500 hover:text-red-700 disabled:opacity-40 disabled:hover:text-red-500 text-xs font-semibold uppercase tracking-widest border border-zinc-200 hover:border-red-300 px-4 py-2.5 transition-colors bg-white dark:bg-zinc-900 dark:border-zinc-700 dark:hover:border-red-800"
           >
             <Trash2 className="w-3.5 h-3.5" />
             Clear All
           </button>
           <button
             onClick={fetchVehicles}
-            className="flex items-center gap-2 text-zinc-500 hover:text-black text-xs font-semibold uppercase tracking-widest border border-zinc-200 hover:border-black px-4 py-2.5 transition-colors bg-white"
+            className="flex items-center gap-2 text-zinc-500 hover:text-zinc-900 text-xs font-semibold uppercase tracking-widest border border-zinc-200 hover:border-zinc-900 px-4 py-2.5 transition-colors bg-white dark:bg-zinc-900 dark:border-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-50 dark:hover:border-zinc-400"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
             Refresh
@@ -111,8 +111,8 @@ export default function Dashboard({ refreshTrigger, onVehiclesUpdated }: Dashboa
       </div>
 
       {/* Summary stats */}
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-px bg-zinc-200 border border-zinc-200 mb-6">
-        <StatPill label="Total" count={counts['All']} valueClass="text-black" />
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-px bg-zinc-200 border border-zinc-200 mb-6 dark:bg-zinc-700 dark:border-zinc-700">
+        <StatPill label="Total" count={counts['All']} valueClass="text-zinc-900 dark:text-zinc-50" />
         <StatPill label="Pending" count={counts['Pending']} valueClass="text-zinc-500" />
         <StatPill label="In Progress" count={counts['In Progress']} valueClass="text-sky-600" />
         <StatPill label="On Break" count={counts['On Break']} valueClass="text-amber-500" />
@@ -120,22 +120,22 @@ export default function Dashboard({ refreshTrigger, onVehiclesUpdated }: Dashboa
       </div>
 
       {/* Filter tabs */}
-      <div className="flex flex-wrap gap-px bg-zinc-200 border border-zinc-200 mb-8">
+      <div className="flex flex-wrap gap-px bg-zinc-200 border border-zinc-200 mb-8 dark:bg-zinc-700 dark:border-zinc-700">
         {STATUS_FILTERS.map(({ label, value, icon }) => (
           <button
             key={value}
             onClick={() => setFilter(value)}
             className={`flex items-center gap-2 px-4 py-2.5 text-xs font-bold uppercase tracking-widest transition-colors ${
               filter === value
-                ? 'bg-black text-white'
-                : 'bg-white text-zinc-400 hover:text-black hover:bg-zinc-50'
+                ? 'bg-black text-white dark:bg-zinc-100 dark:text-zinc-900'
+                : 'bg-white text-zinc-400 hover:text-zinc-900 hover:bg-zinc-50 dark:bg-zinc-900 dark:text-zinc-500 dark:hover:text-zinc-50 dark:hover:bg-zinc-800'
             }`}
           >
             {icon}
             {label}
             <span
               className={`text-xs font-bold px-1.5 py-0.5 ${
-                filter === value ? 'bg-white/20 text-white' : 'bg-zinc-100 text-zinc-500'
+                filter === value ? 'bg-white/20 text-white dark:bg-zinc-900/20 dark:text-zinc-900' : 'bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400'
               }`}
             >
               {counts[value as keyof typeof counts]}
@@ -146,7 +146,7 @@ export default function Dashboard({ refreshTrigger, onVehiclesUpdated }: Dashboa
 
       {/* Error */}
       {error && (
-        <div className="border border-red-400 bg-red-50 text-red-700 px-4 py-3 text-sm mb-6">
+        <div className="border border-red-400 bg-red-50 text-red-700 px-4 py-3 text-sm mb-6 dark:border-red-800 dark:bg-red-950 dark:text-red-300">
           Failed to load vehicles: {error}
         </div>
       )}
@@ -155,14 +155,14 @@ export default function Dashboard({ refreshTrigger, onVehiclesUpdated }: Dashboa
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="border border-zinc-200 h-72 animate-pulse bg-zinc-50" />
+            <div key={i} className="border border-zinc-200 h-72 animate-pulse bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900" />
           ))}
         </div>
       ) : filtered.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-24 text-center border border-zinc-100 bg-white">
-          <LayoutGrid className="w-8 h-8 text-zinc-200 mb-4" />
+        <div className="flex flex-col items-center justify-center py-24 text-center border border-zinc-100 bg-white dark:border-zinc-800 dark:bg-zinc-900">
+          <LayoutGrid className="w-8 h-8 text-zinc-200 mb-4 dark:text-zinc-700" />
           <p className="text-zinc-400 text-sm font-medium uppercase tracking-widest">No Vehicles</p>
-          <p className="text-zinc-300 text-xs mt-1">
+          <p className="text-zinc-300 text-xs mt-1 dark:text-zinc-600">
             {filter === 'All'
               ? 'Add a vehicle using the intake form above.'
               : filter === 'Pending'
@@ -183,7 +183,7 @@ export default function Dashboard({ refreshTrigger, onVehiclesUpdated }: Dashboa
 
 function StatPill({ label, count, valueClass }: { label: string; count: number; valueClass: string }) {
   return (
-    <div className="bg-white px-4 py-3">
+    <div className="bg-white px-4 py-3 dark:bg-zinc-900">
       <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest mb-0.5">{label}</p>
       <p className={`text-2xl font-black tabular-nums ${valueClass}`}>{count}</p>
     </div>

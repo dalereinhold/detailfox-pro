@@ -18,12 +18,12 @@ export default function PerformancePanel() {
   const hasSession = steps.length > 0;
 
   return (
-    <aside className="border border-zinc-200 bg-white overflow-hidden">
+    <aside className="border border-zinc-200 bg-white overflow-hidden dark:border-zinc-700 dark:bg-zinc-900">
       {/* Header */}
-      <div className="flex items-center justify-between gap-2 px-5 py-4 border-b border-zinc-200 bg-zinc-100">
+      <div className="flex items-center justify-between gap-2 px-5 py-4 border-b border-zinc-200 bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800">
         <div className="flex items-center gap-2.5">
           <BarChart3 className="w-4 h-4 text-zinc-400" />
-          <h2 className="text-sm font-bold uppercase tracking-widest text-black">Performance</h2>
+          <h2 className="text-sm font-bold uppercase tracking-widest text-zinc-900 dark:text-zinc-50">Performance</h2>
         </div>
         {routine && service && (
           <span className={`text-xs font-bold px-2 py-0.5 border uppercase tracking-wider ${service.tag}`}>
@@ -42,19 +42,19 @@ export default function PerformancePanel() {
         {hasSession && (
           <>
             {/* Total time */}
-            <div className="border border-zinc-200 px-4 py-4">
+            <div className="border border-zinc-200 px-4 py-4 dark:border-zinc-700">
               <div className="flex items-center gap-2 mb-2">
                 <Clock className="w-3.5 h-3.5 text-zinc-400" />
                 <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest">Total Time</p>
               </div>
-              <p className="text-5xl font-black text-black tabular-nums">{formatDuration(totalTime)}</p>
+              <p className="text-5xl font-black text-zinc-900 dark:text-zinc-50 tabular-nums">{formatDuration(totalTime)}</p>
               <p className="text-zinc-400 text-xs mt-1 uppercase tracking-widest">
                 vs {formatDuration(totalEstimate)} estimate
               </p>
             </div>
 
             {/* Completion rate */}
-            <div className="border border-zinc-200 px-4 py-4">
+            <div className="border border-zinc-200 px-4 py-4 dark:border-zinc-700">
               <div className="flex items-center gap-2 mb-2">
                 <Check className="w-3.5 h-3.5 text-emerald-500" />
                 <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest">Completion</p>
@@ -66,7 +66,7 @@ export default function PerformancePanel() {
             </div>
 
             {/* Efficiency */}
-            <div className="border border-zinc-200 px-4 py-4">
+            <div className="border border-zinc-200 px-4 py-4 dark:border-zinc-700">
               <div className="flex items-center gap-2 mb-2">
                 <Gauge className="w-3.5 h-3.5 text-sky-500" />
                 <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest">Efficiency</p>
@@ -87,7 +87,7 @@ export default function PerformancePanel() {
                 <div>
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-xs font-semibold uppercase tracking-widest text-zinc-400">Actual</span>
-                    <span className="text-sm font-bold tabular-nums text-zinc-900">{formatDuration(totalTime)}</span>
+                    <span className="text-sm font-bold tabular-nums text-zinc-900 dark:text-zinc-50">{formatDuration(totalTime)}</span>
                   </div>
                   <ProgressBar
                     value={totalTime}
@@ -129,7 +129,7 @@ export default function PerformancePanel() {
                           )}
                           <span
                             className={`text-xs font-semibold truncate ${
-                              step.status === 'skipped' ? 'text-zinc-400 line-through' : 'text-zinc-700'
+                              step.status === 'skipped' ? 'text-zinc-400 line-through' : 'text-zinc-700 dark:text-zinc-50'
                             }`}
                           >
                             {step.label}

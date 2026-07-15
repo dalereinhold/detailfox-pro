@@ -11,17 +11,17 @@ const TYPE_CONFIG: Record<VehicleType, { valueClass: string; barClass: string; b
   New: {
     valueClass: 'text-emerald-600',
     barClass: 'bg-emerald-500',
-    badgeClass: 'bg-emerald-50 border-emerald-200 text-emerald-700',
+    badgeClass: 'bg-emerald-50 border-emerald-200 text-emerald-700 dark:bg-emerald-950 dark:border-emerald-800 dark:text-emerald-300',
   },
   Used: {
     valueClass: 'text-zinc-500',
     barClass: 'bg-zinc-400',
-    badgeClass: 'bg-zinc-100 border-zinc-300 text-zinc-600',
+    badgeClass: 'bg-zinc-100 border-zinc-300 text-zinc-600 dark:bg-zinc-800 dark:border-zinc-600 dark:text-zinc-300',
   },
   Demo: {
     valueClass: 'text-sky-600',
     barClass: 'bg-sky-500',
-    badgeClass: 'bg-sky-50 border-sky-200 text-sky-700',
+    badgeClass: 'bg-sky-50 border-sky-200 text-sky-700 dark:bg-sky-950 dark:border-sky-800 dark:text-sky-300',
   },
 };
 
@@ -127,17 +127,17 @@ export default function StatsDashboard({ refreshTrigger }: StatsDashboardProps) 
   }
 
   return (
-    <aside className="border border-zinc-200 bg-white overflow-hidden">
+    <aside className="border border-zinc-200 bg-white overflow-hidden dark:border-zinc-700 dark:bg-zinc-900">
       {/* Header */}
-      <div className="flex items-center justify-between gap-2 px-5 py-4 border-b border-zinc-200 bg-zinc-100">
+      <div className="flex items-center justify-between gap-2 px-5 py-4 border-b border-zinc-200 bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800">
         <div className="flex items-center gap-2.5">
           <BarChart3 className="w-4 h-4 text-zinc-400" />
-          <h2 className="text-sm font-bold uppercase tracking-widest text-black">Statistics</h2>
+          <h2 className="text-sm font-bold uppercase tracking-widest text-zinc-900 dark:text-zinc-50">Statistics</h2>
         </div>
         <button
           onClick={refetch}
           disabled={loading}
-          className="text-zinc-400 hover:text-black transition-colors p-1.5 hover:bg-zinc-100"
+          className="text-zinc-400 hover:text-zinc-900 transition-colors p-1.5 hover:bg-zinc-100 dark:hover:text-zinc-50 dark:hover:bg-zinc-700"
           aria-label="Refresh stats"
         >
           <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
@@ -146,21 +146,21 @@ export default function StatsDashboard({ refreshTrigger }: StatsDashboardProps) 
 
       <div className="p-5 space-y-6">
         {error && (
-          <div className="text-xs text-red-600 border border-red-300 bg-red-50 px-3 py-2">
+          <div className="text-xs text-red-600 border border-red-300 bg-red-50 px-3 py-2 dark:text-red-300 dark:border-red-800 dark:bg-red-950">
             Failed to load stats.
           </div>
         )}
 
         {/* Total processed */}
-        <div className="border border-zinc-200 px-4 py-4">
+        <div className="border border-zinc-200 px-4 py-4 dark:border-zinc-700">
           <div className="flex items-center gap-2 mb-2">
             <Car className="w-3.5 h-3.5 text-zinc-400" />
             <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest">Total Processed</p>
           </div>
           {loading && !stats ? (
-            <div className="w-12 h-10 bg-zinc-100 animate-pulse" />
+            <div className="w-12 h-10 bg-zinc-100 animate-pulse dark:bg-zinc-800" />
           ) : (
-            <p className="text-5xl font-black text-black tabular-nums">{stats?.totalProcessed ?? 0}</p>
+            <p className="text-5xl font-black text-zinc-900 tabular-nums dark:text-zinc-50">{stats?.totalProcessed ?? 0}</p>
           )}
           <p className="text-zinc-400 text-xs mt-1 uppercase tracking-widest">Completed vehicles</p>
         </div>
@@ -195,7 +195,7 @@ export default function StatsDashboard({ refreshTrigger }: StatsDashboardProps) 
                     <div className="flex items-center gap-1">
                       <Clock className={`w-3 h-3 ${cfg.valueClass} opacity-60`} />
                       {loading && !stats ? (
-                        <span className="inline-block w-14 h-4 bg-zinc-100 animate-pulse" />
+                        <span className="inline-block w-14 h-4 bg-zinc-100 animate-pulse dark:bg-zinc-800" />
                       ) : (
                         <span className={`text-sm font-black tabular-nums ${cfg.valueClass}`}>
                           {typeStats?.avgFormatted ?? '--'}
@@ -203,7 +203,7 @@ export default function StatsDashboard({ refreshTrigger }: StatsDashboardProps) 
                       )}
                     </div>
                   </div>
-                  <div className="h-1 bg-zinc-100 overflow-hidden">
+                  <div className="h-1 bg-zinc-100 overflow-hidden dark:bg-zinc-800">
                     <div
                       className={`h-full transition-all duration-700 ${cfg.barClass}`}
                       style={{ width: `${barWidth}%` }}
@@ -216,11 +216,11 @@ export default function StatsDashboard({ refreshTrigger }: StatsDashboardProps) 
         </div>
 
         {/* Seed Data Button */}
-        <div className="border-t border-zinc-100 pt-4">
+        <div className="border-t border-zinc-100 pt-4 dark:border-zinc-800">
           <button
             onClick={handleSeedData}
             disabled={seeding}
-            className="w-full flex items-center justify-center gap-2 border border-dashed border-zinc-300 hover:border-black text-zinc-500 hover:text-black text-xs font-bold uppercase tracking-widest py-3 transition-colors"
+            className="w-full flex items-center justify-center gap-2 border border-dashed border-zinc-300 hover:border-zinc-900 text-zinc-500 hover:text-zinc-900 text-xs font-bold uppercase tracking-widest py-3 transition-colors dark:border-zinc-600 dark:hover:border-zinc-400 dark:text-zinc-400 dark:hover:text-zinc-50"
           >
             <Database className="w-3.5 h-3.5" />
             {seeding ? 'Seeding...' : 'Seed 20 Demo Cars'}
@@ -229,7 +229,7 @@ export default function StatsDashboard({ refreshTrigger }: StatsDashboardProps) 
 
         {/* Last updated */}
         {lastUpdatedLabel && (
-          <p className="text-zinc-300 text-xs text-center border-t border-zinc-100 pt-4 uppercase tracking-widest">
+          <p className="text-zinc-300 text-xs text-center border-t border-zinc-100 pt-4 uppercase tracking-widest dark:text-zinc-600 dark:border-zinc-800">
             Updated {lastUpdatedLabel}
           </p>
         )}

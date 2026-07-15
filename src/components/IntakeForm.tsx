@@ -90,13 +90,13 @@ export default function IntakeForm({ onVehicleAdded }: IntakeFormProps) {
   }
 
   const inputClass =
-    'w-full bg-zinc-100 border border-zinc-300 text-black text-base rounded-none px-3 py-3 focus:outline-none focus:border-black transition-colors placeholder-zinc-400';
-  const labelClass = 'block text-zinc-500 text-xs font-semibold uppercase tracking-widest mb-1.5';
+    'w-full bg-zinc-100 border border-zinc-300 text-zinc-900 text-base rounded-none px-3 py-3 focus:outline-none focus:border-zinc-900 transition-colors placeholder-zinc-400 dark:bg-zinc-800 dark:border-zinc-600 dark:text-zinc-50 dark:focus:border-zinc-300 dark:placeholder-zinc-500';
+  const labelClass = 'block text-zinc-500 text-xs font-semibold uppercase tracking-widest mb-1.5 dark:text-zinc-400';
 
   return (
-    <section className="border border-zinc-200 bg-white">
-      <div className="border-b border-zinc-200 bg-zinc-100 px-6 py-4 flex items-center justify-between">
-        <h2 className="text-sm font-bold uppercase tracking-widest text-black">Vehicle Intake</h2>
+    <section className="border border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-900">
+      <div className="border-b border-zinc-200 bg-zinc-100 px-6 py-4 flex items-center justify-between dark:border-zinc-700 dark:bg-zinc-800">
+        <h2 className="text-sm font-bold uppercase tracking-widest text-zinc-900 dark:text-zinc-50">Vehicle Intake</h2>
       </div>
 
       <form onSubmit={handleSubmit} noValidate className="p-6">
@@ -167,7 +167,7 @@ export default function IntakeForm({ onVehicleAdded }: IntakeFormProps) {
         </div>
 
         {error && (
-          <div className="mb-4 border border-red-400 bg-red-50 text-red-700 px-4 py-3 text-sm">
+          <div className="mb-4 border border-red-400 bg-red-50 text-red-700 px-4 py-3 text-sm dark:border-red-800 dark:bg-red-950 dark:text-red-300">
             {error}
           </div>
         )}
@@ -175,7 +175,7 @@ export default function IntakeForm({ onVehicleAdded }: IntakeFormProps) {
         <button
           type="submit"
           disabled={loading}
-          className="flex items-center gap-2 bg-black hover:bg-zinc-800 active:bg-zinc-900 disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold text-sm uppercase tracking-widest px-6 py-3 transition-colors rounded-none"
+          className="flex items-center gap-2 bg-black hover:bg-zinc-800 active:bg-zinc-900 disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold text-sm uppercase tracking-widest px-6 py-3 transition-colors rounded-none dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 dark:active:bg-zinc-300"
         >
           <Plus className="w-4 h-4" />
           {loading ? 'Adding...' : 'Add Vehicle'}

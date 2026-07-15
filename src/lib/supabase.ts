@@ -1,9 +1,37 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string | undefined;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// Provide a safe mock client when env vars are missing to avoid a hard crash in the browser
+let _supabase: any;
+if (supabaseUrl && supabaseAnonKey) {
+  _supabase = createClient(supabaseUrl, supabaseAnonKey);
+} else {
+  // Dev fallback: warn and return a minimal stub that won't crash imports.
+  console.warn('VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY not set — using mock supabase client.');
+
+  const makeBuilder = () => {
+    const b: any = {
+      // Methods used by the app — return harmless defaults or error objects where appropriate.
+      select: async () => ({ data: [], error: null }),
+      insert: async () => ({ data: null, error: { message: 'Supabase not configured' } }),
+      update: async () => ({ data: null, error: { message: 'Supabase not configured' } }),
+      delete: async () => ({ data: null, error: { message: 'Supabase not configured' } }),
+      order: function () { return this; },
+      eq: function () { return this; },
+      neq: function () { return this; },
+      limit: function () { return this; },
+    };
+    return b;
+  };
+
+  _supabase = {
+    from: (_table: string) => makeBuilder(),
+  };
+}
+
+export const supabase = _supabase as any;
 
 export type VehicleStatus = 'In Progress' | 'On Break' | 'Completed';
 export type VehicleType = 'New' | 'Used' | 'Demo';
