@@ -9,19 +9,19 @@ interface StatsDashboardProps {
 
 const TYPE_CONFIG: Record<VehicleType, { valueClass: string; barClass: string; badgeClass: string }> = {
   New: {
-    valueClass: 'text-emerald-600',
+    valueClass: 'text-emerald-600 dark:text-emerald-300',
     barClass: 'bg-emerald-500',
-    badgeClass: 'bg-emerald-50 border-emerald-200 text-emerald-700 dark:bg-emerald-950 dark:border-emerald-800 dark:text-emerald-300',
+    badgeClass: 'bg-emerald-50 border-emerald-200 text-emerald-600 dark:bg-slate-900 dark:border-emerald-800 dark:text-emerald-300',
   },
   Used: {
-    valueClass: 'text-zinc-500',
-    barClass: 'bg-zinc-400',
-    badgeClass: 'bg-zinc-100 border-zinc-300 text-zinc-600 dark:bg-zinc-800 dark:border-zinc-600 dark:text-zinc-300',
+    valueClass: 'text-slate-500 dark:text-slate-400',
+    barClass: 'bg-slate-400',
+    badgeClass: 'bg-zinc-100 border-zinc-300 text-slate-600 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-300',
   },
   Demo: {
-    valueClass: 'text-sky-600',
+    valueClass: 'text-sky-600 dark:text-sky-300',
     barClass: 'bg-sky-500',
-    badgeClass: 'bg-sky-50 border-sky-200 text-sky-700 dark:bg-sky-950 dark:border-sky-800 dark:text-sky-300',
+    badgeClass: 'bg-sky-50 border-sky-200 text-sky-600 dark:bg-slate-900 dark:border-sky-800 dark:text-sky-300',
   },
 };
 

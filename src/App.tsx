@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import IntakeForm from './components/IntakeForm';
 import Dashboard from './components/Dashboard';
@@ -19,6 +19,15 @@ export default function App() {
   const [view, setView] = useState<View>('landing');
   const [menuOpen, setMenuOpen] = useState(false);
 
+  // Detect OS preference and set dark class on mount
+  useEffect(() => {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
+
   function triggerRefresh() {
     setRefreshTrigger((n) => n + 1);
   }
@@ -29,13 +38,13 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-50">
+    <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-slate-950 dark:text-slate-100">
       {/* Header */}
-      <header className="border-b border-zinc-200 bg-white sticky top-0 z-20 dark:border-zinc-800 dark:bg-zinc-900">
+      <header className="border-b border-zinc-200 bg-white sticky top-0 z-20 dark:border-slate-700 dark:bg-slate-900">
         <div className="max-w-screen-2xl mx-auto px-6 sm:px-8 h-12 flex items-center justify-between">
           <button
             onClick={() => navigate('landing')}
-            className="text-zinc-900 text-sm font-bold tracking-[0.2em] uppercase dark:text-zinc-50"
+            className="text-zinc-900 text-sm font-bold tracking-[0.2em] uppercase dark:text-slate-100"
           >
             DetailFox Pro
           </button>
@@ -48,8 +57,8 @@ export default function App() {
                 onClick={() => navigate(item.id)}
                 className={`px-3 py-1.5 text-xs font-bold tracking-[0.15em] uppercase transition-colors ${
                   view === item.id
-                    ? 'text-zinc-900 border-b-2 border-zinc-900 dark:text-zinc-50 dark:border-zinc-50'
-                    : 'text-zinc-400 hover:text-zinc-900 border-b-2 border-transparent dark:hover:text-zinc-50'
+                    ? 'text-zinc-900 border-b-2 border-zinc-900 dark:text-slate-100 dark:border-slate-100'
+                    : 'text-zinc-400 hover:text-zinc-900 border-b-2 border-transparent dark:hover:text-slate-100'
                 }`}
               >
                 {item.label}
@@ -60,7 +69,7 @@ export default function App() {
           {/* Mobile toggle */}
           <button
             onClick={() => setMenuOpen((o) => !o)}
-            className="sm:hidden text-zinc-700 p-1 dark:text-zinc-300"
+            className="sm:hidden text-zinc-700 p-1 dark:text-slate-300"
             aria-label="Toggle menu"
           >
             {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -69,13 +78,13 @@ export default function App() {
 
         {/* Mobile slide-down */}
         {menuOpen && (
-          <nav className="sm:hidden border-t border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900">
+          <nav className="sm:hidden border-t border-zinc-200 bg-white dark:border-slate-700 dark:bg-slate-900">
             {NAV_ITEMS.map((item) => (
               <button
                 key={item.id}
                 onClick={() => navigate(item.id)}
-                className={`block w-full text-left px-6 py-3 text-xs font-bold tracking-[0.15em] uppercase border-b border-zinc-100 transition-colors dark:border-zinc-800 ${
-                  view === item.id ? 'text-zinc-900 bg-zinc-50 dark:text-zinc-50 dark:bg-zinc-800' : 'text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50'
+                className={`block w-full text-left px-6 py-3 text-xs font-bold tracking-[0.15em] uppercase border-b border-zinc-100 transition-colors dark:border-slate-800 ${
+                  view === item.id ? 'text-zinc-900 bg-zinc-50 dark:text-slate-100 dark:bg-slate-800' : 'text-zinc-400 hover:text-zinc-900 dark:hover:text-slate-100'
                 }`}
               >
                 {item.label}

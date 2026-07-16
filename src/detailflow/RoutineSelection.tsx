@@ -15,20 +15,20 @@ export default function RoutineSelection() {
           return (
             <div
               key={r.id}
-              className={`relative bg-white border border-zinc-200 border-l-4 ${service?.accent ?? 'border-l-zinc-300'} overflow-hidden transition-colors hover:border-zinc-300 dark:bg-zinc-900 dark:border-zinc-700 dark:hover:border-zinc-600`}
+              className={`relative bg-white border border-zinc-200 border-l-4 ${service?.accent ?? 'border-l-slate-300'} overflow-hidden transition-colors hover:border-zinc-300 dark:bg-slate-800 dark:border-slate-700 dark:hover:border-slate-600`}
             >
               <div className="p-5">
                 {/* Header */}
                 <div className="flex items-start justify-between gap-3 mb-4">
                   <div>
-                    <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest mb-1">
+                    <p className="text-slate-400 text-xs font-semibold uppercase tracking-widest mb-1 dark:text-slate-500">
                       Routine
                     </p>
-                    <h3 className="text-3xl font-black text-zinc-900 dark:text-zinc-50 tracking-tight leading-none">
+                    <h3 className="text-3xl font-black text-zinc-900 dark:text-slate-100 tracking-tight leading-none">
                       {r.name}
                     </h3>
                   </div>
-                  <div className="flex items-center justify-center w-9 h-9 bg-zinc-900 text-white">
+                  <div className="flex items-center justify-center w-9 h-9 bg-indigo-600 text-white dark:bg-indigo-600">
                     <CheckSquare className="w-4 h-4" />
                   </div>
                 </div>
@@ -41,21 +41,21 @@ export default function RoutineSelection() {
                       {service.name}
                     </span>
                   )}
-                  <span className="text-xs font-bold px-2 py-0.5 border uppercase tracking-wider text-zinc-600 bg-zinc-100 border-zinc-300">
+                  <span className="text-xs font-bold px-2 py-0.5 border uppercase tracking-wider text-slate-600 bg-zinc-100 border-zinc-300 dark:text-slate-300 dark:bg-slate-700 dark:border-slate-600">
                     {r.steps.length} steps
                   </span>
-                  <span className="text-xs font-bold px-2 py-0.5 border uppercase tracking-wider text-zinc-600 bg-zinc-100 border-zinc-300">
+                  <span className="text-xs font-bold px-2 py-0.5 border uppercase tracking-wider text-slate-600 bg-zinc-100 border-zinc-300 dark:text-slate-300 dark:bg-slate-700 dark:border-slate-600">
                     Est. {formatDuration(totalEstimate)}
                   </span>
                 </div>
 
                 {/* Description */}
-                <p className="text-zinc-500 text-sm mb-5">{r.description}</p>
+                <p className="text-slate-500 dark:text-slate-400 text-sm mb-5">{r.description}</p>
 
                 {/* Action */}
                 <button
                   onClick={() => selectRoutine(r)}
-                  className="w-full flex items-center justify-center gap-2 bg-black hover:bg-zinc-800 text-white font-bold text-sm uppercase tracking-widest py-3 transition-colors"
+                  className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm uppercase tracking-widest py-3 transition-colors dark:bg-indigo-600 dark:hover:bg-indigo-500"
                 >
                   Start
                   <ArrowRight className="w-4 h-4" />

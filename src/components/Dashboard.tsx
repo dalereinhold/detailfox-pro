@@ -86,8 +86,8 @@ export default function Dashboard({ refreshTrigger, onVehiclesUpdated }: Dashboa
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
         <div>
-          <h2 className="text-sm font-bold uppercase tracking-widest text-zinc-900 dark:text-zinc-50">All Records</h2>
-          <p className="text-zinc-400 text-xs mt-1">
+          <h2 className="text-sm font-bold uppercase tracking-widest text-zinc-900 dark:text-slate-100">All Records</h2>
+          <p className="text-slate-400 text-xs mt-1 dark:text-slate-500">
             {vehicles.length} vehicle{vehicles.length !== 1 ? 's' : ''} in records
           </p>
         </div>
@@ -95,14 +95,14 @@ export default function Dashboard({ refreshTrigger, onVehiclesUpdated }: Dashboa
           <button
             onClick={handleClearAll}
             disabled={vehicles.length === 0 || loading}
-            className="flex items-center gap-2 text-red-500 hover:text-red-700 disabled:opacity-40 disabled:hover:text-red-500 text-xs font-semibold uppercase tracking-widest border border-zinc-200 hover:border-red-300 px-4 py-2.5 transition-colors bg-white dark:bg-zinc-900 dark:border-zinc-700 dark:hover:border-red-800"
+            className="flex items-center gap-2 text-rose-500 hover:text-rose-700 disabled:opacity-40 disabled:hover:text-rose-500 text-xs font-semibold uppercase tracking-widest border border-zinc-200 hover:border-rose-300 px-4 py-2.5 transition-colors bg-white dark:bg-slate-800 dark:border-slate-700 dark:hover:border-rose-700 dark:text-rose-400 dark:hover:text-rose-300"
           >
             <Trash2 className="w-3.5 h-3.5" />
             Clear All
           </button>
           <button
             onClick={fetchVehicles}
-            className="flex items-center gap-2 text-zinc-500 hover:text-zinc-900 text-xs font-semibold uppercase tracking-widest border border-zinc-200 hover:border-zinc-900 px-4 py-2.5 transition-colors bg-white dark:bg-zinc-900 dark:border-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-50 dark:hover:border-zinc-400"
+            className="flex items-center gap-2 text-slate-500 hover:text-slate-900 text-xs font-semibold uppercase tracking-widest border border-zinc-200 hover:border-zinc-900 px-4 py-2.5 transition-colors bg-white dark:bg-slate-800 dark:border-slate-700 dark:text-slate-400 dark:hover:text-slate-100 dark:hover:border-slate-600"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
             Refresh
@@ -111,31 +111,31 @@ export default function Dashboard({ refreshTrigger, onVehiclesUpdated }: Dashboa
       </div>
 
       {/* Summary stats */}
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-px bg-zinc-200 border border-zinc-200 mb-6 dark:bg-zinc-700 dark:border-zinc-700">
-        <StatPill label="Total" count={counts['All']} valueClass="text-zinc-900 dark:text-zinc-50" />
-        <StatPill label="Pending" count={counts['Pending']} valueClass="text-zinc-500" />
-        <StatPill label="In Progress" count={counts['In Progress']} valueClass="text-sky-600" />
-        <StatPill label="On Break" count={counts['On Break']} valueClass="text-amber-500" />
-        <StatPill label="Completed" count={counts['Completed']} valueClass="text-emerald-600" />
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-px bg-zinc-200 border border-zinc-200 mb-6 dark:bg-slate-700 dark:border-slate-700">
+        <StatPill label="Total" count={counts['All']} valueClass="text-zinc-900 dark:text-slate-100" />
+        <StatPill label="Pending" count={counts['Pending']} valueClass="text-slate-500 dark:text-slate-400" />
+        <StatPill label="In Progress" count={counts['In Progress']} valueClass="text-sky-600 dark:text-sky-300" />
+        <StatPill label="On Break" count={counts['On Break']} valueClass="text-orange-500 dark:text-orange-300" />
+        <StatPill label="Completed" count={counts['Completed']} valueClass="text-emerald-600 dark:text-emerald-300" />
       </div>
 
       {/* Filter tabs */}
-      <div className="flex flex-wrap gap-px bg-zinc-200 border border-zinc-200 mb-8 dark:bg-zinc-700 dark:border-zinc-700">
+      <div className="flex flex-wrap gap-px bg-zinc-200 border border-zinc-200 mb-8 dark:bg-slate-700 dark:border-slate-700">
         {STATUS_FILTERS.map(({ label, value, icon }) => (
           <button
             key={value}
             onClick={() => setFilter(value)}
             className={`flex items-center gap-2 px-4 py-2.5 text-xs font-bold uppercase tracking-widest transition-colors ${
               filter === value
-                ? 'bg-black text-white dark:bg-zinc-100 dark:text-zinc-900'
-                : 'bg-white text-zinc-400 hover:text-zinc-900 hover:bg-zinc-50 dark:bg-zinc-900 dark:text-zinc-500 dark:hover:text-zinc-50 dark:hover:bg-zinc-800'
+                ? 'bg-indigo-600 text-white dark:bg-indigo-600 dark:text-white'
+                : 'bg-white text-slate-400 hover:text-slate-900 hover:bg-zinc-50 dark:bg-slate-800 dark:text-slate-500 dark:hover:text-slate-100 dark:hover:bg-slate-700'
             }`}
           >
             {icon}
             {label}
             <span
               className={`text-xs font-bold px-1.5 py-0.5 ${
-                filter === value ? 'bg-white/20 text-white dark:bg-zinc-900/20 dark:text-zinc-900' : 'bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400'
+                filter === value ? 'bg-white/20 text-white' : 'bg-zinc-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400'
               }`}
             >
               {counts[value as keyof typeof counts]}
@@ -146,7 +146,7 @@ export default function Dashboard({ refreshTrigger, onVehiclesUpdated }: Dashboa
 
       {/* Error */}
       {error && (
-        <div className="border border-red-400 bg-red-50 text-red-700 px-4 py-3 text-sm mb-6 dark:border-red-800 dark:bg-red-950 dark:text-red-300">
+        <div className="border border-rose-400 bg-rose-50 text-rose-700 px-4 py-3 text-sm mb-6 dark:border-rose-800 dark:bg-slate-800 dark:text-rose-300">
           Failed to load vehicles: {error}
         </div>
       )}
@@ -155,14 +155,14 @@ export default function Dashboard({ refreshTrigger, onVehiclesUpdated }: Dashboa
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="border border-zinc-200 h-72 animate-pulse bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900" />
+            <div key={i} className="border border-zinc-200 h-72 animate-pulse bg-zinc-50 dark:border-slate-700 dark:bg-slate-800" />
           ))}
         </div>
       ) : filtered.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-24 text-center border border-zinc-100 bg-white dark:border-zinc-800 dark:bg-zinc-900">
-          <LayoutGrid className="w-8 h-8 text-zinc-200 mb-4 dark:text-zinc-700" />
-          <p className="text-zinc-400 text-sm font-medium uppercase tracking-widest">No Vehicles</p>
-          <p className="text-zinc-300 text-xs mt-1 dark:text-zinc-600">
+        <div className="flex flex-col items-center justify-center py-24 text-center border border-zinc-100 bg-white dark:border-slate-700 dark:bg-slate-800">
+          <LayoutGrid className="w-8 h-8 text-zinc-200 mb-4 dark:text-slate-700" />
+          <p className="text-slate-400 text-sm font-medium uppercase tracking-widest">No Vehicles</p>
+          <p className="text-slate-500 text-xs mt-1 dark:text-slate-600">
             {filter === 'All'
               ? 'Add a vehicle using the intake form above.'
               : filter === 'Pending'
@@ -183,8 +183,8 @@ export default function Dashboard({ refreshTrigger, onVehiclesUpdated }: Dashboa
 
 function StatPill({ label, count, valueClass }: { label: string; count: number; valueClass: string }) {
   return (
-    <div className="bg-white px-4 py-3 dark:bg-zinc-900">
-      <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest mb-0.5">{label}</p>
+    <div className="bg-white px-4 py-3 dark:bg-slate-800">
+      <p className="text-slate-400 text-xs font-semibold uppercase tracking-widest mb-0.5 dark:text-slate-500">{label}</p>
       <p className={`text-2xl font-black tabular-nums ${valueClass}`}>{count}</p>
     </div>
   );

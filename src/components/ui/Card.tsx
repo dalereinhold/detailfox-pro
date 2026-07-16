@@ -7,7 +7,7 @@ interface CardProps extends HTMLAttributes<HTMLDivElement> {
 export function Card({ className = '', children, ...rest }: CardProps) {
   return (
     <div
-      className={`bg-white border border-zinc-200 rounded-none dark:bg-zinc-900 dark:border-zinc-700 ${className}`}
+      className={`bg-white border border-zinc-200 rounded-none dark:bg-slate-800 dark:border-slate-700 ${className}`}
       {...rest}
     >
       {children}
@@ -22,7 +22,7 @@ interface CardHeaderProps extends HTMLAttributes<HTMLDivElement> {
 export function CardHeader({ className = '', children, ...rest }: CardHeaderProps) {
   return (
     <div
-      className={`flex items-center justify-between gap-2 px-5 py-4 border-b border-zinc-200 bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800 ${className}`}
+      className={`flex items-center justify-between gap-2 px-5 py-4 border-b border-zinc-200 bg-zinc-100 dark:border-slate-700 dark:bg-slate-700 ${className}`}
       {...rest}
     >
       {children}

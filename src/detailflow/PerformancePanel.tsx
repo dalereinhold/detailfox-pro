@@ -18,12 +18,12 @@ export default function PerformancePanel() {
   const hasSession = steps.length > 0;
 
   return (
-    <aside className="border border-zinc-200 bg-white overflow-hidden dark:border-zinc-700 dark:bg-zinc-900">
+    <aside className="border border-zinc-200 bg-white overflow-hidden dark:border-slate-700 dark:bg-slate-800">
       {/* Header */}
-      <div className="flex items-center justify-between gap-2 px-5 py-4 border-b border-zinc-200 bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800">
+      <div className="flex items-center justify-between gap-2 px-5 py-4 border-b border-zinc-200 bg-zinc-100 dark:border-slate-700 dark:bg-slate-700">
         <div className="flex items-center gap-2.5">
-          <BarChart3 className="w-4 h-4 text-zinc-400" />
-          <h2 className="text-sm font-bold uppercase tracking-widest text-zinc-900 dark:text-zinc-50">Performance</h2>
+          <BarChart3 className="w-4 h-4 text-slate-400 dark:text-slate-500" />
+          <h2 className="text-sm font-bold uppercase tracking-widest text-zinc-900 dark:text-slate-100">Performance</h2>
         </div>
         {routine && service && (
           <span className={`text-xs font-bold px-2 py-0.5 border uppercase tracking-wider ${service.tag}`}>
@@ -34,7 +34,7 @@ export default function PerformancePanel() {
 
       <div className="p-5 space-y-6">
         {!hasSession && (
-          <p className="text-zinc-400 text-xs uppercase tracking-widest text-center py-4">
+          <p className="text-slate-400 text-xs uppercase tracking-widest text-center py-4 dark:text-slate-500">
             No active session
           </p>
         )}
@@ -42,37 +42,37 @@ export default function PerformancePanel() {
         {hasSession && (
           <>
             {/* Total time */}
-            <div className="border border-zinc-200 px-4 py-4 dark:border-zinc-700">
+            <div className="border border-zinc-200 px-4 py-4 dark:border-slate-700">
               <div className="flex items-center gap-2 mb-2">
-                <Clock className="w-3.5 h-3.5 text-zinc-400" />
-                <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest">Total Time</p>
+                <Clock className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
+                <p className="text-slate-400 text-xs font-semibold uppercase tracking-widest dark:text-slate-500">Total Time</p>
               </div>
-              <p className="text-5xl font-black text-zinc-900 dark:text-zinc-50 tabular-nums">{formatDuration(totalTime)}</p>
-              <p className="text-zinc-400 text-xs mt-1 uppercase tracking-widest">
+              <p className="text-5xl font-black text-zinc-900 dark:text-slate-100 tabular-nums">{formatDuration(totalTime)}</p>
+              <p className="text-slate-400 text-xs mt-1 uppercase tracking-widest dark:text-slate-500">
                 vs {formatDuration(totalEstimate)} estimate
               </p>
             </div>
 
             {/* Completion rate */}
-            <div className="border border-zinc-200 px-4 py-4 dark:border-zinc-700">
+            <div className="border border-zinc-200 px-4 py-4 dark:border-slate-700">
               <div className="flex items-center gap-2 mb-2">
                 <Check className="w-3.5 h-3.5 text-emerald-500" />
-                <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest">Completion</p>
+                <p className="text-slate-400 text-xs font-semibold uppercase tracking-widest dark:text-slate-500">Completion</p>
               </div>
-              <p className="text-5xl font-black text-emerald-600 tabular-nums">{completionRate}%</p>
-              <p className="text-zinc-400 text-xs mt-1 uppercase tracking-widest">
+              <p className="text-5xl font-black text-emerald-600 dark:text-emerald-300 tabular-nums">{completionRate}%</p>
+              <p className="text-slate-400 text-xs mt-1 uppercase tracking-widest dark:text-slate-500">
                 {completed.length} done · {skipped.length} skipped
               </p>
             </div>
 
             {/* Efficiency */}
-            <div className="border border-zinc-200 px-4 py-4 dark:border-zinc-700">
+            <div className="border border-zinc-200 px-4 py-4 dark:border-slate-700">
               <div className="flex items-center gap-2 mb-2">
                 <Gauge className="w-3.5 h-3.5 text-sky-500" />
-                <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest">Efficiency</p>
+                <p className="text-slate-400 text-xs font-semibold uppercase tracking-widest dark:text-slate-500">Efficiency</p>
               </div>
-              <p className="text-5xl font-black text-sky-600 tabular-nums">{efficiency}%</p>
-              <p className="text-zinc-400 text-xs mt-1 uppercase tracking-widest">
+              <p className="text-5xl font-black text-sky-600 dark:text-sky-300 tabular-nums">{efficiency}%</p>
+              <p className="text-slate-400 text-xs mt-1 uppercase tracking-widest dark:text-slate-500">
                 {efficiency >= 100 ? 'Under estimate' : 'Over estimate'}
               </p>
             </div>
@@ -80,30 +80,30 @@ export default function PerformancePanel() {
             {/* Time vs estimate */}
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <TrendingUp className="w-3.5 h-3.5 text-zinc-400" />
-                <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest">Time vs Estimate</p>
+                <TrendingUp className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
+                <p className="text-slate-400 text-xs font-semibold uppercase tracking-widest dark:text-slate-500">Time vs Estimate</p>
               </div>
               <div className="space-y-4">
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-semibold uppercase tracking-widest text-zinc-400">Actual</span>
-                    <span className="text-sm font-bold tabular-nums text-zinc-900 dark:text-zinc-50">{formatDuration(totalTime)}</span>
+                    <span className="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">Actual</span>
+                    <span className="text-sm font-bold tabular-nums text-zinc-900 dark:text-slate-100">{formatDuration(totalTime)}</span>
                   </div>
                   <ProgressBar
                     value={totalTime}
                     max={Math.max(totalTime, totalEstimate, 1)}
-                    barClassName="bg-zinc-900"
+                    barClassName="bg-indigo-600 dark:bg-indigo-500"
                   />
                 </div>
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-semibold uppercase tracking-widest text-zinc-400">Estimated</span>
-                    <span className="text-sm font-bold tabular-nums text-zinc-500">{formatDuration(totalEstimate)}</span>
+                    <span className="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">Estimated</span>
+                    <span className="text-sm font-bold tabular-nums text-slate-500 dark:text-slate-400">{formatDuration(totalEstimate)}</span>
                   </div>
                   <ProgressBar
                     value={totalEstimate}
                     max={Math.max(totalTime, totalEstimate, 1)}
-                    barClassName="bg-zinc-300"
+                    barClassName="bg-slate-400 dark:bg-slate-600"
                   />
                 </div>
               </div>
@@ -112,8 +112,8 @@ export default function PerformancePanel() {
             {/* Step breakdown */}
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <SkipForward className="w-3.5 h-3.5 text-zinc-400" />
-                <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest">Step Breakdown</p>
+                <SkipForward className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
+                <p className="text-slate-400 text-xs font-semibold uppercase tracking-widest dark:text-slate-500">Step Breakdown</p>
               </div>
               <div className="space-y-3">
                 {steps.map((step) => {
@@ -125,24 +125,24 @@ export default function PerformancePanel() {
                           {step.status === 'completed' ? (
                             <Check className="w-3 h-3 text-emerald-500 flex-shrink-0" />
                           ) : (
-                            <SkipForward className="w-3 h-3 text-zinc-400 flex-shrink-0" />
+                            <SkipForward className="w-3 h-3 text-slate-400 flex-shrink-0 dark:text-slate-500" />
                           )}
                           <span
                             className={`text-xs font-semibold truncate ${
-                              step.status === 'skipped' ? 'text-zinc-400 line-through' : 'text-zinc-700 dark:text-zinc-50'
+                              step.status === 'skipped' ? 'text-slate-400 line-through dark:text-slate-500' : 'text-zinc-700 dark:text-slate-100'
                             }`}
                           >
                             {step.label}
                           </span>
                         </div>
-                        <span className="text-xs font-bold tabular-nums text-zinc-500 flex-shrink-0 ml-2">
+                        <span className="text-xs font-bold tabular-nums text-slate-500 dark:text-slate-400 flex-shrink-0 ml-2">
                           {formatDuration(step.elapsedMs)}
                         </span>
                       </div>
                       <ProgressBar
                         value={step.elapsedMs}
                         max={Math.max(step.estimateSeconds * 1000, step.elapsedMs, 1)}
-                        barClassName={over ? 'bg-red-500' : 'bg-emerald-500'}
+                        barClassName={over ? 'bg-rose-500' : 'bg-emerald-500'}
                       />
                     </div>
                   );

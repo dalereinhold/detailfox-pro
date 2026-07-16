@@ -11,13 +11,13 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const VARIANTS: Record<Variant, string> = {
   primary:
-    'bg-zinc-900 text-white hover:bg-zinc-800 disabled:bg-zinc-200 disabled:text-zinc-400 disabled:cursor-not-allowed dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 dark:disabled:bg-zinc-800 dark:disabled:text-zinc-600',
+    'bg-indigo-600 text-white hover:bg-indigo-500 disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed dark:bg-indigo-600 dark:text-white dark:hover:bg-indigo-500 dark:disabled:bg-slate-700 dark:disabled:text-slate-400',
   secondary:
-    'bg-white text-zinc-900 border border-zinc-300 hover:border-zinc-900 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-zinc-900 dark:text-zinc-100 dark:border-zinc-600 dark:hover:border-zinc-300',
+    'bg-white text-zinc-900 border border-zinc-300 hover:border-zinc-900 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-slate-700 dark:text-slate-100 dark:border-slate-600 dark:hover:bg-slate-600',
   ghost:
-    'text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 disabled:opacity-50 disabled:cursor-not-allowed dark:text-zinc-400 dark:hover:text-zinc-100 dark:hover:bg-zinc-800',
+    'text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 disabled:opacity-50 disabled:cursor-not-allowed dark:text-slate-300 dark:hover:text-slate-100 dark:hover:bg-slate-700',
   danger:
-    'bg-white text-red-600 border border-red-300 hover:bg-red-50 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-zinc-900 dark:text-red-400 dark:border-red-800 dark:hover:bg-red-950',
+    'bg-white text-red-600 border border-red-300 hover:bg-red-50 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-slate-800 dark:text-rose-300 dark:border-rose-800 dark:hover:bg-slate-700',
 };
 
 const SIZES: Record<Size, string> = {
