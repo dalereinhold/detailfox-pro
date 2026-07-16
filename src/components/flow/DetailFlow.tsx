@@ -1,7 +1,7 @@
-import { useDetailFlowStore } from '@/detailflow/store';
-import RoutineSelection from '@/detailflow/RoutineSelection';
-import StepEngine from '@/detailflow/StepEngine';
-import PerformancePanel from '@/detailflow/PerformancePanel';
+import { useDetailFlowStore } from '@/components/flow/store';
+import RoutineSelection from '@/components/flow/RoutineSelection';
+import StepEngine from '@/components/flow/StepEngine';
+import PerformancePanel from '@/components/flow/PerformancePanel';
 
 export default function DetailFlow() {
   const phase = useDetailFlowStore((s) => s.phase);

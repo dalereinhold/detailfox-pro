@@ -1,7 +1,7 @@
 import { Clock, ArrowRight, Sparkles, CheckSquare } from 'lucide-react';
-import { ROUTINES, useDetailFlowStore } from '@/detailflow/store';
+import { ROUTINES, useDetailFlowStore } from '@/components/flow/store';
 import { getServiceType } from '@/lib/serviceTypes';
-import { formatDuration } from '@/detailflow/format';
+import { formatDuration } from '@/components/flow/format';
 
 export default function RoutineSelection() {
   const selectRoutine = useDetailFlowStore((s) => s.selectRoutine);

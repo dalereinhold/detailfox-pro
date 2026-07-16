@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Plus } from 'lucide-react';
-import { supabase, VehicleType, VehicleCondition, VehicleServiceType } from '../lib/supabase';
-import { SERVICE_TYPES } from '../lib/serviceTypes';
+import { supabase, VehicleType, VehicleCondition, VehicleStatus, VehicleServiceType } from '@/lib/supabase';
+import { SERVICE_TYPES } from '@/lib/serviceTypes';
+
 
 interface IntakeFormProps {
   onVehicleAdded: () => void;

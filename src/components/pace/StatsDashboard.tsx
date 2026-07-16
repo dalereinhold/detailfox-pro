@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { BarChart3, Car, RefreshCw, TrendingUp, Clock, Database } from 'lucide-react';
-import { useStats } from '../lib/useStats';
-import { supabase, VehicleType, VehicleCondition, VehicleStatus, VehicleServiceType } from '../lib/supabase';
+import { useStats } from '@/lib/useStats';
+import { supabase, VehicleType, VehicleCondition, VehicleStatus, VehicleServiceType } from '@/lib/supabase';
 
 interface StatsDashboardProps {
   refreshTrigger: number;
@@ -75,7 +75,7 @@ export default function StatsDashboard({ refreshTrigger }: StatsDashboardProps) 
         condition = 'Good';
         serviceType = 'Quick Detail';
       }
-
+      
       // 70% Completed, 15% In Progress, 15% On Break
       const randStatus = Math.random();
       const status: VehicleStatus = randStatus < 0.7 ? 'Completed' : randStatus < 0.85 ? 'In Progress' : 'On Break';
@@ -96,11 +96,11 @@ export default function StatsDashboard({ refreshTrigger }: StatsDashboardProps) 
         : letters[Math.floor(Math.random() * letters.length)];
         
       const licensePlate = `${randomLetters} ${randomDigits}${lastChar}`;
-
+      
       // Random created_at within the last 24 hours
       const hoursAgo = Math.random() * 24;
       const createdAt = new Date(now.getTime() - hoursAgo * 60 * 60 * 1000).toISOString();
-
+      
       generatedVehicles.push({
         license_plate: licensePlate,
         type,
@@ -143,14 +143,14 @@ export default function StatsDashboard({ refreshTrigger }: StatsDashboardProps) 
           <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
         </button>
       </div>
-
+      
       <div className="p-5 space-y-6">
         {error && (
           <div className="text-xs text-red-600 border border-red-300 bg-red-50 px-3 py-2">
             Failed to load stats.
           </div>
         )}
-
+      
         {/* Total processed */}
         <div className="border border-zinc-200 px-4 py-4">
           <div className="flex items-center gap-2 mb-2">
@@ -164,57 +164,50 @@ export default function StatsDashboard({ refreshTrigger }: StatsDashboardProps) 
           )}
           <p className="text-zinc-400 text-xs mt-1 uppercase tracking-widest">Completed vehicles</p>
         </div>
-
+      
         {/* Avg time by type */}
-        <div>
-          <div className="flex items-center gap-2 mb-4">
-            <TrendingUp className="w-3.5 h-3.5 text-zinc-400" />
-            <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest">Avg Time by Type</p>
-          </div>
-
-          <div className="space-y-5">
-            {TYPES.map((type) => {
-              const cfg = TYPE_CONFIG[type];
-              const typeStats = stats?.byType[type];
-              const barWidth =
-                typeStats && typeStats.avgSeconds > 0
-                  ? Math.round((typeStats.avgSeconds / maxAvg) * 100)
-                  : 0;
-
-              return (
-                <div key={type}>
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-2">
-                      <span className={`text-xs font-bold px-2 py-0.5 border uppercase tracking-wider ${cfg.badgeClass}`}>
-                        {type}
-                      </span>
-                      {typeStats && typeStats.count > 0 && (
-                        <span className="text-zinc-400 text-xs">{typeStats.count} car{typeStats.count !== 1 ? 's' : ''}</span>
-                      )}
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Clock className={`w-3 h-3 ${cfg.valueClass} opacity-60`} />
-                      {loading && !stats ? (
-                        <span className="inline-block w-14 h-4 bg-zinc-100 animate-pulse" />
-                      ) : (
-                        <span className={`text-sm font-black tabular-nums ${cfg.valueClass}`}>
-                          {typeStats?.avgFormatted ?? '--'}
-                        </span>
-                      )}
-                    </div>
+        <div className="space-y-5">
+          {TYPES.map((type) => {
+            const cfg = TYPE_CONFIG[type];
+            const typeStats = stats?.byType[type];
+            const barWidth =
+              typeStats && typeStats.avgSeconds > 0
+                ? Math.round((typeStats.avgSeconds / maxAvg) * 100)
+                : 0;
+          
+            return (
+              <div key={type}>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <span className={`text-xs font-bold px-2 py-0.5 border uppercase tracking-wider ${cfg.badgeClass}`}>
+                      {type}
+                    </span>
+                    {typeStats && typeStats.count > 0 && (
+                      <span className="text-zinc-400 text-xs">{typeStats.count} car{typeStats.count !== 1 ? 's' : ''}</span>
+                    )}
                   </div>
-                  <div className="h-1 bg-zinc-100 overflow-hidden">
-                    <div
-                      className={`h-full transition-all duration-700 ${cfg.barClass}`}
-                      style={{ width: `${barWidth}%` }}
-                    />
+                  <div className="flex items-center gap-1">
+                    <Clock className={`w-3 h-3 ${cfg.valueClass} opacity-60`} />
+                    {loading && !stats ? (
+                      <span className="inline-block w-14 h-4 bg-zinc-100 animate-pulse" />
+                    ) : (
+                      <span className={`text-sm font-black tabular-nums ${cfg.valueClass}`}>
+                        {typeStats?.avgFormatted ?? '--'}
+                      </span>
+                    )}
                   </div>
                 </div>
-              );
-            })}
-          </div>
+                <div className="h-1 bg-zinc-100 overflow-hidden">
+                  <div
+                    className={`h-full transition-all duration-700 ${cfg.barClass}`}
+                    style={{ width: `${barWidth}%` }}
+                  />
+                </div>
+              </div>
+            );
+          })}
         </div>
-
+      
         {/* Seed Data Button */}
         <div className="border-t border-zinc-100 pt-4">
           <button
@@ -226,7 +219,7 @@ export default function StatsDashboard({ refreshTrigger }: StatsDashboardProps) 
             {seeding ? 'Seeding...' : 'Seed 20 Demo Cars'}
           </button>
         </div>
-
+      
         {/* Last updated */}
         {lastUpdatedLabel && (
           <p className="text-zinc-300 text-xs text-center border-t border-zinc-100 pt-4 uppercase tracking-widest">

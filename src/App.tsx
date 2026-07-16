@@ -1,10 +1,8 @@
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
-import IntakeForm from './components/IntakeForm';
-import Dashboard from './components/Dashboard';
-import StatsDashboard from './components/StatsDashboard';
 import Landing from './pages/Landing';
-import DetailFlow from './detailflow/DetailFlow';
+import Pace from './pages/Pace';
+import Flow from './pages/Flow';
 
 type View = 'landing' | 'detailpace' | 'detailflow';
 
@@ -88,22 +86,9 @@ export default function App() {
       {/* Body */}
       {view === 'landing' && <Landing onOpenDetailPace={() => navigate('detailpace')} onOpenDetailFlow={() => navigate('detailflow')} />}
 
-      {view === 'detailflow' && <DetailFlow />}
+      {view === 'detailflow' && <Flow />}
 
-      {view === 'detailpace' && (
-        <div className="max-w-screen-2xl mx-auto px-4 sm:px-8 py-8 flex flex-col xl:flex-row gap-8 items-start">
-          {/* Sidebar */}
-          <div className="w-full xl:w-64 xl:flex-shrink-0 xl:sticky xl:top-12">
-            <StatsDashboard refreshTrigger={refreshTrigger} />
-          </div>
-
-          {/* Main */}
-          <div className="flex-1 min-w-0 space-y-8">
-            <IntakeForm onVehicleAdded={triggerRefresh} />
-            <Dashboard refreshTrigger={refreshTrigger} onVehiclesUpdated={triggerRefresh} />
-          </div>
-        </div>
-      )}
+      {view === 'detailpace' && <Pace />}
     </div>
   );
 }

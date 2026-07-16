@@ -13,8 +13,8 @@ import {
   Coffee,
 } from 'lucide-react';
 import { ProgressBar } from '@/components/ui';
-import { useDetailFlowStore, SessionStep } from '@/detailflow/store';
-import { formatTimer, formatDuration } from '@/detailflow/format';
+import { useDetailFlowStore, SessionStep } from '@/components/flow/store';
+import { formatTimer, formatDuration } from '@/components/flow/format';
 
 type StepState = 'pending' | 'active' | 'paused' | 'completed' | 'skipped';
 

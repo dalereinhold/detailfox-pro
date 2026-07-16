@@ -1,8 +1,8 @@
 import { BarChart3, Check, SkipForward, Clock, TrendingUp, Gauge } from 'lucide-react';
 import { ProgressBar } from '@/components/ui';
-import { useDetailFlowStore, ROUTINES } from '@/detailflow/store';
+import { useDetailFlowStore, ROUTINES } from '@/components/flow/store';
 import { getServiceType } from '@/lib/serviceTypes';
-import { formatDuration } from '@/detailflow/format';
+import { formatDuration } from '@/components/flow/format';
 
 export default function PerformancePanel() {
   const { steps, activeRoutineId } = useDetailFlowStore();

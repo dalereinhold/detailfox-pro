@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { LayoutGrid, Clock, Coffee, CheckCircle2, RefreshCw, Hourglass, Trash2 } from 'lucide-react';
-import { supabase, Vehicle, VehicleStatus } from '../lib/supabase';
-import VehicleCard from './VehicleCard';
+import { supabase, Vehicle, VehicleStatus } from '@/lib/supabase';
+import VehicleCard from '@/components/VehicleCard';
 
 interface DashboardProps {
   refreshTrigger: number;
