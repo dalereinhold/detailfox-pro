@@ -20,7 +20,7 @@ export default {
 
         // Accents & Interaction
         brand: {
-          primary: "#60a5fa",     // Blue 500 - Main buttons/actions
+          primary: "#22c55e",     // Green 500 - Main buttons/actions
           secondary: "#ec4899",   // Pink 500 - Secondary accents
           success: "#22c55e",     // Green 500
           warning: "#f59e0b",     // Amber 500

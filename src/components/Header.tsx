@@ -35,7 +35,7 @@ export default function Header({ view, menuOpen, navigate, setMenuOpen }: Header
                onClick={() => navigate(item.id)}
                className={`flex items-center px-3 py-1.5 text-xs font-bold tracking-[0.15em] uppercase transition-colors ${
                  view === item.id
-                   ? 'text-foreground-primary border-b-2 border-foreground-primary'
+                   ? 'text-foreground-primary border-foreground-primary'
                    : 'text-foreground-secondary hover:text-foreground-primary border-b-2 border-transparent'
                }`}
              >
