@@ -91,13 +91,13 @@ export default function IntakeForm({ onVehicleAdded }: IntakeFormProps) {
   }
 
   const inputClass =
-    'w-full bg-zinc-100 border border-zinc-300 text-black text-base rounded-none px-3 py-3 focus:outline-none focus:border-black transition-colors placeholder-zinc-400';
-  const labelClass = 'block text-zinc-500 text-xs font-semibold uppercase tracking-widest mb-1.5';
+    'w-full bg-background-elevated border border-border-default text-foreground-primary text-base rounded-none px-3 py-3 focus:outline-none focus:border-foreground-primary transition-colors placeholder-foreground-tertiary';
+  const labelClass = 'block text-foreground-tertiary text-xs font-semibold uppercase tracking-widest mb-1.5';
 
   return (
-    <section className="border border-zinc-200 bg-white">
-      <div className="border-b border-zinc-200 bg-zinc-100 px-6 py-4 flex items-center justify-between">
-        <h2 className="text-sm font-bold uppercase tracking-widest text-black">Vehicle Intake</h2>
+    <section className="border border-border-default bg-background-surface">
+      <div className="border-b border-border-default bg-background-elevated px-6 py-4 flex items-center justify-between">
+        <h2 className="text-sm font-bold uppercase tracking-widest text-foreground-primary">Vehicle Intake</h2>
       </div>
 
       <form onSubmit={handleSubmit} noValidate className="p-6">
@@ -155,7 +155,7 @@ export default function IntakeForm({ onVehicleAdded }: IntakeFormProps) {
 
         <div className="mb-5">
           <label className={labelClass} htmlFor="notes">
-            Notes <span className="text-zinc-400 normal-case tracking-normal font-normal">— optional</span>
+            Notes <span className="text-foreground-tertiary normal-case tracking-normal font-normal">— optional</span>
           </label>
           <input
             id="notes"
@@ -168,7 +168,7 @@ export default function IntakeForm({ onVehicleAdded }: IntakeFormProps) {
         </div>
 
         {error && (
-          <div className="mb-4 border border-red-400 bg-red-50 text-red-700 px-4 py-3 text-sm">
+          <div className="mb-4 border border-brand-danger bg-background-elevated text-brand-danger px-4 py-3 text-sm">
             {error}
           </div>
         )}
@@ -176,7 +176,7 @@ export default function IntakeForm({ onVehicleAdded }: IntakeFormProps) {
         <button
           type="submit"
           disabled={loading}
-          className="flex items-center gap-2 bg-black hover:bg-zinc-800 active:bg-zinc-900 disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold text-sm uppercase tracking-widest px-6 py-3 transition-colors rounded-none"
+          className="flex items-center gap-2 bg-brand-primary hover:bg-background-elevated active:bg-background-elevated disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold text-sm uppercase tracking-widest px-6 py-3 transition-colors rounded-none"
         >
           <Plus className="w-4 h-4" />
           {loading ? 'Adding...' : 'Add Vehicle'}

@@ -9,19 +9,19 @@ interface StatsDashboardProps {
 
 const TYPE_CONFIG: Record<VehicleType, { valueClass: string; barClass: string; badgeClass: string }> = {
   New: {
-    valueClass: 'text-emerald-600',
-    barClass: 'bg-emerald-500',
-    badgeClass: 'bg-emerald-50 border-emerald-200 text-emerald-700',
+    valueClass: 'text-brand-success',
+    barClass: 'bg-brand-success',
+    badgeClass: 'bg-background-surface border-border-default text-brand-success',
   },
   Used: {
-    valueClass: 'text-zinc-500',
-    barClass: 'bg-zinc-400',
-    badgeClass: 'bg-zinc-100 border-zinc-300 text-zinc-600',
+    valueClass: 'text-foreground-tertiary',
+    barClass: 'bg-foreground-tertiary',
+    badgeClass: 'bg-background-elevated border-border-default text-foreground-secondary',
   },
   Demo: {
-    valueClass: 'text-sky-600',
-    barClass: 'bg-sky-500',
-    badgeClass: 'bg-sky-50 border-sky-200 text-sky-700',
+    valueClass: 'text-brand-primary',
+    barClass: 'bg-brand-primary',
+    badgeClass: 'bg-background-surface border-border-default text-brand-primary',
   },
 };
 
@@ -127,17 +127,17 @@ export default function StatsDashboard({ refreshTrigger }: StatsDashboardProps) 
   }
 
   return (
-    <aside className="border border-zinc-200 bg-white overflow-hidden">
+    <aside className="border border-border-default bg-background-surface overflow-hidden">
       {/* Header */}
-      <div className="flex items-center justify-between gap-2 px-5 py-4 border-b border-zinc-200 bg-zinc-100">
+      <div className="flex items-center justify-between gap-2 px-5 py-4 border-b border-border-default bg-background-elevated">
         <div className="flex items-center gap-2.5">
-          <BarChart3 className="w-4 h-4 text-zinc-400" />
-          <h2 className="text-sm font-bold uppercase tracking-widest text-black">Statistics</h2>
+          <BarChart3 className="w-4 h-4 text-foreground-tertiary" />
+          <h2 className="text-sm font-bold uppercase tracking-widest text-foreground-primary">Statistics</h2>
         </div>
         <button
           onClick={refetch}
           disabled={loading}
-          className="text-zinc-400 hover:text-black transition-colors p-1.5 hover:bg-zinc-100"
+          className="text-foreground-tertiary hover:text-foreground-primary transition-colors p-1.5 hover:bg-background-elevated"
           aria-label="Refresh stats"
         >
           <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
@@ -146,23 +146,23 @@ export default function StatsDashboard({ refreshTrigger }: StatsDashboardProps) 
       
       <div className="p-5 space-y-6">
         {error && (
-          <div className="text-xs text-red-600 border border-red-300 bg-red-50 px-3 py-2">
+          <div className="text-xs text-brand-danger border border-brand-danger bg-background-elevated px-3 py-2">
             Failed to load stats.
           </div>
         )}
       
         {/* Total processed */}
-        <div className="border border-zinc-200 px-4 py-4">
+        <div className="border border-border-default px-4 py-4">
           <div className="flex items-center gap-2 mb-2">
-            <Car className="w-3.5 h-3.5 text-zinc-400" />
-            <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest">Total Processed</p>
+            <Car className="w-3.5 h-3.5 text-foreground-tertiary" />
+            <p className="text-foreground-secondary text-xs font-semibold uppercase tracking-widest">Total Processed</p>
           </div>
           {loading && !stats ? (
-            <div className="w-12 h-10 bg-zinc-100 animate-pulse" />
+            <div className="w-12 h-10 bg-background-elevated animate-pulse" />
           ) : (
-            <p className="text-5xl font-black text-black tabular-nums">{stats?.totalProcessed ?? 0}</p>
+            <p className="text-5xl font-black text-foreground-primary tabular-nums">{stats?.totalProcessed ?? 0}</p>
           )}
-          <p className="text-zinc-400 text-xs mt-1 uppercase tracking-widest">Completed vehicles</p>
+          <p className="text-foreground-secondary text-xs mt-1 uppercase tracking-widest">Completed vehicles</p>
         </div>
       
         {/* Avg time by type */}
@@ -183,13 +183,13 @@ export default function StatsDashboard({ refreshTrigger }: StatsDashboardProps) 
                       {type}
                     </span>
                     {typeStats && typeStats.count > 0 && (
-                      <span className="text-zinc-400 text-xs">{typeStats.count} car{typeStats.count !== 1 ? 's' : ''}</span>
+                      <span className="text-foreground-secondary text-xs">{typeStats.count} car{typeStats.count !== 1 ? 's' : ''}</span>
                     )}
                   </div>
                   <div className="flex items-center gap-1">
                     <Clock className={`w-3 h-3 ${cfg.valueClass} opacity-60`} />
                     {loading && !stats ? (
-                      <span className="inline-block w-14 h-4 bg-zinc-100 animate-pulse" />
+                      <span className="inline-block w-14 h-4 bg-background-elevated animate-pulse" />
                     ) : (
                       <span className={`text-sm font-black tabular-nums ${cfg.valueClass}`}>
                         {typeStats?.avgFormatted ?? '--'}
@@ -197,7 +197,7 @@ export default function StatsDashboard({ refreshTrigger }: StatsDashboardProps) 
                     )}
                   </div>
                 </div>
-                <div className="h-1 bg-zinc-100 overflow-hidden">
+                <div className="h-1 bg-background-elevated overflow-hidden">
                   <div
                     className={`h-full transition-all duration-700 ${cfg.barClass}`}
                     style={{ width: `${barWidth}%` }}
@@ -209,11 +209,11 @@ export default function StatsDashboard({ refreshTrigger }: StatsDashboardProps) 
         </div>
       
         {/* Seed Data Button */}
-        <div className="border-t border-zinc-100 pt-4">
+        <div className="border-t border-border-default pt-4">
           <button
             onClick={handleSeedData}
             disabled={seeding}
-            className="w-full flex items-center justify-center gap-2 border border-dashed border-zinc-300 hover:border-black text-zinc-500 hover:text-black text-xs font-bold uppercase tracking-widest py-3 transition-colors"
+            className="w-full flex items-center justify-center gap-2 border border-dashed border-border-default hover:border-foreground-primary text-foreground-tertiary hover:text-foreground-primary text-xs font-bold uppercase tracking-widest py-3 transition-colors"
           >
             <Database className="w-3.5 h-3.5" />
             {seeding ? 'Seeding...' : 'Seed 20 Demo Cars'}
@@ -222,7 +222,7 @@ export default function StatsDashboard({ refreshTrigger }: StatsDashboardProps) 
       
         {/* Last updated */}
         {lastUpdatedLabel && (
-          <p className="text-zinc-300 text-xs text-center border-t border-zinc-100 pt-4 uppercase tracking-widest">
+          <p className="text-foreground-tertiary text-xs text-center border-t border-border-default pt-4 uppercase tracking-widest">
             Updated {lastUpdatedLabel}
           </p>
         )}

@@ -86,8 +86,8 @@ export default function Dashboard({ refreshTrigger, onVehiclesUpdated }: Dashboa
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
         <div>
-          <h2 className="text-sm font-bold uppercase tracking-widest text-black">All Records</h2>
-          <p className="text-zinc-400 text-xs mt-1">
+          <h2 className="text-sm font-bold uppercase tracking-widest text-foreground-primary">All Records</h2>
+          <p className="text-foreground-secondary text-xs mt-1">
             {vehicles.length} vehicle{vehicles.length !== 1 ? 's' : ''} in records
           </p>
         </div>
@@ -95,14 +95,14 @@ export default function Dashboard({ refreshTrigger, onVehiclesUpdated }: Dashboa
           <button
             onClick={handleClearAll}
             disabled={vehicles.length === 0 || loading}
-            className="flex items-center gap-2 text-red-500 hover:text-red-700 disabled:opacity-40 disabled:hover:text-red-500 text-xs font-semibold uppercase tracking-widest border border-zinc-200 hover:border-red-300 px-4 py-2.5 transition-colors bg-white"
+            className="flex items-center gap-2 text-brand-danger hover:text-red-600 disabled:opacity-40 disabled:hover:text-brand-danger text-xs font-semibold uppercase tracking-widest border border-border-default hover:border-brand-danger px-4 py-2.5 transition-colors bg-background-surface"
           >
             <Trash2 className="w-3.5 h-3.5" />
             Clear All
           </button>
           <button
             onClick={fetchVehicles}
-            className="flex items-center gap-2 text-zinc-500 hover:text-black text-xs font-semibold uppercase tracking-widest border border-zinc-200 hover:border-black px-4 py-2.5 transition-colors bg-white"
+            className="flex items-center gap-2 text-foreground-tertiary hover:text-foreground-primary text-xs font-semibold uppercase tracking-widest border border-border-default hover:border-foreground-primary px-4 py-2.5 transition-colors bg-background-surface"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
             Refresh
@@ -111,31 +111,31 @@ export default function Dashboard({ refreshTrigger, onVehiclesUpdated }: Dashboa
       </div>
 
       {/* Summary stats */}
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-px bg-zinc-200 border border-zinc-200 mb-6">
-        <StatPill label="Total" count={counts['All']} valueClass="text-black" />
-        <StatPill label="Pending" count={counts['Pending']} valueClass="text-zinc-500" />
-        <StatPill label="In Progress" count={counts['In Progress']} valueClass="text-sky-600" />
-        <StatPill label="On Break" count={counts['On Break']} valueClass="text-amber-500" />
-        <StatPill label="Completed" count={counts['Completed']} valueClass="text-emerald-600" />
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-px bg-border-default border border-border-default mb-6">
+        <StatPill label="Total" count={counts['All']} valueClass="text-foreground-primary" />
+        <StatPill label="Pending" count={counts['Pending']} valueClass="text-foreground-tertiary" />
+        <StatPill label="In Progress" count={counts['In Progress']} valueClass="text-brand-primary" />
+        <StatPill label="On Break" count={counts['On Break']} valueClass="text-brand-warning" />
+        <StatPill label="Completed" count={counts['Completed']} valueClass="text-brand-success" />
       </div>
 
       {/* Filter tabs */}
-      <div className="flex flex-wrap gap-px bg-zinc-200 border border-zinc-200 mb-8">
+      <div className="flex flex-wrap gap-px bg-border-default border border-border-default mb-8">
         {STATUS_FILTERS.map(({ label, value, icon }) => (
           <button
             key={value}
             onClick={() => setFilter(value)}
             className={`flex items-center gap-2 px-4 py-2.5 text-xs font-bold uppercase tracking-widest transition-colors ${
               filter === value
-                ? 'bg-black text-white'
-                : 'bg-white text-zinc-400 hover:text-black hover:bg-zinc-50'
+                ? 'bg-brand-primary text-white'
+                : 'bg-background-surface text-foreground-secondary hover:text-foreground-primary hover:bg-background-elevated'
             }`}
           >
             {icon}
             {label}
             <span
               className={`text-xs font-bold px-1.5 py-0.5 ${
-                filter === value ? 'bg-white/20 text-white' : 'bg-zinc-100 text-zinc-500'
+                filter === value ? 'bg-white/20 text-white' : 'bg-background-elevated text-foreground-tertiary'
               }`}
             >
               {counts[value as keyof typeof counts]}
@@ -146,7 +146,7 @@ export default function Dashboard({ refreshTrigger, onVehiclesUpdated }: Dashboa
 
       {/* Error */}
       {error && (
-        <div className="border border-red-400 bg-red-50 text-red-700 px-4 py-3 text-sm mb-6">
+        <div className="border border-brand-danger bg-background-elevated text-brand-danger px-4 py-3 text-sm mb-6">
           Failed to load vehicles: {error}
         </div>
       )}
@@ -155,14 +155,14 @@ export default function Dashboard({ refreshTrigger, onVehiclesUpdated }: Dashboa
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="border border-zinc-200 h-72 animate-pulse bg-zinc-50" />
+            <div key={i} className="border border-border-default h-72 animate-pulse bg-background-elevated" />
           ))}
         </div>
       ) : filtered.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-24 text-center border border-zinc-100 bg-white">
-          <LayoutGrid className="w-8 h-8 text-zinc-200 mb-4" />
-          <p className="text-zinc-400 text-sm font-medium uppercase tracking-widest">No Vehicles</p>
-          <p className="text-zinc-300 text-xs mt-1">
+        <div className="flex flex-col items-center justify-center py-24 text-center border border-border-default bg-background-surface">
+          <LayoutGrid className="w-8 h-8 text-foreground-tertiary mb-4" />
+          <p className="text-foreground-secondary text-sm font-medium uppercase tracking-widest">No Vehicles</p>
+          <p className="text-foreground-tertiary text-xs mt-1">
             {filter === 'All'
               ? 'Add a vehicle using the intake form above.'
               : filter === 'Pending'
@@ -183,8 +183,8 @@ export default function Dashboard({ refreshTrigger, onVehiclesUpdated }: Dashboa
 
 function StatPill({ label, count, valueClass }: { label: string; count: number; valueClass: string }) {
   return (
-    <div className="bg-white px-4 py-3">
-      <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest mb-0.5">{label}</p>
+    <div className="bg-background-surface px-4 py-3">
+      <p className="text-foreground-secondary text-xs font-semibold uppercase tracking-widest mb-0.5">{label}</p>
       <p className={`text-2xl font-black tabular-nums ${valueClass}`}>{count}</p>
     </div>
   );

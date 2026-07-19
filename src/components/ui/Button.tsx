@@ -11,13 +11,13 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const VARIANTS: Record<Variant, string> = {
   primary:
-    'bg-zinc-900 text-white hover:bg-zinc-800 disabled:bg-zinc-200 disabled:text-zinc-400 disabled:cursor-not-allowed',
+    'bg-brand-primary text-white hover:bg-brand-primary disabled:bg-background-elevated disabled:text-foreground-tertiary disabled:cursor-not-allowed',
   secondary:
-    'bg-white text-zinc-900 border border-zinc-300 hover:border-zinc-900 disabled:opacity-50 disabled:cursor-not-allowed',
+    'bg-background-surface text-foreground-primary border border-border-default hover:border-foreground-primary disabled:opacity-50 disabled:cursor-not-allowed',
   ghost:
-    'text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 disabled:opacity-50 disabled:cursor-not-allowed',
+    'text-foreground-tertiary hover:text-foreground-primary hover:bg-background-elevated disabled:opacity-50 disabled:cursor-not-allowed',
   danger:
-    'bg-white text-red-600 border border-red-300 hover:bg-red-50 disabled:opacity-50 disabled:cursor-not-allowed',
+    'bg-background-surface text-brand-danger border border-brand-danger hover:bg-background-elevated disabled:opacity-50 disabled:cursor-not-allowed',
 };
 
 const SIZES: Record<Size, string> = {

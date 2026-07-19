@@ -15,20 +15,20 @@ export default function RoutineSelection() {
           return (
             <div
               key={r.id}
-              className={`relative bg-white border border-zinc-200 border-l-4 ${service?.accent ?? 'border-l-zinc-300'} overflow-hidden transition-colors hover:border-zinc-300`}
+              className={`relative bg-background-surface border border-border-default border-l-4 ${service?.accent ?? 'border-l-border-subtle'} overflow-hidden transition-colors hover:border-border-subtle`}
             >
               <div className="p-5">
                 {/* Header */}
                 <div className="flex items-start justify-between gap-3 mb-4">
                   <div>
-                    <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest mb-1">
+                    <p className="text-foreground-secondary text-xs font-semibold uppercase tracking-widest mb-1">
                       Routine
                     </p>
-                    <h3 className="text-3xl font-black text-black tracking-tight leading-none">
+                    <h3 className="text-3xl font-black text-foreground-primary tracking-tight leading-none">
                       {r.name}
                     </h3>
                   </div>
-                  <div className="flex items-center justify-center w-9 h-9 bg-zinc-900 text-white">
+                  <div className="flex items-center justify-center w-9 h-9 bg-background-elevated text-foreground-primary">
                     <CheckSquare className="w-4 h-4" />
                   </div>
                 </div>
@@ -41,21 +41,21 @@ export default function RoutineSelection() {
                       {service.name}
                     </span>
                   )}
-                  <span className="text-xs font-bold px-2 py-0.5 border uppercase tracking-wider text-zinc-600 bg-zinc-100 border-zinc-300">
+                  <span className="text-xs font-bold px-2 py-0.5 border uppercase tracking-wider text-foreground-secondary bg-background-elevated border-border-default">
                     {r.steps.length} steps
                   </span>
-                  <span className="text-xs font-bold px-2 py-0.5 border uppercase tracking-wider text-zinc-600 bg-zinc-100 border-zinc-300">
+                  <span className="text-xs font-bold px-2 py-0.5 border uppercase tracking-wider text-foreground-secondary bg-background-elevated border-border-default">
                     Est. {formatDuration(totalEstimate)}
                   </span>
                 </div>
 
                 {/* Description */}
-                <p className="text-zinc-500 text-sm mb-5">{r.description}</p>
+                <p className="text-foreground-tertiary text-sm mb-5">{r.description}</p>
 
                 {/* Action */}
                 <button
                   onClick={() => selectRoutine(r)}
-                  className="w-full flex items-center justify-center gap-2 bg-black hover:bg-zinc-800 text-white font-bold text-sm uppercase tracking-widest py-3 transition-colors"
+                  className="w-full flex items-center justify-center gap-2 bg-brand-primary hover:bg-background-elevated text-white font-bold text-sm uppercase tracking-widest py-3 transition-colors"
                 >
                   Start
                   <ArrowRight className="w-4 h-4" />

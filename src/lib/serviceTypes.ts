@@ -20,8 +20,8 @@ export const SERVICE_TYPES: ServiceTypeDefinition[] = [
     id: 'full-detail',
     name: 'Full Detail',
     description: 'Complete exterior and interior detail',
-    accent: 'border-l-sky-500',
-    tag: 'text-sky-700 bg-sky-50 border-sky-200',
+    accent: 'border-l-brand-primary',
+    tag: 'text-brand-primary bg-background-surface border-border-default',
     steps: [
       { id: 'fd1', label: 'Pre-rinse', estimateSeconds: 180 },
       { id: 'fd2', label: 'Snow foam contact wash', estimateSeconds: 420 },
@@ -38,8 +38,8 @@ export const SERVICE_TYPES: ServiceTypeDefinition[] = [
     id: 'ceramic-coating',
     name: 'Ceramic Coating',
     description: 'Paint prep and coating application',
-    accent: 'border-l-emerald-500',
-    tag: 'text-emerald-700 bg-emerald-50 border-emerald-200',
+    accent: 'border-l-brand-success',
+    tag: 'text-brand-success bg-background-surface border-border-default',
     steps: [
       { id: 'cc1', label: 'Paint correction', estimateSeconds: 3600 },
       { id: 'cc2', label: 'Panel wipe down', estimateSeconds: 900 },
@@ -53,8 +53,8 @@ export const SERVICE_TYPES: ServiceTypeDefinition[] = [
     id: 'quick-detail',
     name: 'Quick Detail',
     description: 'Express refresh for show-floor delivery',
-    accent: 'border-l-amber-400',
-    tag: 'text-amber-700 bg-amber-50 border-amber-200',
+    accent: 'border-l-brand-warning',
+    tag: 'text-brand-warning bg-background-surface border-border-default',
     steps: [
       { id: 'qd1', label: 'Exterior waterless wash', estimateSeconds: 480 },
       { id: 'qd2', label: 'Tire shine', estimateSeconds: 180 },
@@ -65,8 +65,8 @@ export const SERVICE_TYPES: ServiceTypeDefinition[] = [
     id: 'delivery-prep',
     name: 'Delivery Prep',
     description: 'Final preparation before customer delivery',
-    accent: 'border-l-rose-500',
-    tag: 'text-rose-700 bg-rose-50 border-rose-200',
+    accent: 'border-l-brand-danger',
+    tag: 'text-brand-danger bg-background-surface border-border-default',
     steps: [
       { id: 'dp1', label: 'Exterior rinse & dry', estimateSeconds: 300 },
       { id: 'dp2', label: 'Tire & wheel dressing', estimateSeconds: 240 },
