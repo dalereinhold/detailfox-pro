@@ -18,11 +18,11 @@ interface HeaderProps {
 
 export default function Header({ view, menuOpen, navigate, setMenuOpen }: HeaderProps) {
   return (
-    <header className="border-b border-border-default bg-background-base sticky top-0 z-20">
+    <header className="border-b border-border bg-background sticky top-0 z-20">
       <div className="max-w-screen-2xl mx-auto px-6 sm:px-8 h-12 flex items-center justify-between">
         <button
           onClick={() => navigate('landing')}
-          className="text-foreground-primary text-sm font-bold tracking-[0.2em] uppercase"
+          className="text-foreground text-sm font-bold tracking-[0.2em] uppercase"
         >
           DetailFox Pro
         </button>
@@ -35,8 +35,8 @@ export default function Header({ view, menuOpen, navigate, setMenuOpen }: Header
                onClick={() => navigate(item.id)}
                className={`flex items-center px-3 py-1.5 text-xs font-bold tracking-[0.15em] uppercase transition-colors ${
                  view === item.id
-                   ? 'text-foreground-primary border-foreground-primary'
-                   : 'text-foreground-secondary hover:text-foreground-primary border-b-2 border-transparent'
+                   ? 'text-foreground border-foreground'
+                   : 'text-muted-foreground hover:text-foreground border-b-2 border-transparent'
                }`}
              >
                <span className="mr-1.5">{item.icon}</span>
@@ -49,7 +49,7 @@ export default function Header({ view, menuOpen, navigate, setMenuOpen }: Header
         {/* Mobile toggle */}
         <button
           onClick={() => setMenuOpen((o) => !o)}
-          className="sm:hidden text-foreground-tertiary p-1"
+          className="sm:hidden text-muted-foreground p-1"
           aria-label="Toggle menu"
         >
           {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -58,13 +58,13 @@ export default function Header({ view, menuOpen, navigate, setMenuOpen }: Header
 
       {/* Mobile slide-down */}
       {menuOpen && (
-        <nav className="sm:hidden border-t border-border-default bg-background-surface">
+        <nav className="sm:hidden border-t border-border bg-card">
           {NAV_ITEMS.map((item) => (
              <button
                key={item.id}
                onClick={() => navigate(item.id)}
-               className={`flex items-center w-full text-left px-6 py-3 text-xs font-bold tracking-[0.15em] uppercase border-b border-border-default transition-colors ${
-                 view === item.id ? 'text-foreground-primary bg-background-elevated' : 'text-foreground-secondary hover:text-foreground-primary'
+               className={`flex items-center w-full text-left px-6 py-3 text-xs font-bold tracking-[0.15em] uppercase border-b border-border transition-colors ${
+                 view === item.id ? 'text-foreground bg-muted' : 'text-muted-foreground hover:text-foreground'
                }`}
              >
                <span className="mr-1.5">{item.icon}</span>

@@ -19,7 +19,7 @@ export default function App() {
   }
 
     return (
-    <div className="min-h-screen bg-background-base text-foreground-primary">
+    <div className="min-h-screen bg-background text-foreground">
       <Header view={view} menuOpen={menuOpen} navigate={navigate} setMenuOpen={setMenuOpen} />
 
       {/* Body */}

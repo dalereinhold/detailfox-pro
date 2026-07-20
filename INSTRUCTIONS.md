@@ -1,35 +1,132 @@
-STRICT INSTRUCTION: Color Refactoring Task
-Role: You are a CSS Refactoring Specialist. Your sole task is to update the color scheme of the existing codebase.
+# 🔧 AI Agent Instruction — Full Shadcn v5 Migration & Component Refactor
+# Target preset: b1GLWewlM
+# Goal: Update project to new shadcn workspace system AND refactor all components to match canonical preset versions.
 
-The Strict Constraint:
+## 1. Workspace Migration
+Perform a full migration to the new shadcn workspace system.
 
-DO NOT change any logic (no useEffect, useState, or function changes).
-DO NOT change any JSX structure (no adding/removing divs, buttons, or sections).
-DO NOT rename any variables, props, or component names.
-ONLY modify the className strings to match the new "Midnight Zinc" palette.
-Mapping Rules:
-When you see the following types of elements, replace their existing color classes with the new semantic classes:
+- Ensure the project root contains:
+  - components.json (new schema)
+  - src/lib/utils.ts
+  - src/index.css with preset layers
+  - tailwind.config.js updated with preset theme tokens
 
-Main Backgrounds: Replace generic grays/whites/blacks with bg-background-base.
-Cards, Sidebars, Navs: Replace generic grays/whites/blacks with bg-background-surface.
-Modals, Tooltips, Hover States: Replace generic grays/whites/blacks with bg-background-elevated.
-Main Headings/Primary Text: Replace generic colors with text-foreground-primary.
-Subtext, Muted Text, Captions: Replace generic colors with text-foreground-secondary.
-Disabled/Placeholder Text: Replace generic colors with text-foreground-tertiary.
-Primary Actions (Buttons, Links): Replace blue/green/other colors with bg-brand-primary (for backgrounds) or text-brand-primary.
-Borders/Dividers: Replace generic border colors with border-border-default.
-Execution Style:
+- User will run manually:
+  npx shadcn@latest apply --preset b1GLWewlM
 
-If you encounter a color class that doesn't have a clear semantic mapping (e.g., a specific red for a "Delete" button), map it to text-brand-danger or bg-brand-danger.
-Keep all layout classes (e.g., flex, grid, p-4, m-2, w-full, hidden) exactly as they are.
-Proceed file by file.
-Example of the ONLY change allowed:
-Original: <div className="bg-white p-4 shadow-md">
-Refactored: <div className="bg-background-surface p-4 shadow-md">
+- Validate components.json:
+  - "style": "default"
+  - "baseColor": "zinc"
+  - "aliases" match Vite/TS config
+  - "tsx": true
+  - "typescript": true
+  - "appDir": "src"
 
-Example of what NOT to do:
-Original: <button onClick={handleSave} className="bg-blue-500 p-2">
-Wrong: <button onClick={handleSave} className="bg-brand-primary p-2 mt-4"> (Do not add mt-4)
-Right: <button onClick={handleSave} className="bg-brand-primary p-2">
+## 2. Folder Structure Enforcement
+Ensure canonical structure:
 
-Please confirm you understand that you are only permitted to change className colors and nothing else.
+src/
+  components/
+    ui/
+      button.tsx
+      card.tsx
+      input.tsx
+      textarea.tsx
+      dialog.tsx
+      ...
+  lib/
+    utils.ts
+  index.css
+
+Move components from other locations into src/components/ui.
+
+## 3. Tailwind & CSS Layer Verification
+Ensure src/index.css contains:
+- @tailwind base;
+- @tailwind components;
+- @tailwind utilities;
+- preset theme layers
+- @import "@fontsource-variable/inter";
+
+Ensure tailwind.config.js includes:
+- preset theme tokens
+- radix color tokens
+- typography settings
+- content paths: src/**/*.{ts,tsx}
+
+## 4. Alias Verification
+Ensure Vite + TS alias:
+
+"@": "./src"
+
+Ensure components.json uses:
+
+"aliases": {
+  "components": "@/components",
+  "utils": "@/lib/utils"
+}
+
+## 5. Component Refactor Rules
+For every component in src/components/ui:
+
+### A. Replace local component code with canonical preset version
+Fetch canonical versions from:
+https://ui.shadcn.com/create?preset=b1GLWewlM&item=preview&base=radix&pointer=true&template=vite
+
+Replace:
+- outdated props
+- outdated classNames
+- outdated Radix bindings
+- outdated variants
+- outdated utility imports
+- outdated DOM structure
+- outdated accessibility attributes
+
+### B. Enforce canonical imports
+Example:
+import { cn } from "@/lib/utils"
+
+Radix imports:
+import * as DialogPrimitive from "@radix-ui/react-dialog"
+
+### C. Enforce canonical variant patterns
+Ensure:
+- cva usage matches preset
+- variant + size props match preset
+- default variants match preset
+- disabled states match preset
+- focus-visible states match preset
+
+### D. Enforce canonical styling
+Ensure:
+- spacing
+- border radius
+- colors
+- dark mode tokens
+- transitions
+- ring styles
+- focus-visible styles
+- radix state classes
+
+All must match preset.
+
+## 6. Remove Legacy Shadcn Code
+Delete:
+- old components.json schema
+- old ui folder structure
+- old utility files
+- old variant definitions
+- old Radix wrappers
+- old Tailwind layers
+
+## 7. Final Validation
+After refactor:
+- All components compile without warnings.
+- All components match canonical preset versions.
+- All imports resolve correctly.
+- All Radix interactions work.
+- All Tailwind classes match preset tokens.
+- No legacy shadcn code remains.
+- Vite build is clean.
+
+# End of Instruction

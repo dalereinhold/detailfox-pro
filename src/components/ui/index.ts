@@ -1,3 +1,3 @@
-export { Button } from './Button';
-export { Card, CardHeader, CardBody } from './Card';
-export { ProgressBar } from './ProgressBar';
+export { Button, buttonVariants } from "./button";
+export { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "./card";
+export { ProgressBar } from "./progress";
