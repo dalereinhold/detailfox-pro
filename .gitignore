@@ -16,4 +16,4 @@ dist/
 .DS_Store
 
 # TanStack Router generated file
-src/routeTree.gen.ts
+# src/routeTree.gen.ts
