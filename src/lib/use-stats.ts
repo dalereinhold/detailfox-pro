@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { supabase, Vehicle, VehicleType, formatDuration } from './supabase';
+import { supabase, type Vehicle, type VehicleType, formatDuration } from './supabase';
 
 export interface TypeStats {
   count: number;

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Plus } from 'lucide-react';
-import { supabase, VehicleType, VehicleCondition, VehicleServiceType } from '../lib/supabase';
-import { SERVICE_TYPES } from '../lib/serviceTypes';
+import { supabase, type VehicleType, type VehicleCondition, type VehicleServiceType } from '@/lib/supabase';
+import { SERVICE_TYPES } from '@/lib/service-types';
 
 interface IntakeFormProps {
   onVehicleAdded: () => void;
@@ -20,24 +20,21 @@ export default function IntakeForm({ onVehicleAdded }: IntakeFormProps) {
   const [error, setError] = useState<string | null>(null);
 
   function handleLicensePlateChange(val: string) {
-    // Remove all non-alphanumeric characters and convert to uppercase
     const clean = val.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
-    
-    // Format as "ABC 123" or "ABC 12A" (insert space after 3rd character)
+
     let formatted = clean;
     if (clean.length > 3) {
       formatted = `${clean.slice(0, 3)} ${clean.slice(3, 6)}`;
     } else {
       formatted = clean.slice(0, 3);
     }
-    
+
     setLicensePlate(formatted);
   }
 
   function handleTypeChange(newType: VehicleType) {
     setType(newType);
-    
-    // Auto-default condition and service type based on vehicle type
+
     if (newType === 'New') {
       setCondition('Excellent');
       setServiceType('Full Detail');
@@ -53,13 +50,12 @@ export default function IntakeForm({ onVehicleAdded }: IntakeFormProps) {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const trimmed = licensePlate.trim();
-    
+
     if (!trimmed) {
       setError('License plate is required.');
       return;
     }
 
-    // Swedish license plate validation: 3 letters, a space, and either 3 digits or 2 digits + 1 letter
     const swedishPlateRegex = /^[A-Z]{3} \d{2}[A-Z0-9]$/;
     if (!swedishPlateRegex.test(trimmed)) {
       setError('Please enter a valid Swedish license plate (e.g., ABC 123 or ABC 12A).');
@@ -90,13 +86,13 @@ export default function IntakeForm({ onVehicleAdded }: IntakeFormProps) {
   }
 
   const inputClass =
-    'w-full bg-zinc-100 border border-zinc-300 text-black text-base rounded-none px-3 py-3 focus:outline-none focus:border-black transition-colors placeholder-zinc-400';
-  const labelClass = 'block text-zinc-500 text-xs font-semibold uppercase tracking-widest mb-1.5';
+    'w-full bg-background border border-input text-foreground text-base rounded-md px-3 py-3 focus:outline-none focus:ring-1 focus:ring-ring transition-colors placeholder:text-muted-foreground';
+  const labelClass = 'block text-muted-foreground text-xs font-semibold uppercase tracking-widest mb-1.5';
 
   return (
-    <section className="border border-zinc-200 bg-white">
-      <div className="border-b border-zinc-200 bg-zinc-100 px-6 py-4 flex items-center justify-between">
-        <h2 className="text-sm font-bold uppercase tracking-widest text-black">Vehicle Intake</h2>
+    <section className="border border-border bg-card text-card-foreground rounded-lg overflow-hidden">
+      <div className="border-b border-border bg-muted/50 px-6 py-4 flex items-center justify-between">
+        <h2 className="text-sm font-bold uppercase tracking-widest text-foreground">Vehicle Intake</h2>
       </div>
 
       <form onSubmit={handleSubmit} noValidate className="p-6">
@@ -154,7 +150,7 @@ export default function IntakeForm({ onVehicleAdded }: IntakeFormProps) {
 
         <div className="mb-5">
           <label className={labelClass} htmlFor="notes">
-            Notes <span className="text-zinc-400 normal-case tracking-normal font-normal">— optional</span>
+            Notes <span className="text-muted-foreground normal-case tracking-normal font-normal">— optional</span>
           </label>
           <input
             id="notes"
@@ -167,7 +163,7 @@ export default function IntakeForm({ onVehicleAdded }: IntakeFormProps) {
         </div>
 
         {error && (
-          <div className="mb-4 border border-red-400 bg-red-50 text-red-700 px-4 py-3 text-sm">
+          <div className="mb-4 border border-destructive/30 bg-destructive/10 text-destructive px-4 py-3 text-sm rounded-sm">
             {error}
           </div>
         )}
@@ -175,7 +171,7 @@ export default function IntakeForm({ onVehicleAdded }: IntakeFormProps) {
         <button
           type="submit"
           disabled={loading}
-          className="flex items-center gap-2 bg-black hover:bg-zinc-800 active:bg-zinc-900 disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold text-sm uppercase tracking-widest px-6 py-3 transition-colors rounded-none"
+          className="flex items-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-40 disabled:cursor-not-allowed font-bold text-sm uppercase tracking-widest px-6 py-3 transition-colors rounded-md"
         >
           <Plus className="w-4 h-4" />
           {loading ? 'Adding...' : 'Add Vehicle'}

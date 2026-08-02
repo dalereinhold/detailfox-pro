@@ -12,9 +12,9 @@ import {
   CheckCircle2,
   Coffee,
 } from 'lucide-react';
-import { ProgressBar } from '@/components/ui';
-import { useDetailFlowStore, SessionStep } from '@/detailflow/store';
-import { formatTimer, formatDuration } from '@/detailflow/format';
+import { ProgressBar } from '@/components/progress-bar';
+import { useDetailFlowStore, SessionStep } from '@/lib/store';
+import { formatTimer, formatDuration } from '@/lib/format';
 
 type StepState = 'pending' | 'active' | 'paused' | 'completed' | 'skipped';
 
@@ -27,7 +27,7 @@ const STATUS_BADGE: Record<StepState, string> = {
 };
 
 const STATUS_BORDER: Record<StepState, string> = {
-  pending: 'border-l-zinc-300',
+  pending: 'border-l-border',
   active: 'border-l-sky-500',
   paused: 'border-l-amber-400',
   completed: 'border-l-emerald-500',
@@ -99,15 +99,15 @@ export default function StepEngine() {
       {/* Header — matches "All Records" */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
         <div>
-          <h2 className="text-sm font-bold uppercase tracking-widest text-black">Active Session</h2>
-          <p className="text-zinc-400 text-xs mt-1">
+          <h2 className="text-sm font-bold uppercase tracking-widest text-foreground">Active Session</h2>
+          <p className="text-muted-foreground text-xs mt-1">
             {steps.length} step{steps.length !== 1 ? 's' : ''} in routine
           </p>
         </div>
         <div className="flex items-center gap-2">
           <button
             onClick={reset}
-            className="flex items-center gap-2 text-red-500 hover:text-red-700 text-xs font-semibold uppercase tracking-widest border border-zinc-200 hover:border-red-300 px-4 py-2.5 transition-colors bg-white"
+            className="flex items-center gap-2 text-destructive hover:text-destructive/80 text-xs font-semibold uppercase tracking-widest border border-border hover:border-destructive/30 px-4 py-2.5 transition-colors bg-card"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             End Session
@@ -116,21 +116,21 @@ export default function StepEngine() {
       </div>
 
       {/* Summary stats — gap-px grid like Dashboard */}
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-px bg-zinc-200 border border-zinc-200 mb-6">
-        <StatPill label="Total" count={counts.Total} valueClass="text-black" icon={<Timer className="w-3 h-3 text-zinc-400" />} />
-        <StatPill label="Pending" count={counts.Pending} valueClass="text-zinc-500" icon={<Hourglass className="w-3 h-3 text-zinc-400" />} />
-        <StatPill label="In Progress" count={counts['In Progress']} valueClass="text-sky-600" icon={<Clock className="w-3 h-3 text-zinc-400" />} />
-        <StatPill label="On Break" count={counts['On Break']} valueClass="text-amber-500" icon={<Coffee className="w-3 h-3 text-zinc-400" />} />
-        <StatPill label="Done" count={counts.Done} valueClass="text-emerald-600" icon={<CheckCircle2 className="w-3 h-3 text-zinc-400" />} />
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-px bg-border border border-border mb-6">
+        <StatPill label="Total" count={counts.Total} valueClass="text-foreground" icon={<Timer className="w-3 h-3 text-muted-foreground" />} />
+        <StatPill label="Pending" count={counts.Pending} valueClass="text-muted-foreground" icon={<Hourglass className="w-3 h-3 text-muted-foreground" />} />
+        <StatPill label="In Progress" count={counts['In Progress']} valueClass="text-sky-600 dark:text-sky-400" icon={<Clock className="w-3 h-3 text-muted-foreground" />} />
+        <StatPill label="On Break" count={counts['On Break']} valueClass="text-amber-600 dark:text-amber-400" icon={<Coffee className="w-3 h-3 text-muted-foreground" />} />
+        <StatPill label="Done" count={counts.Done} valueClass="text-emerald-600 dark:text-emerald-400" icon={<CheckCircle2 className="w-3 h-3 text-muted-foreground" />} />
       </div>
 
       {/* Progress overview */}
       <div className="mb-6">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-xs font-semibold uppercase tracking-widest text-zinc-400">
+          <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
             Progress
           </span>
-          <span className="text-xs font-bold tabular-nums text-zinc-600">
+          <span className="text-xs font-bold tabular-nums text-foreground">
             {completedCount} / {steps.length} done
           </span>
         </div>
@@ -141,15 +141,15 @@ export default function StepEngine() {
       {current && !allDone && (() => {
         const state = stepState(current);
         return (
-          <div className={`relative bg-white border border-zinc-200 border-l-4 ${STATUS_BORDER[state]} overflow-hidden mb-6`}>
+          <div className={`relative bg-card border border-border border-l-4 ${STATUS_BORDER[state]} overflow-hidden mb-6`}>
             <div className="p-5">
               {/* Header */}
               <div className="flex items-start justify-between gap-3 mb-4">
                 <div>
-                  <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest mb-1">
+                  <p className="text-muted-foreground text-xs font-semibold uppercase tracking-widest mb-1">
                     Current step
                   </p>
-                  <h3 className="text-3xl font-black text-black tracking-tight leading-none">
+                  <h3 className="text-3xl font-black text-foreground tracking-tight leading-none">
                     {current.label}
                   </h3>
                 </div>
@@ -160,39 +160,39 @@ export default function StepEngine() {
 
               {/* Tags */}
               <div className="flex flex-wrap gap-1.5 mb-4">
-                <span className="text-xs font-bold px-2 py-0.5 border uppercase tracking-wider text-zinc-600 bg-zinc-100 border-zinc-300">
+                <span className="text-xs font-bold px-2 py-0.5 border uppercase tracking-wider text-muted-foreground bg-muted border-border">
                   Est. {formatDuration(current.estimateSeconds * 1000)}
                 </span>
-                <span className="text-xs font-bold px-2 py-0.5 border uppercase tracking-wider text-zinc-600 bg-zinc-100 border-zinc-300">
+                <span className="text-xs font-bold px-2 py-0.5 border uppercase tracking-wider text-muted-foreground bg-muted border-border">
                   {Math.round((currentElapsed / (current.estimateSeconds * 1000)) * 100)}% of estimate
                 </span>
               </div>
 
               {/* Timer block — color matches state */}
               <div className={`flex items-center gap-3 border px-4 py-3 mb-4 ${
-                state === 'active' ? 'bg-sky-50 border-sky-200' :
-                state === 'paused' ? 'bg-amber-50 border-amber-200' :
-                'bg-zinc-50 border-zinc-200'
+                state === 'active' ? 'bg-sky-50 dark:bg-sky-950/30 border-sky-200 dark:border-sky-800' :
+                state === 'paused' ? 'bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800' :
+                'bg-muted/50 border-border'
               }`}>
-                <Timer className={`w-4 h-4 flex-shrink-0 ${
+                <Timer className={`w-4 h-4 shrink-0 ${
                   state === 'active' ? 'text-sky-500' :
                   state === 'paused' ? 'text-amber-500' :
-                  'text-zinc-400'
+                  'text-muted-foreground'
                 }`} />
                 <div className="flex-1 min-w-0">
-                  <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest leading-none mb-0.5">
+                  <p className="text-muted-foreground text-xs font-semibold uppercase tracking-widest leading-none mb-0.5">
                     {state === 'active' ? 'Active' : state === 'paused' ? 'Paused' : 'Not Started'}
                   </p>
                   <p className={`text-xl font-black tabular-nums leading-none ${
-                    state === 'active' ? 'text-sky-600' :
-                    state === 'paused' ? 'text-amber-600' :
-                    'text-zinc-400'
+                    state === 'active' ? 'text-sky-600 dark:text-sky-400' :
+                    state === 'paused' ? 'text-amber-600 dark:text-amber-400' :
+                    'text-muted-foreground'
                   }`}>
                     {formatTimer(currentElapsed)}
                   </p>
                 </div>
                 {state === 'active' && (
-                  <span className="w-2 h-2 rounded-full bg-sky-500 animate-pulse flex-shrink-0" />
+                  <span className="w-2 h-2 rounded-full bg-sky-500 animate-pulse shrink-0" />
                 )}
               </div>
 
@@ -201,9 +201,9 @@ export default function StepEngine() {
                   value={currentElapsed}
                   max={current.estimateSeconds * 1000}
                   barClassName={
-                    currentElapsed > current.estimateSeconds * 1000 ? 'bg-red-500' :
+                    currentElapsed > current.estimateSeconds * 1000 ? 'bg-destructive' :
                     state === 'active' ? 'bg-sky-500' :
-                    state === 'paused' ? 'bg-amber-500' : 'bg-zinc-400'
+                    state === 'paused' ? 'bg-amber-500' : 'bg-muted-foreground'
                   }
                 />
               </div>
@@ -213,16 +213,16 @@ export default function StepEngine() {
                 {state === 'pending' && current.elapsedMs === 0 && (
                   <button
                     onClick={() => startStep(cursor)}
-                    className="flex-1 flex items-center justify-center gap-2 bg-black hover:bg-zinc-800 text-white font-bold text-sm uppercase tracking-widest py-3 transition-colors"
+                    className="flex-1 flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-sm uppercase tracking-widest py-3 transition-colors"
                   >
-                    <Play className="w-4 h-4 fill-white" />
+                    <Play className="w-4 h-4 fill-primary-foreground" />
                     Start
                   </button>
                 )}
                 {state === 'active' && (
                   <button
                     onClick={() => pauseStep(cursor)}
-                    className="flex-1 flex items-center justify-center gap-2 bg-amber-400 hover:bg-amber-300 text-black font-bold text-sm uppercase tracking-widest py-3 transition-colors"
+                    className="flex-1 flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-600 text-white font-bold text-sm uppercase tracking-widest py-3 transition-colors"
                   >
                     <Pause className="w-4 h-4" />
                     Break
@@ -231,7 +231,7 @@ export default function StepEngine() {
                 {state === 'paused' && (
                   <button
                     onClick={() => resumeStep(cursor)}
-                    className="flex-1 flex items-center justify-center gap-2 bg-black hover:bg-zinc-800 text-white font-bold text-sm uppercase tracking-widest py-3 transition-colors"
+                    className="flex-1 flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-sm uppercase tracking-widest py-3 transition-colors"
                   >
                     <RotateCcw className="w-4 h-4" />
                     Resume
@@ -246,7 +246,7 @@ export default function StepEngine() {
                 </button>
                 <button
                   onClick={() => skipStep(cursor)}
-                  className="flex items-center justify-center gap-2 border border-zinc-300 hover:border-black text-zinc-500 hover:text-black font-bold text-sm uppercase tracking-widest py-3 px-4 transition-colors"
+                  className="flex items-center justify-center gap-2 border border-border hover:border-foreground text-muted-foreground hover:text-foreground font-bold text-sm uppercase tracking-widest py-3 px-4 transition-colors bg-card"
                 >
                   <SkipForward className="w-4 h-4" />
                   Skip
@@ -264,20 +264,20 @@ export default function StepEngine() {
           return (
             <div
               key={step.id}
-              className={`relative bg-white border border-zinc-200 border-l-4 ${STATUS_BORDER[state]} overflow-hidden transition-colors`}
+              className={`relative bg-card border border-border border-l-4 ${STATUS_BORDER[state]} overflow-hidden transition-colors`}
             >
               <div className="p-5 flex items-center gap-4">
                 <span className={`text-xs font-bold px-2 py-0.5 border uppercase tracking-wider ${STATUS_BADGE[state]}`}>
                   {STATUS_LABEL[state]}
                 </span>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-bold text-black truncate">{step.label}</p>
-                  <p className="text-xs text-zinc-400 tabular-nums mt-0.5">
+                  <p className="text-sm font-bold text-foreground truncate">{step.label}</p>
+                  <p className="text-xs text-muted-foreground tabular-nums mt-0.5">
                     {formatDuration(step.elapsedMs)} / {formatDuration(step.estimateSeconds * 1000)}
                   </p>
                 </div>
                 {state === 'active' && (
-                  <Clock className="w-4 h-4 text-sky-500 animate-pulse flex-shrink-0" />
+                  <Clock className="w-4 h-4 text-sky-500 animate-pulse shrink-0" />
                 )}
               </div>
             </div>
@@ -287,9 +287,9 @@ export default function StepEngine() {
 
       {/* Completion indicator */}
       {allDone && (
-        <div className="mt-8 flex items-center gap-2 bg-emerald-50 border border-emerald-200 px-4 py-3">
-          <Flag className="w-4 h-4 text-emerald-600 flex-shrink-0" />
-          <p className="text-emerald-700 font-bold text-sm uppercase tracking-wide">All steps complete</p>
+        <div className="mt-8 flex items-center gap-2 bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 px-4 py-3">
+          <Flag className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+          <p className="text-emerald-700 dark:text-emerald-300 font-bold text-sm uppercase tracking-wide">All steps complete</p>
         </div>
       )}
     </section>
@@ -298,10 +298,10 @@ export default function StepEngine() {
 
 function StatPill({ label, count, valueClass, icon }: { label: string; count: number; valueClass: string; icon: React.ReactNode }) {
   return (
-    <div className="bg-white px-4 py-3">
+    <div className="bg-card px-4 py-3">
       <div className="flex items-center gap-1.5 mb-0.5">
         {icon}
-        <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest">{label}</p>
+        <p className="text-muted-foreground text-xs font-semibold uppercase tracking-widest">{label}</p>
       </div>
       <p className={`text-2xl font-black tabular-nums ${valueClass}`}>{count}</p>
     </div>

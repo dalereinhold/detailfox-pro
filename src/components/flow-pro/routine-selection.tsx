@@ -1,7 +1,7 @@
 import { Clock, ArrowRight, Sparkles, CheckSquare } from 'lucide-react';
-import { ROUTINES, useDetailFlowStore } from '@/detailflow/store';
-import { getServiceType } from '@/lib/serviceTypes';
-import { formatDuration } from '@/detailflow/format';
+import { ROUTINES, useDetailFlowStore } from '@/lib/store';
+import { getServiceType } from '@/lib/service-types';
+import { formatDuration } from '@/lib/format';
 
 export default function RoutineSelection() {
   const selectRoutine = useDetailFlowStore((s) => s.selectRoutine);
@@ -15,20 +15,20 @@ export default function RoutineSelection() {
           return (
             <div
               key={r.id}
-              className={`relative bg-white border border-zinc-200 border-l-4 ${service?.accent ?? 'border-l-zinc-300'} overflow-hidden transition-colors hover:border-zinc-300`}
+              className={`relative bg-card border border-border border-l-4 ${service?.accent ?? 'border-l-border'} overflow-hidden transition-colors hover:border-border`}
             >
               <div className="p-5">
                 {/* Header */}
                 <div className="flex items-start justify-between gap-3 mb-4">
                   <div>
-                    <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest mb-1">
+                    <p className="text-muted-foreground text-xs font-semibold uppercase tracking-widest mb-1">
                       Routine
                     </p>
-                    <h3 className="text-3xl font-black text-black tracking-tight leading-none">
+                    <h3 className="text-3xl font-black text-foreground tracking-tight leading-none">
                       {r.name}
                     </h3>
                   </div>
-                  <div className="flex items-center justify-center w-9 h-9 bg-zinc-900 text-white">
+                  <div className="flex items-center justify-center w-9 h-9 bg-primary text-primary-foreground">
                     <CheckSquare className="w-4 h-4" />
                   </div>
                 </div>
@@ -41,21 +41,21 @@ export default function RoutineSelection() {
                       {service.name}
                     </span>
                   )}
-                  <span className="text-xs font-bold px-2 py-0.5 border uppercase tracking-wider text-zinc-600 bg-zinc-100 border-zinc-300">
+                  <span className="text-xs font-bold px-2 py-0.5 border uppercase tracking-wider text-muted-foreground bg-muted border-border">
                     {r.steps.length} steps
                   </span>
-                  <span className="text-xs font-bold px-2 py-0.5 border uppercase tracking-wider text-zinc-600 bg-zinc-100 border-zinc-300">
+                  <span className="text-xs font-bold px-2 py-0.5 border uppercase tracking-wider text-muted-foreground bg-muted border-border">
                     Est. {formatDuration(totalEstimate)}
                   </span>
                 </div>
 
                 {/* Description */}
-                <p className="text-zinc-500 text-sm mb-5">{r.description}</p>
+                <p className="text-muted-foreground text-sm mb-5">{r.description}</p>
 
                 {/* Action */}
                 <button
                   onClick={() => selectRoutine(r)}
-                  className="w-full flex items-center justify-center gap-2 bg-black hover:bg-zinc-800 text-white font-bold text-sm uppercase tracking-widest py-3 transition-colors"
+                  className="w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-sm uppercase tracking-widest py-3 transition-colors"
                 >
                   Start
                   <ArrowRight className="w-4 h-4" />

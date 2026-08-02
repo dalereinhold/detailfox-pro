@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { SERVICE_TYPES, RoutineStep } from '@/lib/serviceTypes';
+import { SERVICE_TYPES, RoutineStep } from '@/lib/service-types';
 
 export type StepStatus = 'pending' | 'active' | 'completed' | 'skipped';
 

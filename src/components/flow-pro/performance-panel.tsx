@@ -1,8 +1,8 @@
 import { BarChart3, Check, SkipForward, Clock, TrendingUp, Gauge } from 'lucide-react';
-import { ProgressBar } from '@/components/ui';
-import { useDetailFlowStore, ROUTINES } from '@/detailflow/store';
-import { getServiceType } from '@/lib/serviceTypes';
-import { formatDuration } from '@/detailflow/format';
+import { ProgressBar } from '@/components/progress-bar';
+import { useDetailFlowStore, ROUTINES } from '@/lib/store';
+import { getServiceType } from '@/lib/service-types';
+import { formatDuration } from '@/lib/format';
 
 export default function PerformancePanel() {
   const { steps, activeRoutineId } = useDetailFlowStore();
@@ -18,12 +18,12 @@ export default function PerformancePanel() {
   const hasSession = steps.length > 0;
 
   return (
-    <aside className="border border-zinc-200 bg-white overflow-hidden">
+    <aside className="border border-border bg-card overflow-hidden">
       {/* Header */}
-      <div className="flex items-center justify-between gap-2 px-5 py-4 border-b border-zinc-200 bg-zinc-100">
+      <div className="flex items-center justify-between gap-2 px-5 py-4 border-b border-border bg-muted/50">
         <div className="flex items-center gap-2.5">
-          <BarChart3 className="w-4 h-4 text-zinc-400" />
-          <h2 className="text-sm font-bold uppercase tracking-widest text-black">Performance</h2>
+          <BarChart3 className="w-4 h-4 text-muted-foreground" />
+          <h2 className="text-sm font-bold uppercase tracking-widest text-foreground">Performance</h2>
         </div>
         {routine && service && (
           <span className={`text-xs font-bold px-2 py-0.5 border uppercase tracking-wider ${service.tag}`}>
@@ -34,7 +34,7 @@ export default function PerformancePanel() {
 
       <div className="p-5 space-y-6">
         {!hasSession && (
-          <p className="text-zinc-400 text-xs uppercase tracking-widest text-center py-4">
+          <p className="text-muted-foreground text-xs uppercase tracking-widest text-center py-4">
             No active session
           </p>
         )}
@@ -42,37 +42,37 @@ export default function PerformancePanel() {
         {hasSession && (
           <>
             {/* Total time */}
-            <div className="border border-zinc-200 px-4 py-4">
+            <div className="border border-border px-4 py-4">
               <div className="flex items-center gap-2 mb-2">
-                <Clock className="w-3.5 h-3.5 text-zinc-400" />
-                <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest">Total Time</p>
+                <Clock className="w-3.5 h-3.5 text-muted-foreground" />
+                <p className="text-muted-foreground text-xs font-semibold uppercase tracking-widest">Total Time</p>
               </div>
-              <p className="text-5xl font-black text-black tabular-nums">{formatDuration(totalTime)}</p>
-              <p className="text-zinc-400 text-xs mt-1 uppercase tracking-widest">
+              <p className="text-5xl font-black text-foreground tabular-nums">{formatDuration(totalTime)}</p>
+              <p className="text-muted-foreground text-xs mt-1 uppercase tracking-widest">
                 vs {formatDuration(totalEstimate)} estimate
               </p>
             </div>
 
             {/* Completion rate */}
-            <div className="border border-zinc-200 px-4 py-4">
+            <div className="border border-border px-4 py-4">
               <div className="flex items-center gap-2 mb-2">
                 <Check className="w-3.5 h-3.5 text-emerald-500" />
-                <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest">Completion</p>
+                <p className="text-muted-foreground text-xs font-semibold uppercase tracking-widest">Completion</p>
               </div>
-              <p className="text-5xl font-black text-emerald-600 tabular-nums">{completionRate}%</p>
-              <p className="text-zinc-400 text-xs mt-1 uppercase tracking-widest">
+              <p className="text-5xl font-black text-emerald-600 dark:text-emerald-500 tabular-nums">{completionRate}%</p>
+              <p className="text-muted-foreground text-xs mt-1 uppercase tracking-widest">
                 {completed.length} done · {skipped.length} skipped
               </p>
             </div>
 
             {/* Efficiency */}
-            <div className="border border-zinc-200 px-4 py-4">
+            <div className="border border-border px-4 py-4">
               <div className="flex items-center gap-2 mb-2">
                 <Gauge className="w-3.5 h-3.5 text-sky-500" />
-                <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest">Efficiency</p>
+                <p className="text-muted-foreground text-xs font-semibold uppercase tracking-widest">Efficiency</p>
               </div>
-              <p className="text-5xl font-black text-sky-600 tabular-nums">{efficiency}%</p>
-              <p className="text-zinc-400 text-xs mt-1 uppercase tracking-widest">
+              <p className="text-5xl font-black text-sky-600 dark:text-sky-400 tabular-nums">{efficiency}%</p>
+              <p className="text-muted-foreground text-xs mt-1 uppercase tracking-widest">
                 {efficiency >= 100 ? 'Under estimate' : 'Over estimate'}
               </p>
             </div>
@@ -80,30 +80,30 @@ export default function PerformancePanel() {
             {/* Time vs estimate */}
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <TrendingUp className="w-3.5 h-3.5 text-zinc-400" />
-                <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest">Time vs Estimate</p>
+                <TrendingUp className="w-3.5 h-3.5 text-muted-foreground" />
+                <p className="text-muted-foreground text-xs font-semibold uppercase tracking-widest">Time vs Estimate</p>
               </div>
               <div className="space-y-4">
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-semibold uppercase tracking-widest text-zinc-400">Actual</span>
-                    <span className="text-sm font-bold tabular-nums text-zinc-900">{formatDuration(totalTime)}</span>
+                    <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Actual</span>
+                    <span className="text-sm font-bold tabular-nums text-foreground">{formatDuration(totalTime)}</span>
                   </div>
                   <ProgressBar
                     value={totalTime}
                     max={Math.max(totalTime, totalEstimate, 1)}
-                    barClassName="bg-zinc-900"
+                    barClassName="bg-primary"
                   />
                 </div>
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-semibold uppercase tracking-widest text-zinc-400">Estimated</span>
-                    <span className="text-sm font-bold tabular-nums text-zinc-500">{formatDuration(totalEstimate)}</span>
+                    <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Estimated</span>
+                    <span className="text-sm font-bold tabular-nums text-muted-foreground">{formatDuration(totalEstimate)}</span>
                   </div>
                   <ProgressBar
                     value={totalEstimate}
                     max={Math.max(totalTime, totalEstimate, 1)}
-                    barClassName="bg-zinc-300"
+                    barClassName="bg-muted-foreground/30"
                   />
                 </div>
               </div>
@@ -112,8 +112,8 @@ export default function PerformancePanel() {
             {/* Step breakdown */}
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <SkipForward className="w-3.5 h-3.5 text-zinc-400" />
-                <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest">Step Breakdown</p>
+                <SkipForward className="w-3.5 h-3.5 text-muted-foreground" />
+                <p className="text-muted-foreground text-xs font-semibold uppercase tracking-widest">Step Breakdown</p>
               </div>
               <div className="space-y-3">
                 {steps.map((step) => {
@@ -123,19 +123,19 @@ export default function PerformancePanel() {
                       <div className="flex items-center justify-between mb-1.5">
                         <div className="flex items-center gap-2 min-w-0">
                           {step.status === 'completed' ? (
-                            <Check className="w-3 h-3 text-emerald-500 flex-shrink-0" />
+                            <Check className="w-3 h-3 text-emerald-500 shrink-0" />
                           ) : (
-                            <SkipForward className="w-3 h-3 text-zinc-400 flex-shrink-0" />
+                            <SkipForward className="w-3 h-3 text-muted-foreground shrink-0" />
                           )}
                           <span
                             className={`text-xs font-semibold truncate ${
-                              step.status === 'skipped' ? 'text-zinc-400 line-through' : 'text-zinc-700'
+                              step.status === 'skipped' ? 'text-muted-foreground line-through' : 'text-foreground'
                             }`}
                           >
                             {step.label}
                           </span>
                         </div>
-                        <span className="text-xs font-bold tabular-nums text-zinc-500 flex-shrink-0 ml-2">
+                        <span className="text-xs font-bold tabular-nums text-muted-foreground shrink-0 ml-2">
                           {formatDuration(step.elapsedMs)}
                         </span>
                       </div>

@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { LayoutGrid, Clock, Coffee, CheckCircle2, RefreshCw, Hourglass, Trash2 } from 'lucide-react';
-import { supabase, Vehicle, VehicleStatus } from '../lib/supabase';
-import VehicleCard from './VehicleCard';
+import { supabase, type Vehicle, type VehicleStatus } from '@/lib/supabase';
+import VehicleCard from './vehicle-card';
 
-interface DashboardProps {
+interface IntakeProps {
   refreshTrigger: number;
   onVehiclesUpdated?: () => void;
 }
@@ -22,7 +22,7 @@ function isPending(v: Vehicle) {
   return v.status === 'In Progress' && !v.started_at && v.net_work_seconds === 0;
 }
 
-export default function Dashboard({ refreshTrigger, onVehiclesUpdated }: DashboardProps) {
+export default function IntakeRecords({ refreshTrigger, onVehiclesUpdated }: IntakeProps) {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -86,8 +86,8 @@ export default function Dashboard({ refreshTrigger, onVehiclesUpdated }: Dashboa
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
         <div>
-          <h2 className="text-sm font-bold uppercase tracking-widest text-black">All Records</h2>
-          <p className="text-zinc-400 text-xs mt-1">
+          <h2 className="text-sm font-bold uppercase tracking-widest text-foreground">All Records</h2>
+          <p className="text-muted-foreground text-xs mt-1">
             {vehicles.length} vehicle{vehicles.length !== 1 ? 's' : ''} in records
           </p>
         </div>
@@ -95,14 +95,14 @@ export default function Dashboard({ refreshTrigger, onVehiclesUpdated }: Dashboa
           <button
             onClick={handleClearAll}
             disabled={vehicles.length === 0 || loading}
-            className="flex items-center gap-2 text-red-500 hover:text-red-700 disabled:opacity-40 disabled:hover:text-red-500 text-xs font-semibold uppercase tracking-widest border border-zinc-200 hover:border-red-300 px-4 py-2.5 transition-colors bg-white"
+            className="flex items-center gap-2 text-destructive hover:text-destructive/80 disabled:opacity-40 text-xs font-semibold uppercase tracking-widest border border-border hover:border-destructive/30 px-4 py-2.5 transition-colors bg-card rounded-md"
           >
             <Trash2 className="w-3.5 h-3.5" />
             Clear All
           </button>
           <button
             onClick={fetchVehicles}
-            className="flex items-center gap-2 text-zinc-500 hover:text-black text-xs font-semibold uppercase tracking-widest border border-zinc-200 hover:border-black px-4 py-2.5 transition-colors bg-white"
+            className="flex items-center gap-2 text-muted-foreground hover:text-foreground text-xs font-semibold uppercase tracking-widest border border-border hover:border-foreground px-4 py-2.5 transition-colors bg-card rounded-md"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
             Refresh
@@ -111,31 +111,31 @@ export default function Dashboard({ refreshTrigger, onVehiclesUpdated }: Dashboa
       </div>
 
       {/* Summary stats */}
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-px bg-zinc-200 border border-zinc-200 mb-6">
-        <StatPill label="Total" count={counts['All']} valueClass="text-black" />
-        <StatPill label="Pending" count={counts['Pending']} valueClass="text-zinc-500" />
-        <StatPill label="In Progress" count={counts['In Progress']} valueClass="text-sky-600" />
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-px bg-border border border-border rounded-lg overflow-hidden mb-6">
+        <StatPill label="Total" count={counts['All']} valueClass="text-foreground" />
+        <StatPill label="Pending" count={counts['Pending']} valueClass="text-muted-foreground" />
+        <StatPill label="In Progress" count={counts['In Progress']} valueClass="text-sky-500" />
         <StatPill label="On Break" count={counts['On Break']} valueClass="text-amber-500" />
-        <StatPill label="Completed" count={counts['Completed']} valueClass="text-emerald-600" />
+        <StatPill label="Completed" count={counts['Completed']} valueClass="text-emerald-500" />
       </div>
 
       {/* Filter tabs */}
-      <div className="flex flex-wrap gap-px bg-zinc-200 border border-zinc-200 mb-8">
+      <div className="flex flex-wrap gap-px bg-border border border-border rounded-lg overflow-hidden mb-8">
         {STATUS_FILTERS.map(({ label, value, icon }) => (
           <button
             key={value}
             onClick={() => setFilter(value)}
             className={`flex items-center gap-2 px-4 py-2.5 text-xs font-bold uppercase tracking-widest transition-colors ${
               filter === value
-                ? 'bg-black text-white'
-                : 'bg-white text-zinc-400 hover:text-black hover:bg-zinc-50'
+                ? 'bg-primary text-primary-foreground'
+                : 'bg-card text-muted-foreground hover:text-foreground hover:bg-accent'
             }`}
           >
             {icon}
             {label}
             <span
-              className={`text-xs font-bold px-1.5 py-0.5 ${
-                filter === value ? 'bg-white/20 text-white' : 'bg-zinc-100 text-zinc-500'
+              className={`text-xs font-bold px-1.5 py-0.5 rounded-sm ${
+                filter === value ? 'bg-primary-foreground/20 text-primary-foreground' : 'bg-muted text-muted-foreground'
               }`}
             >
               {counts[value as keyof typeof counts]}
@@ -146,23 +146,23 @@ export default function Dashboard({ refreshTrigger, onVehiclesUpdated }: Dashboa
 
       {/* Error */}
       {error && (
-        <div className="border border-red-400 bg-red-50 text-red-700 px-4 py-3 text-sm mb-6">
+        <div className="border border-destructive/30 bg-destructive/10 text-destructive px-4 py-3 text-sm rounded-sm mb-6">
           Failed to load vehicles: {error}
         </div>
       )}
 
       {/* Grid */}
       {loading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="border border-zinc-200 h-72 animate-pulse bg-zinc-50" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="border border-border h-72 animate-pulse bg-muted rounded-lg" />
           ))}
         </div>
       ) : filtered.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-24 text-center border border-zinc-100 bg-white">
-          <LayoutGrid className="w-8 h-8 text-zinc-200 mb-4" />
-          <p className="text-zinc-400 text-sm font-medium uppercase tracking-widest">No Vehicles</p>
-          <p className="text-zinc-300 text-xs mt-1">
+        <div className="flex flex-col items-center justify-center py-24 text-center border border-border bg-card rounded-lg">
+          <LayoutGrid className="w-8 h-8 text-muted-foreground/40 mb-4" />
+          <p className="text-muted-foreground text-sm font-medium uppercase tracking-widest">No Vehicles</p>
+          <p className="text-muted-foreground/70 text-xs mt-1">
             {filter === 'All'
               ? 'Add a vehicle using the intake form above.'
               : filter === 'Pending'
@@ -171,7 +171,7 @@ export default function Dashboard({ refreshTrigger, onVehiclesUpdated }: Dashboa
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
           {filtered.map((vehicle) => (
             <VehicleCard key={vehicle.id} vehicle={vehicle} onUpdated={fetchVehicles} />
           ))}
@@ -183,8 +183,8 @@ export default function Dashboard({ refreshTrigger, onVehiclesUpdated }: Dashboa
 
 function StatPill({ label, count, valueClass }: { label: string; count: number; valueClass: string }) {
   return (
-    <div className="bg-white px-4 py-3">
-      <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest mb-0.5">{label}</p>
+    <div className="bg-card px-4 py-3">
+      <p className="text-muted-foreground text-xs font-semibold uppercase tracking-widest mb-0.5">{label}</p>
       <p className={`text-2xl font-black tabular-nums ${valueClass}`}>{count}</p>
     </div>
   );
