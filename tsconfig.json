@@ -12,6 +12,8 @@
     "moduleDetection": "force",
     "noEmit": true,
 
+    "types": ["vite/client"],
+
     /* JSX Setup for React 19 */
     "jsx": "react-jsx",
     "jsxImportSource": "react",
