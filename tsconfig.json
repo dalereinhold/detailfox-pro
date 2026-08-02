@@ -26,10 +26,11 @@
     "esModuleInterop": true,
 
     /* Path Aliases (Vite + shadcn UI) */
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "ignoreDeprecations": "6.0"
   },
   "include": ["src", "vite.config.ts", "src/routeTree.gen.ts"]
 }
