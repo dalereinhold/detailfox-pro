@@ -1,54 +1,60 @@
-# DetailFox
+# Pro Suite
 
-A collection of lightweight, precision tools for the hobby detailer. DetailFox combines time tracking, intake management, and guided workflow routines into a single fast, focused application.
+A workspace of precision tools for the hobby detailer. Pro Suite combines time tracking, guided workflow routines, and statistics into a single fast, focused application with a dark/light theme.
 
 ## Tools
 
-### Pace (DetailPace)
+### Dashboard (`/`)
 
-Time-tracking and intake for the detailing bay. Log vehicles, run live timers, and watch your stats update in real time.
+Overview landing page showing statistics — total completed vehicles and average completion time broken down by vehicle type, with a one-click demo data seeder.
 
-- **Intake form** — Add vehicles with license plate, type (New / Used / Demo), condition (Excellent / Good / Fair / Poor), service type, and optional notes
+### Pace Pro (`/pace-pro`)
+
+Time-tracking and intake for the detailing bay.
+
+- **Intake form** — Add vehicles with license plate (Swedish format), type (New / Used / Demo), condition (Excellent / Good / Fair / Poor), service type, and optional notes
 - **Live timers** — Start, pause, resume, and complete timers with automatic net-work-time calculation
 - **Status filtering** — Filter records by All, Pending, In Progress, On Break, or Completed
-- **Statistics sidebar** — Total processed count and average completion time broken down by vehicle type, with localStorage caching for instant loads
-- **Demo data seeding** — Generate 20 randomized vehicle records with a single click for testing
+- **Inline notes editing** — Click any card to edit notes inline
+- **Clear all** — Bulk delete all records with confirmation
 
-### Flow (DetailFlow)
+### Flow Pro (`/flow-pro`)
 
 Guided, timed routine workflows. Pick a service, run a step-by-step checklist with a high-precision timer, and review your performance.
 
-- **Routine selection** — Choose from service-type-aligned routines (see below)
+- **Routine selection** — Choose from service-type-aligned routines
 - **Step engine** — Step-by-step checklist with start, pause/resume, skip, and complete actions
 - **High-precision timer** — Millisecond-accuracy live timer with requestAnimationFrame
 - **Progress tracking** — Visual progress bar and step-count summary (Total, Pending, In Progress, On Break, Done)
-- **Performance panel** — Sidebar showing routine name, step completion stats, and timing breakdown
+- **Performance panel** — Sidebar showing routine name, total time vs estimate, completion rate, efficiency, and per-step breakdown
+
+### Store Pro (`/store-pro`)
+
+Placeholder for upcoming detailer inventory functionality.
 
 ## Unified Service Types
 
-Both Pace and Flow share a single source of truth for service types, defined in `src/lib/serviceTypes.ts`. Each service type has a unique color that is used consistently across both tools:
+Both Pace Pro and Flow Pro share a single source of truth for service types, defined in `src/lib/service-types.ts`. Each service type has a unique color tag and a set of routine steps:
 
-| Service Type      | Color    | Pace Tag | Flow Routine Border |
-| ----------------- | -------- | -------- | ------------------- |
-| Full Detail       | Sky      | Yes      | Yes                 |
-| Ceramic Coating   | Emerald  | Yes      | Yes                 |
-| Quick Detail      | Amber    | Yes      | Yes                 |
-| Delivery Prep     | Rose     | Yes      | Yes                 |
+| Service Type      | Steps | Used By              |
+| ------------------ | ----- | -------------------- |
+| Full Detail       | 9     | Pace dropdown, Flow  |
+| Ceramic Coating   | 6     | Pace dropdown, Flow  |
+| Quick Detail      | 3     | Pace dropdown, Flow  |
+| Delivery Prep     | 5     | Pace dropdown, Flow  |
 
-- **Pace** — The intake dropdown and vehicle card service-type tags pull from the shared module
-- **Flow** — Routines are derived directly from the shared service types, so every routine matches a Pace service type by name, ID, color, and step definition
-
-Adding, renaming, or recoloring a service type in `src/lib/serviceTypes.ts` automatically updates the Pace dropdown, the vehicle card tag, the Flow routine card, and the Flow performance panel badge.
+Adding, renaming, or recoloring a service type in `src/lib/service-types.ts` automatically updates the Pace Pro dropdown, the vehicle card tag, the Flow Pro routine card, and the performance panel badge.
 
 ## Tech Stack
 
 - **React 19** + **TypeScript** — UI framework with strict typing
 - **Vite** — Build tool and dev server
-- **Tailwind CSS v4** — Utility-first styling with a custom design system (8px spacing, 6+ color ramps, no purple/indigo hues)
-- **Zustand** — Lightweight state management for the Flow session engine
+- **TanStack Router** — File-based routing with auto code splitting
+- **Tailwind CSS v4** — Utility-first styling
+- **Zustand** — Lightweight state management for the Flow Pro session engine
 - **Supabase** — PostgreSQL database with Row Level Security for vehicle record persistence
 - **lucide-react** — Icon library
-- **TanStack Router** — File-based routing
+- **radix-ui** — Primitives for UI components (Slot)
 
 ## Database
 
@@ -57,7 +63,7 @@ Vehicle records are stored in a Supabase `vehicles` table with the following sch
 | Column              | Type        | Description                                                |
 | ------------------- | ----------- | ---------------------------------------------------------- |
 | `id`                | uuid        | Primary key                                                |
-| `license_plate`     | text        | Vehicle license plate                                      |
+| `license_plate`     | text        | Vehicle license plate (Swedish format)                     |
 | `type`              | text        | New, Used, or Demo                                         |
 | `condition`         | text        | Excellent, Good, Fair, or Poor                             |
 | `service_type`      | text        | Full Detail, Ceramic Coating, Quick Detail, or Delivery Prep |
@@ -75,26 +81,42 @@ Row Level Security is enabled with per-user CRUD policies scoped via `auth.uid()
 
 ```
 src/
-  lib/
-    serviceTypes.ts      # Shared service types, colors, and routine steps
-    supabase.ts          # Supabase client and Vehicle type definitions
-    useStats.ts          # Statistics hook with localStorage caching
+  routes/
+    __root.tsx            # Root layout (sidebar + header + outlet)
+    index.tsx             # Dashboard route (/)
+    pace-pro.tsx          # Pace Pro route (/pace-pro)
+    flow-pro.tsx          # Flow Pro route (/flow-pro)
+    store-pro.tsx         # Store Pro route (/store-pro)
   components/
-    IntakeForm.tsx       # Vehicle intake form (Pace)
-    Dashboard.tsx        # Vehicle records grid with filtering (Pace)
-    VehicleCard.tsx      # Individual vehicle card with live timer (Pace)
-    StatsDashboard.tsx   # Statistics sidebar with seed-data (Pace)
-    ui/                  # Shared UI primitives (Button, Card, ProgressBar)
-  detailflow/
-    store.ts             # Zustand store for Flow session state
-    DetailFlow.tsx       # Flow layout (sidebar + main)
-    RoutineSelection.tsx # Routine picker screen (Flow)
-    StepEngine.tsx       # Active session step-by-step timer (Flow)
-    PerformancePanel.tsx # Performance sidebar (Flow)
-    format.ts            # Time formatting utilities
-  pages/
-    Landing.tsx          # Landing page with tool cards
-  App.tsx                # Root app with navigation
+    app-sidebar.tsx       # Collapsible sidebar navigation
+    site-header.tsx       # Header with theme toggle
+    empty-state.tsx       # Reusable empty state card
+    progress-bar.tsx      # Progress bar component
+    theme-provider.tsx    # Dark/light/system theme context
+    ui/
+      Button.tsx          # Button (shadcn-style, CVA variants)
+      Card.tsx            # Card components (shadcn-style)
+      progress.tsx        # Progress primitive
+    pace-pro/
+      intake-form.tsx     # Vehicle intake form
+      intake-records.tsx  # Vehicle records grid with filtering
+      pace-stats.tsx      # Statistics sidebar with seed-data button
+      vehicle-card.tsx    # Vehicle card with live timer and inline notes
+    flow-pro/
+      routine-selection.tsx  # Routine picker screen
+      step-engine.tsx        # Active session step-by-step timer
+      performance-panel.tsx  # Performance sidebar
+  lib/
+    supabase.ts           # Supabase client and Vehicle type definitions
+    service-types.ts      # Shared service types, colors, and routine steps
+    store.ts              # Zustand store for Flow Pro session state
+    use-stats.ts          # Statistics hook with localStorage caching
+    seed-generator.ts     # Demo data generator and seeder
+    format.ts             # Time formatting utilities (duration, timer)
+    navigation.ts         # Navigation items config
+    utils.ts              # cn() class merge utility
+  hooks/
+    use-mobile.ts         # Mobile breakpoint hook
 ```
 
 ## Development
