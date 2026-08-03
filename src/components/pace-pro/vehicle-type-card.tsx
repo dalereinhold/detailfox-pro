@@ -30,12 +30,10 @@ const TYPE_CONFIG: Record<VehicleType, { valueClass: string; barClass: string; b
 export default function VehicleTypeCard({ type, stats, loading }: VehicleTypeCardProps) {
   const cfg = TYPE_CONFIG[type];
 
-  const maxAvg = stats?.byServiceType
+  const maxAvg = stats
     ? Math.max(
-        ...SERVICE_TYPES.map(
-          (s) => stats.byServiceType?.[s.name as VehicleServiceType]?.avgSeconds ?? 0
-        ),
-        1
+        ...SERVICE_TYPES.map((s) => stats.byServiceType[s.name as VehicleServiceType]?.avgSeconds ?? 0),
+        1,
       )
     : 1;
 
@@ -66,8 +64,7 @@ export default function VehicleTypeCard({ type, stats, loading }: VehicleTypeCar
       {/* Body — per service type */}
       <div className="p-5 space-y-4 flex-1">
         {SERVICE_TYPES.map((st) => {
-          const serviceStat: ServiceTypeStat | undefined =
-            stats?.byServiceType?.[st.name as VehicleServiceType];
+          const serviceStat: ServiceTypeStat | undefined = stats?.byServiceType[st.name as VehicleServiceType];
           const hasData = serviceStat && serviceStat.count > 0;
           const barWidth =
             hasData && serviceStat.avgSeconds > 0
