@@ -30,7 +30,7 @@ export function AppSidebar({ collapsed, onToggle }: AppSidebarProps) {
             <span className="bg-primary text-primary-foreground flex size-8 shrink-0 items-center justify-center rounded-lg">
               <Boxes className="size-4" />
             </span>
-            <span className="truncate text-sm font-semibold">Pro Suite</span>
+            <span className="truncate text-sm font-semibold">DetailFox Pro</span>
           </Link>
         )}
         <Button
