@@ -34,14 +34,19 @@ export function AppSidebar({ collapsed, onToggle, mobileOpen, onClose }: AppSide
           "justify-between",
         )}
       >
-        {(!collapsed || mobileOpen) && (
-          <Link to="/" className="flex items-center gap-2 overflow-hidden" onClick={onClose}>
-            <span className="bg-primary text-primary-foreground flex size-8 shrink-0 items-center justify-center rounded-lg">
-              <Boxes className="size-4" />
-            </span>
+        <Link
+          to="/"
+          className="flex items-center gap-2 overflow-hidden"
+          onClick={onClose}
+          aria-label="DetailFox Pro home"
+        >
+          <span className="bg-primary text-primary-foreground flex size-8 shrink-0 items-center justify-center rounded-lg">
+            <Boxes className="size-4" />
+          </span>
+          {!collapsed && (
             <span className="truncate text-sm font-semibold">DetailFox Pro</span>
-          </Link>
-        )}
+          )}
+        </Link>
         {/* Close button — mobile only */}
         <Button
           variant="ghost"
@@ -51,16 +56,6 @@ export function AppSidebar({ collapsed, onToggle, mobileOpen, onClose }: AppSide
           className="text-sidebar-foreground md:hidden"
         >
           <X />
-        </Button>
-        {/* Collapse/expand button — desktop only */}
-        <Button
-          variant="ghost"
-          size="icon-sm"
-          onClick={onToggle}
-          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-          className="text-sidebar-foreground hidden md:flex"
-        >
-          {collapsed ? <PanelLeftOpen /> : <PanelLeftClose />}
         </Button>
       </div>
 
@@ -86,7 +81,7 @@ export function AppSidebar({ collapsed, onToggle, mobileOpen, onClose }: AppSide
                   }}
                 >
                   <Icon className="size-4 shrink-0" />
-                  {(!collapsed || mobileOpen) && <span className="truncate">{item.title}</span>}
+                  {!collapsed && <span className="truncate">{item.title}</span>}
                 </Link>
               </li>
             )
@@ -94,15 +89,28 @@ export function AppSidebar({ collapsed, onToggle, mobileOpen, onClose }: AppSide
         </ul>
       </nav>
 
-      <div className="border-sidebar-border border-t p-3">
+      <div className="border-sidebar-border border-t p-2">
+        {/* Collapse/expand button — desktop only */}
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          onClick={onToggle}
+          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          className={cn(
+            "text-sidebar-foreground hidden md:flex",
+            collapsed ? "mx-auto" : "ml-auto",
+          )}
+        >
+          {collapsed ? <PanelLeftOpen /> : <PanelLeftClose />}
+        </Button>
         <div
           className={cn(
-            "text-sidebar-foreground/60 flex items-center gap-2 text-xs",
+            "text-sidebar-foreground/60 flex items-center gap-2 px-1 pt-2 text-xs",
             collapsed && "md:justify-center",
           )}
         >
           <span className="bg-chart-2 size-2 shrink-0 rounded-full" aria-hidden="true" />
-          {(!collapsed || mobileOpen) && <span className="truncate">All systems operational</span>}
+          {!collapsed && <span className="truncate">All systems operational</span>}
         </div>
       </div>
     </aside>
