@@ -1,11 +1,15 @@
 import { useMatches } from "@tanstack/react-router"
-import { Moon, Sun } from "lucide-react"
+import { Moon, Sun, Menu } from "lucide-react"
 
 import { Button } from "@/components/ui/Button"
 import { useTheme } from "@/components/theme-provider"
 import { navItems } from "@/lib/navigation"
 
-export function SiteHeader() {
+type SiteHeaderProps = {
+  onToggleSidebar: () => void
+}
+
+export function SiteHeader({ onToggleSidebar }: SiteHeaderProps) {
   const { resolvedTheme, setTheme } = useTheme()
   const matches = useMatches()
 
@@ -17,9 +21,21 @@ export function SiteHeader() {
 
   return (
     <header className="border-border bg-background/80 sticky top-0 z-10 flex h-14 items-center justify-between border-b px-4 backdrop-blur md:px-6">
-      <div className="flex flex-col">
-        <h1 className="text-sm font-semibold leading-none">{title}</h1>
-        <p className="text-muted-foreground mt-1 text-xs leading-none">Pro Suite workspace</p>
+      <div className="flex items-center gap-2">
+        {/* Sidebar toggle — mobile only */}
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          onClick={onToggleSidebar}
+          aria-label="Toggle sidebar"
+          className="md:hidden"
+        >
+          <Menu />
+        </Button>
+        <div className="flex flex-col">
+          <h1 className="text-sm font-semibold leading-none">{title}</h1>
+          <p className="text-muted-foreground mt-1 text-xs leading-none">Pro Suite workspace</p>
+        </div>
       </div>
 
       <Button
