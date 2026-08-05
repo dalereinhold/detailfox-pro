@@ -17,13 +17,14 @@ export function AppSidebar({ collapsed, onToggle, mobileOpen, onClose }: AppSide
     <aside
       data-collapsed={collapsed}
       className={cn(
-        "bg-sidebar text-sidebar-foreground border-sidebar-border flex h-svh shrink-0 flex-col border-r transition-[width,transform] duration-200 ease-in-out",
-        // Mobile: fixed overlay, full width, slide in/out
+        "bg-sidebar text-sidebar-foreground border-sidebar-border flex h-svh shrink-0 flex-col border-r",
+        // Mobile: fixed overlay, hidden by default, shown when mobileOpen
         "fixed inset-y-0 left-0 z-50 w-64",
-        mobileOpen ? "translate-x-0" : "-translate-x-full",
-        // Desktop: inline, collapsible
-        "md:relative md:translate-x-0 md:z-auto",
+        mobileOpen ? "flex" : "hidden",
+        // Desktop: always visible, inline, collapsible width
+        "md:relative md:flex md:z-auto",
         collapsed ? "md:w-16" : "md:w-64",
+        "transition-[width] duration-200 ease-in-out",
       )}
     >
       <div
