@@ -3,7 +3,7 @@ import { PanelLeftClose, PanelLeftOpen, Boxes, X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { navItems } from "@/lib/navigation"
-import { Button } from "@/components/ui/Button"
+import { Button } from "@/components/ui/button"
 
 type AppSidebarProps = {
   collapsed: boolean
