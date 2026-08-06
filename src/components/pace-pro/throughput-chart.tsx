@@ -14,7 +14,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/Card';
+} from '@/components/ui/card'; // Fixed casing
 import {
   Select,
   SelectContent,
@@ -28,10 +28,11 @@ interface ThroughputChartProps {
   loading: boolean;
 }
 
-const RANGES: { label: string; value: TimeSeriesGranularity; buckets: number }[] = [
-  { label: 'Last 7 days', value: 'day', buckets: 7 },
-  { label: 'Last 30 days', value: 'day', buckets: 30 },
-  { label: 'Last 3 months', value: 'day', buckets: 90 },
+// 1. Added unique IDs for selection and mapping
+const RANGES: { id: string; label: string; value: TimeSeriesGranularity; buckets: number }[] = [
+  { id: '7d', label: 'Last 7 days', value: 'day', buckets: 7 },
+  { id: '30d', label: 'Last 30 days', value: 'day', buckets: 30 },
+  { id: '90d', label: 'Last 3 months', value: 'day', buckets: 90 },
 ];
 
 const chartConfig = {
@@ -42,34 +43,39 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export default function ThroughputChart({ vehicles, loading }: ThroughputChartProps) {
-  const [granularity, setGranularity] = useState<TimeSeriesGranularity>('day');
+  // Track selected range ID instead of granularity directly
+  const [rangeId, setRangeId] = useState<string>('7d');
 
-  const config = RANGES.find((r) => r.value === granularity)!;
+  const config = useMemo(
+    () => RANGES.find((r) => r.id === rangeId) ?? RANGES[0],
+    [rangeId]
+  );
 
   const chartData = useMemo(
-    () => getTimeSeries(vehicles, granularity, config.buckets),
-    [vehicles, granularity, config.buckets],
+    () => getTimeSeries(vehicles, config.value, config.buckets),
+    [vehicles, config.value, config.buckets],
   );
 
   return (
     <Card className="pt-0">
-      <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
+      <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center gap-2 space-y-0 border-b py-5">
         <div className="grid flex-1 gap-1">
           <CardTitle>Throughput</CardTitle>
           <CardDescription>
             Completed vehicles over {config.label.toLowerCase()}
           </CardDescription>
         </div>
-        <Select value={granularity} onValueChange={(v) => setGranularity(v as TimeSeriesGranularity)}>
+        {/* 3. Removed 'hidden' so the dropdown remains accessible on mobile */}
+        <Select value={rangeId} onValueChange={setRangeId}>
           <SelectTrigger
-            className="hidden w-[160px] rounded-lg sm:ml-auto sm:flex"
+            className="w-[160px] rounded-lg sm:ml-auto"
             aria-label="Select a time range"
           >
-            <SelectValue placeholder="Last 3 months" />
+            <SelectValue placeholder="Select range" />
           </SelectTrigger>
           <SelectContent className="rounded-xl">
             {RANGES.map((r) => (
-              <SelectItem key={r.value} value={r.value} className="rounded-lg">
+              <SelectItem key={r.id} value={r.id} className="rounded-lg">
                 {r.label}
               </SelectItem>
             ))}
