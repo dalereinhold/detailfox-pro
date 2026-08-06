@@ -1,7 +1,7 @@
 import { useMatches } from "@tanstack/react-router"
 import { Moon, Sun, Menu } from "lucide-react"
 
-import { Button } from "@/components/ui/Button"
+import { Button } from "@/components/ui/button"
 import { useTheme } from "@/components/theme-provider"
 import { navItems } from "@/lib/navigation"
 
