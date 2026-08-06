@@ -29,9 +29,9 @@ interface ThroughputChartProps {
 }
 
 const RANGES: { label: string; value: TimeSeriesGranularity; buckets: number }[] = [
-  { label: 'Last 6 months', value: 'month', buckets: 6 },
-  { label: 'Last 26 weeks', value: 'week', buckets: 26 },
-  { label: 'Last 180 days', value: 'day', buckets: 180 },
+  { label: 'Last 7 days', value: 'day', buckets: 7 },
+  { label: 'Last 30 days', value: 'day', buckets: 30 },
+  { label: 'Last 3 months', value: 'day', buckets: 90 },
 ];
 
 const chartConfig = {
@@ -42,7 +42,7 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export default function ThroughputChart({ vehicles, loading }: ThroughputChartProps) {
-  const [granularity, setGranularity] = useState<TimeSeriesGranularity>('month');
+  const [granularity, setGranularity] = useState<TimeSeriesGranularity>('day');
 
   const config = RANGES.find((r) => r.value === granularity)!;
 
@@ -65,7 +65,7 @@ export default function ThroughputChart({ vehicles, loading }: ThroughputChartPr
             className="hidden w-[160px] rounded-lg sm:ml-auto sm:flex"
             aria-label="Select a time range"
           >
-            <SelectValue placeholder="Last 6 months" />
+            <SelectValue placeholder="Last 3 months" />
           </SelectTrigger>
           <SelectContent className="rounded-xl">
             {RANGES.map((r) => (
