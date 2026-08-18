@@ -17,13 +17,25 @@ export function SiteHeader({ onToggleSidebar }: SiteHeaderProps) {
   const current = navItems.find((item) =>
     item.path === "/" ? activePath === "/" : activePath.startsWith(item.path),
   )
-  const title = current?.title ?? "Pro Suite"
+  const title = current?.title ?? "DetailFox Pro"
 
   return (
     <header className="border-border bg-background/80 sticky top-0 z-10 flex h-14 items-center justify-between border-b px-4 backdrop-blur md:px-6">
-      <div className="flex flex-col">
-        <h1 className="text-sm font-semibold leading-none">{title}</h1>
-        <p className="text-muted-foreground mt-1 text-xs leading-none">DetailFox Pro workspace</p>
+      <div className="flex items-center gap-3">
+        {/* Toggle sidebar button */}
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          onClick={onToggleSidebar}
+          aria-label="Toggle sidebar"
+        >
+          <Menu className="size-4" />
+        </Button>
+
+        <div className="flex flex-col">
+          <h1 className="text-sm font-semibold leading-none">{title}</h1>
+          <p className="text-muted-foreground mt-1 text-xs leading-none">DetailFox Pro workspace</p>
+        </div>
       </div>
 
       <Button
