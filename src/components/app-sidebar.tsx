@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router"
-import { PanelLeftClose, PanelLeftOpen, Boxes } from "lucide-react"
+import { PanelLeftClose, PanelLeftOpen, Boxes, X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { navItems } from "@/lib/navigation"
@@ -8,21 +8,30 @@ import { Button } from "@/components/ui/button"
 type AppSidebarProps = {
   collapsed: boolean
   onToggle: () => void
+  mobileOpen: boolean
+  onClose: () => void
 }
 
-export function AppSidebar({ collapsed, onToggle }: AppSidebarProps) {
+export function AppSidebar({ collapsed, onToggle, mobileOpen, onClose }: AppSidebarProps) {
   return (
     <aside
       data-collapsed={collapsed}
       className={cn(
-        "bg-sidebar text-sidebar-foreground border-sidebar-border flex h-svh shrink-0 flex-col border-r transition-[width] duration-200 ease-in-out",
-        collapsed ? "w-16" : "w-64",
+        "bg-sidebar text-sidebar-foreground border-sidebar-border flex h-svh shrink-0 flex-col border-r",
+        // Mobile: fixed overlay, hidden by default, shown when mobileOpen
+        "fixed inset-y-0 left-0 z-50 w-64",
+        mobileOpen ? "flex" : "hidden",
+        // Desktop: always visible, inline, collapsible width
+        "md:relative md:flex md:z-auto",
+        collapsed ? "md:w-16" : "md:w-64",
+        "transition-[width] duration-200 ease-in-out",
       )}
     >
       <div
         className={cn(
           "border-sidebar-border flex h-14 items-center border-b px-3",
-          collapsed ? "justify-center" : "justify-between",
+          collapsed ? "md:justify-center" : "md:justify-between",
+          "justify-between",
         )}
       >
         {!collapsed && (
@@ -36,11 +45,11 @@ export function AppSidebar({ collapsed, onToggle }: AppSidebarProps) {
         <Button
           variant="ghost"
           size="icon-sm"
-          onClick={onToggle}
-          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-          className="text-sidebar-foreground"
+          onClick={onClose}
+          aria-label="Close sidebar"
+          className="text-sidebar-foreground md:hidden"
         >
-          {collapsed ? <PanelLeftOpen /> : <PanelLeftClose />}
+          <X />
         </Button>
       </div>
 
@@ -54,10 +63,11 @@ export function AppSidebar({ collapsed, onToggle }: AppSidebarProps) {
                   to={item.path}
                   aria-label={item.title}
                   title={collapsed ? item.title : undefined}
+                  onClick={onClose}
                   activeOptions={{ exact: item.path === "/" }}
                   className={cn(
                     "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-sidebar-ring flex items-center gap-3 rounded-lg px-2.5 py-2 text-sm font-medium transition-colors outline-none focus-visible:ring-2",
-                    collapsed && "justify-center",
+                    collapsed && "md:justify-center",
                   )}
                   activeProps={{
                     className:
@@ -73,11 +83,24 @@ export function AppSidebar({ collapsed, onToggle }: AppSidebarProps) {
         </ul>
       </nav>
 
-      <div className="border-sidebar-border border-t p-3">
+      <div className="border-sidebar-border border-t p-2">
+        {/* Collapse/expand button — desktop only */}
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          onClick={onToggle}
+          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          className={cn(
+            "text-sidebar-foreground hidden md:flex",
+            collapsed ? "mx-auto" : "ml-auto",
+          )}
+        >
+          {collapsed ? <PanelLeftOpen /> : <PanelLeftClose />}
+        </Button>
         <div
           className={cn(
-            "text-sidebar-foreground/60 flex items-center gap-2 text-xs",
-            collapsed && "justify-center",
+            "text-sidebar-foreground/60 flex items-center gap-2 px-1 pt-2 text-xs",
+            collapsed && "md:justify-center",
           )}
         >
           <span className="bg-chart-2 size-2 shrink-0 rounded-full" aria-hidden="true" />

@@ -1,11 +1,15 @@
 import { useMatches } from "@tanstack/react-router"
-import { Moon, Sun } from "lucide-react"
+import { Moon, Sun, Menu } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { useTheme } from "@/components/theme-provider"
 import { navItems } from "@/lib/navigation"
 
-export function SiteHeader() {
+type SiteHeaderProps = {
+  onToggleSidebar: () => void
+}
+
+export function SiteHeader({ onToggleSidebar }: SiteHeaderProps) {
   const { resolvedTheme, setTheme } = useTheme()
   const matches = useMatches()
 
