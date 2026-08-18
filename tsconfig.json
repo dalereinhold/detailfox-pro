@@ -11,6 +11,7 @@
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
+    "ignoreDeprecations": "6.0",
 
     "types": ["vite/client"],
 
@@ -30,7 +31,6 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "ignoreDeprecations": "6.0"
   },
   "include": ["src", "vite.config.ts", "src/routeTree.gen.ts"]
 }

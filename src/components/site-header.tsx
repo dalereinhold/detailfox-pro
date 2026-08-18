@@ -1,7 +1,7 @@
 import { useMatches } from "@tanstack/react-router"
 import { Moon, Sun } from "lucide-react"
 
-import { Button } from "@/components/ui/Button"
+import { Button } from "@/components/ui/button"
 import { useTheme } from "@/components/theme-provider"
 import { navItems } from "@/lib/navigation"
 
@@ -19,7 +19,7 @@ export function SiteHeader() {
     <header className="border-border bg-background/80 sticky top-0 z-10 flex h-14 items-center justify-between border-b px-4 backdrop-blur md:px-6">
       <div className="flex flex-col">
         <h1 className="text-sm font-semibold leading-none">{title}</h1>
-        <p className="text-muted-foreground mt-1 text-xs leading-none">Pro Suite workspace</p>
+        <p className="text-muted-foreground mt-1 text-xs leading-none">DetailFox Pro workspace</p>
       </div>
 
       <Button

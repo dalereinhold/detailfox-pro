@@ -1,14 +1,14 @@
 import type { LucideIcon } from "lucide-react"
 import { Plus } from "lucide-react"
 
-import { Button } from "@/components/ui/Button"
+import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/Card"
+} from "@/components/ui/card"
 
 type EmptyStateProps = {
   icon: LucideIcon

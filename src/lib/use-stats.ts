@@ -1,5 +1,11 @@
 import { useEffect, useState } from 'react';
-import { supabase, type Vehicle, type VehicleType, formatDuration } from './supabase';
+import {
+  supabase,
+  type Vehicle,
+  type VehicleType,
+  type VehicleServiceType,
+  formatDuration,
+} from './supabase';
 
 export interface TypeStats {
   count: number;
@@ -7,32 +13,32 @@ export interface TypeStats {
   avgFormatted: string;
 }
 
+export interface ServiceTypeStats extends TypeStats {
+  byVehicleType: Partial<Record<VehicleType, TypeStats>>;
+}
+
 export interface Stats {
   totalProcessed: number;
   byType: Record<VehicleType, TypeStats>;
+  byService: Record<VehicleServiceType, ServiceTypeStats>;
   lastUpdated: number;
 }
 
 const STORAGE_KEY = 'detailtrack_stats_cache';
 const VEHICLE_TYPES: VehicleType[] = ['New', 'Used', 'Demo'];
+const SERVICE_TYPES: VehicleServiceType[] = [
+  'Full Detail',
+  'Ceramic Coating',
+  'Quick Detail',
+  'Delivery Prep',
+];
 
 function computeStats(vehicles: Vehicle[]): Stats {
   const completed = vehicles.filter((v) => v.status === 'Completed');
 
   const byType = {} as Record<VehicleType, TypeStats>;
   for (const type of VEHICLE_TYPES) {
-    // Filter completed vehicles by type and their specific service type rules
-    const group = completed.filter((v) => {
-      if (v.type !== type) return false;
-      if (type === 'New' || type === 'Used') {
-        return v.service_type === 'Full Detail';
-      }
-      if (type === 'Demo') {
-        return v.service_type === 'Quick Detail';
-      }
-      return false;
-    });
-
+    const group = completed.filter((v) => v.type === type);
     const totalSecs = group.reduce((sum, v) => sum + v.net_work_seconds, 0);
     const avgSeconds = group.length > 0 ? Math.round(totalSecs / group.length) : 0;
     byType[type] = {
@@ -42,9 +48,36 @@ function computeStats(vehicles: Vehicle[]): Stats {
     };
   }
 
+  const byService = {} as Record<VehicleServiceType, ServiceTypeStats>;
+  for (const serviceType of SERVICE_TYPES) {
+    const group = completed.filter((v) => v.service_type === serviceType);
+    const totalSecs = group.reduce((sum, v) => sum + v.net_work_seconds, 0);
+    const avgSeconds = group.length > 0 ? Math.round(totalSecs / group.length) : 0;
+
+    const byVehicleType = {} as Partial<Record<VehicleType, TypeStats>>;
+    for (const type of VEHICLE_TYPES) {
+      const typeGroup = group.filter((v) => v.type === type);
+      const typeTotalSecs = typeGroup.reduce((sum, v) => sum + v.net_work_seconds, 0);
+      const typeAvgSeconds = typeGroup.length > 0 ? Math.round(typeTotalSecs / typeGroup.length) : 0;
+      byVehicleType[type] = {
+        count: typeGroup.length,
+        avgSeconds: typeAvgSeconds,
+        avgFormatted: typeGroup.length > 0 ? formatDuration(typeAvgSeconds) : '--',
+      };
+    }
+
+    byService[serviceType] = {
+      count: group.length,
+      avgSeconds,
+      avgFormatted: group.length > 0 ? formatDuration(avgSeconds) : '--',
+      byVehicleType,
+    };
+  }
+
   return {
     totalProcessed: completed.length,
     byType,
+    byService,
     lastUpdated: Date.now(),
   };
 }

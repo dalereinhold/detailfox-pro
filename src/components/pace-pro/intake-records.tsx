@@ -41,29 +41,6 @@ export default function IntakeRecords({ refreshTrigger, onVehiclesUpdated }: Int
     setLoading(false);
   }
 
-  async function handleClearAll() {
-    if (!confirm('Are you sure you want to delete ALL records from the database? This action cannot be undone.')) return;
-    setLoading(true);
-    setError(null);
-
-    // Delete all rows in Supabase by matching a condition that is always true
-    const { error: dbError } = await supabase
-      .from('vehicles')
-      .delete()
-      .neq('id', '00000000-0000-0000-0000-000000000000');
-
-    if (dbError) {
-      setError(dbError.message);
-      setLoading(false);
-    } else {
-      setVehicles([]);
-      if (onVehiclesUpdated) {
-        onVehiclesUpdated();
-      }
-      setLoading(false);
-    }
-  }
-
   useEffect(() => { fetchVehicles(); }, [refreshTrigger]);
 
   const filtered =
@@ -93,14 +70,6 @@ export default function IntakeRecords({ refreshTrigger, onVehiclesUpdated }: Int
         </div>
         <div className="flex items-center gap-2">
           <button
-            onClick={handleClearAll}
-            disabled={vehicles.length === 0 || loading}
-            className="flex items-center gap-2 text-destructive hover:text-destructive/80 disabled:opacity-40 text-xs font-semibold uppercase tracking-widest border border-border hover:border-destructive/30 px-4 py-2.5 transition-colors bg-card rounded-md"
-          >
-            <Trash2 className="w-3.5 h-3.5" />
-            Clear All
-          </button>
-          <button
             onClick={fetchVehicles}
             className="flex items-center gap-2 text-muted-foreground hover:text-foreground text-xs font-semibold uppercase tracking-widest border border-border hover:border-foreground px-4 py-2.5 transition-colors bg-card rounded-md"
           >
@@ -108,15 +77,6 @@ export default function IntakeRecords({ refreshTrigger, onVehiclesUpdated }: Int
             Refresh
           </button>
         </div>
-      </div>
-
-      {/* Summary stats */}
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-px bg-border border border-border rounded-lg overflow-hidden mb-6">
-        <StatPill label="Total" count={counts['All']} valueClass="text-foreground" />
-        <StatPill label="Pending" count={counts['Pending']} valueClass="text-muted-foreground" />
-        <StatPill label="In Progress" count={counts['In Progress']} valueClass="text-sky-500" />
-        <StatPill label="On Break" count={counts['On Break']} valueClass="text-amber-500" />
-        <StatPill label="Completed" count={counts['Completed']} valueClass="text-emerald-500" />
       </div>
 
       {/* Filter tabs */}
