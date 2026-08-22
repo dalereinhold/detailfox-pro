@@ -1,105 +1,111 @@
-import { useEffect, useState } from 'react';
-import { LayoutGrid, Clock, Coffee, CheckCircle2, RefreshCw, Hourglass, Trash2 } from 'lucide-react';
-import { supabase, type Vehicle, type VehicleStatus } from '@/lib/supabase';
-import VehicleCard from './vehicle-card';
+import { useEffect, useState } from "react";
+import {
+  LayoutGrid,
+  Clock,
+  Coffee,
+  CheckCircle2,
+  Hourglass,
+} from "lucide-react";
+import { supabase, type Vehicle, type VehicleStatus } from "@/lib/supabase";
+import {
+  STATUS_ORDER,
+  getDisplayStatus,
+  isPending,
+} from "@/lib/pace-pro/vehicle";
+import VehicleCard from "./vehicle-card";
 
 interface IntakeProps {
   refreshTrigger: number;
   onVehiclesUpdated?: () => void;
 }
 
-type FilterValue = VehicleStatus | 'All' | 'Pending';
+type FilterValue = VehicleStatus | "All" | "Pending";
 
-const STATUS_FILTERS: { label: string; value: FilterValue; icon: React.ReactNode }[] = [
-  { label: 'All', value: 'All', icon: <LayoutGrid className="w-3.5 h-3.5" /> },
-  { label: 'Pending', value: 'Pending', icon: <Hourglass className="w-3.5 h-3.5" /> },
-  { label: 'In Progress', value: 'In Progress', icon: <Clock className="w-3.5 h-3.5" /> },
-  { label: 'On Break', value: 'On Break', icon: <Coffee className="w-3.5 h-3.5" /> },
-  { label: 'Completed', value: 'Completed', icon: <CheckCircle2 className="w-3.5 h-3.5" /> },
+const STATUS_FILTERS: {
+  label: string;
+  value: FilterValue;
+  icon: React.ReactNode;
+}[] = [
+  { label: "All", value: "All", icon: <LayoutGrid className="w-3.5 h-3.5" /> },
+  {
+    label: "Pending",
+    value: "Pending",
+    icon: <Hourglass className="w-3.5 h-3.5" />,
+  },
+  {
+    label: "In Progress",
+    value: "In Progress",
+    icon: <Clock className="w-3.5 h-3.5" />,
+  },
+  {
+    label: "On Break",
+    value: "On Break",
+    icon: <Coffee className="w-3.5 h-3.5" />,
+  },
+  {
+    label: "Completed",
+    value: "Completed",
+    icon: <CheckCircle2 className="w-3.5 h-3.5" />,
+  },
 ];
 
-function isPending(v: Vehicle) {
-  return v.status === 'In Progress' && !v.started_at && v.net_work_seconds === 0;
-}
-
-export default function IntakeRecords({ refreshTrigger, onVehiclesUpdated }: IntakeProps) {
+export default function IntakeRecords({
+  refreshTrigger,
+  onVehiclesUpdated,
+}: IntakeProps) {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [filter, setFilter] = useState<FilterValue>('All');
+  const [filter, setFilter] = useState<FilterValue>("All");
 
   async function fetchVehicles() {
     setLoading(true);
     setError(null);
     const { data, error: dbError } = await supabase
-      .from('vehicles')
-      .select('*')
-      .order('created_at', { ascending: false });
+      .from("vehicles")
+      .select("*")
+      .order("created_at", { ascending: false });
 
-    if (dbError) { setError(dbError.message); }
-    else { setVehicles((data as Vehicle[]) ?? []); }
+    if (dbError) {
+      setError(dbError.message);
+    } else {
+      setVehicles((data as Vehicle[]) ?? []);
+    }
     setLoading(false);
   }
 
-  useEffect(() => { fetchVehicles(); }, [refreshTrigger]);
+  useEffect(() => {
+    fetchVehicles();
+  }, [refreshTrigger]);
 
   const filtered =
-    filter === 'All'
-      ? vehicles
-      : filter === 'Pending'
-      ? vehicles.filter(isPending)
-      : vehicles.filter((v) => v.status === filter && !isPending(v));
-
-  const counts = {
-    All: vehicles.length,
-    Pending: vehicles.filter(isPending).length,
-    'In Progress': vehicles.filter((v) => v.status === 'In Progress' && !isPending(v)).length,
-    'On Break': vehicles.filter((v) => v.status === 'On Break').length,
-    Completed: vehicles.filter((v) => v.status === 'Completed').length,
-  };
+    filter === "All"
+      ? [...vehicles].sort(
+          (a, b) =>
+            STATUS_ORDER[getDisplayStatus(a)] -
+            STATUS_ORDER[getDisplayStatus(b)],
+        )
+      : filter === "Pending"
+        ? vehicles.filter(isPending)
+        : vehicles.filter((v) => v.status === filter && !isPending(v));
 
   return (
     <section>
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
-        <div>
-          <h2 className="text-sm font-bold uppercase tracking-widest text-foreground">All Records</h2>
-          <p className="text-muted-foreground text-xs mt-1">
-            {vehicles.length} vehicle{vehicles.length !== 1 ? 's' : ''} in records
-          </p>
-        </div>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={fetchVehicles}
-            className="flex items-center gap-2 text-muted-foreground hover:text-foreground text-xs font-semibold uppercase tracking-widest border border-border hover:border-foreground px-4 py-2.5 transition-colors bg-card rounded-md"
-          >
-            <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
-            Refresh
-          </button>
-        </div>
-      </div>
-
-      {/* Filter tabs */}
-      <div className="flex flex-wrap gap-px bg-border border border-border rounded-lg overflow-hidden mb-8">
+      {/* Condensed Filter Tabs */}
+      <div className="inline-flex items-center gap-1 rounded-lg bg-muted p-1 mb-4">
         {STATUS_FILTERS.map(({ label, value, icon }) => (
           <button
             key={value}
             onClick={() => setFilter(value)}
-            className={`flex items-center gap-2 px-4 py-2.5 text-xs font-bold uppercase tracking-widest transition-colors ${
+            title={label}
+            className={`flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-medium transition-all ${
               filter === value
-                ? 'bg-primary text-primary-foreground'
-                : 'bg-card text-muted-foreground hover:text-foreground hover:bg-accent'
+                ? "bg-background text-foreground shadow-sm"
+                : "text-muted-foreground hover:text-foreground"
             }`}
           >
             {icon}
-            {label}
-            <span
-              className={`text-xs font-bold px-1.5 py-0.5 rounded-sm ${
-                filter === value ? 'bg-primary-foreground/20 text-primary-foreground' : 'bg-muted text-muted-foreground'
-              }`}
-            >
-              {counts[value as keyof typeof counts]}
-            </span>
+            <span className="hidden sm:inline">{label}</span>
           </button>
         ))}
       </div>
@@ -115,37 +121,37 @@ export default function IntakeRecords({ refreshTrigger, onVehiclesUpdated }: Int
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="border border-border h-72 animate-pulse bg-muted rounded-lg" />
+            <div
+              key={i}
+              className="border border-border h-72 animate-pulse bg-muted rounded-lg"
+            />
           ))}
         </div>
       ) : filtered.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-24 text-center border border-border bg-card rounded-lg">
           <LayoutGrid className="w-8 h-8 text-muted-foreground/40 mb-4" />
-          <p className="text-muted-foreground text-sm font-medium uppercase tracking-widest">No Vehicles</p>
+          <p className="text-muted-foreground text-sm font-medium uppercase tracking-widest">
+            No Vehicles
+          </p>
           <p className="text-muted-foreground/70 text-xs mt-1">
-            {filter === 'All'
-              ? 'Add a vehicle using the intake form above.'
-              : filter === 'Pending'
-              ? 'No vehicles waiting to be started.'
-              : `No vehicles with status "${filter}".`}
+            {filter === "All"
+              ? "Add a vehicle using the intake form above."
+              : filter === "Pending"
+                ? "No vehicles waiting to be started."
+                : `No vehicles with status "${filter}".`}
           </p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
           {filtered.map((vehicle) => (
-            <VehicleCard key={vehicle.id} vehicle={vehicle} onUpdated={fetchVehicles} />
+            <VehicleCard
+              key={vehicle.id}
+              vehicle={vehicle}
+              onUpdated={fetchVehicles}
+            />
           ))}
         </div>
       )}
     </section>
-  );
-}
-
-function StatPill({ label, count, valueClass }: { label: string; count: number; valueClass: string }) {
-  return (
-    <div className="bg-card px-4 py-3">
-      <p className="text-muted-foreground text-xs font-semibold uppercase tracking-widest mb-0.5">{label}</p>
-      <p className={`text-2xl font-black tabular-nums ${valueClass}`}>{count}</p>
-    </div>
   );
 }

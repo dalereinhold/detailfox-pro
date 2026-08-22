@@ -8,8 +8,8 @@ interface ProgressBarProps {
 export function ProgressBar({
   value,
   max,
-  className = '',
-  barClassName = 'bg-primary',
+  className = "",
+  barClassName = "bg-primary",
 }: ProgressBarProps) {
   const pct = max > 0 ? Math.min(100, Math.round((value / max) * 100)) : 0;
   return (

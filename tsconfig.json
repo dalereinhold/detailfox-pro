@@ -11,8 +11,6 @@
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
-    "ignoreDeprecations": "6.0",
-
     "types": ["vite/client"],
 
     /* JSX Setup for React 19 */

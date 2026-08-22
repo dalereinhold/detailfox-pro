@@ -10,3 +10,6 @@ dist/
 
 # TanStack Router generated file
 src/routeTree.gen.ts
+
+# Local Netlify folder
+.netlify

@@ -9,104 +9,109 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as FlowProRouteImport } from './routes/flow-pro'
-import { Route as PaceProRouteImport } from './routes/pace-pro'
-import { Route as StoreProRouteImport } from './routes/store-pro'
+import { Route as SplatRouteImport } from './routes/$'
+import { Route as AuthRouteImport } from './routes/_auth'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as AuthIndexRouteImport } from './routes/_auth.index'
 
-const IndexRoute = IndexRouteImport.update({
+const SplatRoute = SplatRouteImport.update({
+  id: '/$',
+  path: '/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/_auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthIndexRoute = AuthIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FlowProRoute = FlowProRouteImport.update({
-  id: '/flow-pro',
-  path: '/flow-pro',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PaceProRoute = PaceProRouteImport.update({
-  id: '/pace-pro',
-  path: '/pace-pro',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const StoreProRoute = StoreProRouteImport.update({
-  id: '/store-pro',
-  path: '/store-pro',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/flow-pro': typeof FlowProRoute
-  '/pace-pro': typeof PaceProRoute
-  '/store-pro': typeof StoreProRoute
+  '/$': typeof SplatRoute
+  '/': typeof AuthIndexRoute
+  '/login': typeof LoginRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/flow-pro': typeof FlowProRoute
-  '/pace-pro': typeof PaceProRoute
-  '/store-pro': typeof StoreProRoute
+  '/$': typeof SplatRoute
+  '/login': typeof LoginRoute
+  '/': typeof AuthIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/flow-pro': typeof FlowProRoute
-  '/pace-pro': typeof PaceProRoute
-  '/store-pro': typeof StoreProRoute
+  '/$': typeof SplatRoute
+  '/_auth': typeof AuthRouteWithChildren
+  '/login': typeof LoginRoute
+  '/_auth/': typeof AuthIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/flow-pro' | '/pace-pro' | '/store-pro'
+  fullPaths: '/$' | '/' | '/login'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/flow-pro' | '/pace-pro' | '/store-pro'
-  id: '__root__' | '/' | '/flow-pro' | '/pace-pro' | '/store-pro'
+  to: '/$' | '/login' | '/'
+  id: '__root__' | '/$' | '/_auth' | '/login' | '/_auth/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  FlowProRoute: typeof FlowProRoute
-  PaceProRoute: typeof PaceProRoute
-  StoreProRoute: typeof StoreProRoute
+  SplatRoute: typeof SplatRoute
+  AuthRoute: typeof AuthRouteWithChildren
+  LoginRoute: typeof LoginRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/$': {
+      id: '/$'
+      path: '/$'
+      fullPath: '/$'
+      preLoaderRoute: typeof SplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_auth': {
+      id: '/_auth'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_auth/': {
+      id: '/_auth/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/flow-pro': {
-      id: '/flow-pro'
-      path: '/flow-pro'
-      fullPath: '/flow-pro'
-      preLoaderRoute: typeof FlowProRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/pace-pro': {
-      id: '/pace-pro'
-      path: '/pace-pro'
-      fullPath: '/pace-pro'
-      preLoaderRoute: typeof PaceProRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/store-pro': {
-      id: '/store-pro'
-      path: '/store-pro'
-      fullPath: '/store-pro'
-      preLoaderRoute: typeof StoreProRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthIndexRouteImport
+      parentRoute: typeof AuthRoute
     }
   }
 }
 
+interface AuthRouteChildren {
+  AuthIndexRoute: typeof AuthIndexRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthIndexRoute: AuthIndexRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  FlowProRoute: FlowProRoute,
-  PaceProRoute: PaceProRoute,
-  StoreProRoute: StoreProRoute,
+  SplatRoute: SplatRoute,
+  AuthRoute: AuthRouteWithChildren,
+  LoginRoute: LoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

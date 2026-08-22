@@ -1,0 +1,30 @@
+{
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 80
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "complexity": {
+        "default": ["error", "complexity(10)"]
+      },
+      "nursery": {
+        "noUnusedImports": "error"
+      }
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "double"
+    },
+    "formatter_enabled": true
+  },
+  "files": {
+    "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.ts(x)", "src/**/*.js", "src/**/*.jsx"],
+    "ignore": ["dist", "node_modules", "vite.config.ts"]
+  }
+}
