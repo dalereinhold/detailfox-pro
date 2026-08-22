@@ -16,8 +16,9 @@ import { Label } from "@/components/ui/label";
 
 export function LoginForm({
   className,
+  next,
   ...props
-}: React.ComponentPropsWithoutRef<"div">) {
+}: React.ComponentPropsWithoutRef<"div"> & { next?: string }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -35,8 +36,8 @@ export function LoginForm({
         password,
       });
       if (error) throw error;
-      // Update this route to redirect to an authenticated route. The user already has an active session.
-      const next = new URLSearchParams(window.location.search).get("next");
+      // Full page load is intentional here: it re-mounts the app so every
+      // layout picks up the freshly-established session from scratch.
       location.href = safeNextPath(next, "/");
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");

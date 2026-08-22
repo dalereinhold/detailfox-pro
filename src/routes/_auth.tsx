@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { createClient } from "@/lib/client";
@@ -9,21 +9,51 @@ export const Route = createFileRoute("/_auth")({
 });
 
 function AuthRoute() {
+  const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
+  const [status, setStatus] = useState<"checking" | "authenticated">(
+    "checking",
+  );
 
   useEffect(() => {
+    let cancelled = false;
+
     const checkAuth = async () => {
       const client = createClient();
       const { data, error } = await client.auth.getUser();
 
-      if (error) {
-        location.href = "/login";
+      if (cancelled) return;
+
+      if (error || !data.user) {
+        // Client-side navigation only — never a hard `location.href`
+        // redirect here. A full page load re-requests the path from the
+        // server, and on Netlify only "/" is guaranteed to exist as a
+        // static file; every other route depends on the SPA rewrite.
+        // Redirecting to "/login" (a route outside this layout) also
+        // avoids looping back into this same auth check.
+        const next = `${window.location.pathname}${window.location.search}`;
+        navigate({ to: "/login", search: { next }, replace: true });
         return;
       }
+
       setUser(data.user);
+      setStatus("authenticated");
     };
+
     checkAuth();
-  }, []);
+
+    return () => {
+      cancelled = true;
+    };
+  }, [navigate]);
+
+  if (status === "checking") {
+    return (
+      <div className="flex min-h-screen w-full items-center justify-center bg-background text-sm text-muted-foreground">
+        Loading…
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background text-foreground">

@@ -1,0 +1,12 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Single-page app: let the client-side router handle every path.
+# Without this, Netlify 404s on any direct/deep link (e.g. "/login") or
+# on a hard reload of a route other than "/", since no such static file
+# exists on the server.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
